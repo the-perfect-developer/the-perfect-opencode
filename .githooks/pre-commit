@@ -1,93 +1,56 @@
 #!/bin/bash
 
-# Pre-commit hook to validate bash scripts and SKILL.md files
-# This hook validates all bash scripts and skill files that are being committed
+# Pre-commit hook orchestrator
+# This script executes all validation hooks in the hooks.d/ directory
+# in numerical order. If any hook fails, the commit is rejected.
 
 set -e
 
-# Track if any validation failed
-VALIDATION_FAILED=0
+HOOKS_DIR="$(dirname "$0")/hooks.d"
 
-# ========================================
-# 1. Validate Bash Scripts
-# ========================================
-echo "🔍 Validating bash script syntax..."
-
-# Get all staged .sh files
-STAGED_SCRIPTS=$(git diff --cached --name-only --diff-filter=ACM | grep '\.sh$' || true)
-
-if [ -z "$STAGED_SCRIPTS" ]; then
-    echo "✅ No bash scripts to validate"
-else
-    # Validate each staged script
-    for script in $STAGED_SCRIPTS; do
-        if [ -f "$script" ]; then
-            echo "  Checking: $script"
-            
-            # Use bash -n to check syntax without executing
-            if ! bash -n "$script" 2>&1; then
-                echo "❌ Syntax error in: $script"
-                VALIDATION_FAILED=1
-            fi
-        fi
-    done
-    
-    if [ $VALIDATION_FAILED -eq 0 ]; then
-        echo "✅ All bash scripts validated successfully"
-    fi
+# Check if hooks.d directory exists
+if [ ! -d "$HOOKS_DIR" ]; then
+    echo "⚠️  Warning: hooks.d directory not found at: $HOOKS_DIR"
+    exit 0
 fi
 
-# ========================================
-# 2. Validate SKILL.md Files
-# ========================================
-echo ""
-echo "🔍 Validating SKILL.md files..."
+# Find all executable hooks in hooks.d/ and sort them
+HOOKS=$(find "$HOOKS_DIR" -type f -executable | sort)
 
-# Get all staged SKILL.md files
-STAGED_SKILLS=$(git diff --cached --name-only --diff-filter=ACM | grep 'SKILL\.md$' || true)
-
-if [ -z "$STAGED_SKILLS" ]; then
-    echo "✅ No SKILL.md files to validate"
-else
-    # Path to validation script
-    VALIDATOR=".opencode/skills/skill-creation/scripts/validate-skill.sh"
-    
-    if [ ! -f "$VALIDATOR" ]; then
-        echo "⚠️  Warning: Validation script not found at: $VALIDATOR"
-        echo "   Skipping SKILL.md validation"
-    else
-        # Validate each staged SKILL.md file
-        for skill_file in $STAGED_SKILLS; do
-            if [ -f "$skill_file" ]; then
-                # Get the directory containing SKILL.md
-                skill_dir=$(dirname "$skill_file")
-                
-                echo ""
-                echo "  Validating: $skill_file"
-                echo "  ---"
-                
-                # Run validation script on the skill directory
-                if ! "$VALIDATOR" "$skill_dir"; then
-                    echo "❌ Validation failed for: $skill_file"
-                    VALIDATION_FAILED=1
-                else
-                    echo "  ---"
-                    echo "✅ Validation passed for: $skill_file"
-                fi
-            fi
-        done
-    fi
+# Check if there are any hooks to run
+if [ -z "$HOOKS" ]; then
+    echo "⚠️  No executable hooks found in: $HOOKS_DIR"
+    exit 0
 fi
 
-# ========================================
-# Final Result
-# ========================================
-echo ""
-if [ $VALIDATION_FAILED -eq 1 ]; then
-    echo "❌ Commit rejected: validation failed"
+# Track overall success
+ALL_PASSED=0
+
+# Execute each hook in order
+for hook in $HOOKS; do
+    hook_name=$(basename "$hook")
+    
+    # Run the hook
+    if ! "$hook"; then
+        echo ""
+        echo "❌ Hook failed: $hook_name"
+        ALL_PASSED=1
+        break
+    fi
+    
+    echo ""
+done
+
+# Final result
+if [ $ALL_PASSED -eq 1 ]; then
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "❌ COMMIT REJECTED"
     echo "   Fix the errors above and try again"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     exit 1
 fi
 
-echo "✅ All validations passed"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "✅ ALL VALIDATIONS PASSED"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 exit 0

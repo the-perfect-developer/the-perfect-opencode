@@ -63,6 +63,22 @@ for skill in command-creation rules-creation skill-creation; do
     fi
 done
 
+# Install to .opencode/commands
+COMMANDS_DIR=".opencode/commands"
+mkdir -p "$COMMANDS_DIR"
+
+COMMANDS_SOURCE_DIR="${TEMP_DIR}/opencode-base-collection-main/.opencode/commands"
+if [ -d "$COMMANDS_SOURCE_DIR" ]; then
+    echo -e "${BLUE}ℹ${NC} Installing commands to ${COMMANDS_DIR}..."
+    for cmd in "${COMMANDS_SOURCE_DIR}"/*; do
+        if [ -f "$cmd" ]; then
+            cmd_name=$(basename "$cmd")
+            cp "$cmd" "${COMMANDS_DIR}/"
+            echo -e "${GREEN}✓${NC} Installed command: ${cmd_name}"
+        fi
+    done
+fi
+
 # Install GitHub workflow
 WORKFLOW_SOURCE="${TEMP_DIR}/opencode-base-collection-main/.github/workflows/validate-bash.yml"
 WORKFLOW_DIR=".github/workflows"
@@ -92,4 +108,11 @@ fi
 echo ""
 echo -e "${GREEN}✓${NC} Installation complete!"
 echo -e "${BLUE}ℹ${NC} Skills installed to: ${SKILLS_DIR}"
-echo -e "${BLUE}ℹ${NC} Run ./setup-hooks.sh to enable git hooks"
+echo -e "${BLUE}ℹ${NC} Commands installed to: ${COMMANDS_DIR}"
+
+# Automatically setup git hooks if in a git repo and setup-hooks.sh exists
+if [ -f "./setup-hooks.sh" ] && [ -d ".git" ]; then
+    echo ""
+    echo -e "${BLUE}ℹ${NC} Setting up git hooks..."
+    ./setup-hooks.sh
+fi
