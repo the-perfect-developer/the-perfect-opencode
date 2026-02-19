@@ -1,7 +1,7 @@
 ---
 description: Create a new OpenCode command with interactive requirements gathering
 agent: build
-model: github-copilot/claude-sonnet-4.5
+model: github-copilot/claude-sonnet-4.6
 ---
 
 Create a new custom OpenCode command by following these steps:

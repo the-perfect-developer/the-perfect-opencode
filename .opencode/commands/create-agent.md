@@ -1,7 +1,7 @@
 ---
 description: Create a new OpenCode agent with interactive configuration
 agent: build
-model: github-copilot/claude-sonnet-4.5
+model: github-copilot/claude-sonnet-4.6
 ---
 
 I'll help you create a new custom OpenCode agent. Let me guide you through the configuration process by asking some questions.
@@ -20,7 +20,7 @@ Please provide the following information:
 
 2. **Agent description**: What does this agent do? When should it be used? (Be specific and include trigger phrases)
 
-3. **Agent type**: 
+3. **Agent type**:
    - `primary` - Main agent you can switch to with Tab key
    - `subagent` - Specialized agent invoked by @ mention or other agents
    - `all` - Can be both (default)

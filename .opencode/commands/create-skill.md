@@ -1,7 +1,7 @@
 ---
 description: Create a new OpenCode skill with proper structure and frontmatter
 agent: build
-model: github-copilot/claude-sonnet-4.5
+model: github-copilot/claude-sonnet-4.6
 ---
 
 Create a new skill for $1. Refer the details in $2.
