@@ -36,13 +36,39 @@ This installs skills to `.opencode/skills/` in your current directory.
 ## Available Skills
 
 ### skill-creation
-Create new skills with proper structure and frontmatter.
+Create reusable, discoverable skills that extend OpenCode's capabilities through on-demand loading.
+
+**What you can do:**
+- Build modular instruction sets with specialized workflows
+- Bundle resources like scripts, references, and examples
+- Implement progressive disclosure for efficient context usage
+- Create both project-local and global skills
+
+**Perfect for:** Complex multi-step procedures, domain-specific expertise, tool integrations, and custom automation workflows.
 
 ### command-creation
-Build custom slash commands for repetitive tasks.
+Create custom slash commands for repetitive tasks that execute specific prompts with dynamic arguments.
+
+**What you can do:**
+- Define reusable prompts triggered with `/command-name`
+- Pass dynamic arguments to customize behavior
+- Integrate shell command output into prompts
+- Auto-include file contents and references
+- Route commands to specific agents or models
+
+**Perfect for:** Testing workflows, code reviews, deployment scripts, and any repetitive development tasks.
 
 ### rules-creation
-Configure custom instructions for your projects.
+Configure custom instructions to guide OpenCode's behavior for your projects and personal workflows.
+
+**What you can do:**
+- Define project conventions and code standards
+- Document architecture patterns and project structure
+- Specify build processes and deployment procedures
+- Set personal coding preferences
+- Create both project-wide and global rules
+
+**Perfect for:** Team conventions, coding standards, project documentation, and personalizing OpenCode's behavior.
 
 ## Usage
 
