@@ -111,9 +111,9 @@ if [ -f "$SETUP_HOOKS_SOURCE" ]; then
 fi
 
 echo ""
-echo -e "${GREEN}ℹ${NC} Installation complete!"
-echo -e "  ${BLUE}✓${NC} Skills installed to: ${SKILLS_DIR}"
-echo -e "  ${BLUE}✓${NC} Commands installed to: ${COMMANDS_DIR}"
+echo -e "${BLUE}ℹ${NC} Installation complete!"
+echo -e "  ${GREEN}✓${NC} Skills installed to: ${SKILLS_DIR}"
+echo -e "  ${GREEN}✓${NC} Commands installed to: ${COMMANDS_DIR}"
 
 # Automatically setup git hooks if in a git repo and setup-hooks.sh exists
 if [ -f "./setup-hooks.sh" ] && [ -d ".git" ]; then
