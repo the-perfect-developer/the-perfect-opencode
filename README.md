@@ -1,12 +1,13 @@
-# OpenCode Base Collection
+# The Perfect Developer's OpenCode Base Collection
 
 ```
-   ___                   ___          _      
-  / _ \ _ __   ___ _ __ / __\___   __| | ___ 
+The Perfect Developer's
+   ___                   ___          _
+  / _ \ _ __   ___ _ __ / __\___   __| | ___
  | | | | '_ \ / _ \ '_ / /  / _ \ / _` |/ _ \
  | |_| | |_) |  __/ | | /__| (_) | (_| |  __/
   \___/| .__/ \___|_| \____/\___/ \__,_|\___|
-       |_|                                     
+       |_|
 
 Base Collection
 By Dilan D Chandrajith - The Perfect Developer
@@ -52,6 +53,14 @@ Skills load automatically when you ask OpenCode:
 > Create a slash command for running tests
 > Set up project rules
 ```
+
+## Contributing
+
+Interested in contributing? Check out our [Contributing Guide](CONTRIBUTING.md) for:
+- Development setup instructions
+- Git hooks and code quality tools
+- Pull request guidelines
+- CI/CD information
 
 ## Author
 

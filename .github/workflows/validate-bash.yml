@@ -1,0 +1,68 @@
+name: Validate Bash Scripts
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-bash-scripts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Find all bash scripts
+        id: find-scripts
+        run: |
+          echo "Finding all .sh files..."
+          SCRIPTS=$(find . -name "*.sh" -type f)
+          echo "$SCRIPTS"
+          echo "scripts<<EOF" >> $GITHUB_OUTPUT
+          echo "$SCRIPTS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Validate bash script syntax
+        run: |
+          echo "🔍 Validating bash script syntax..."
+          
+          VALIDATION_FAILED=0
+          
+          # Read scripts from the previous step
+          while IFS= read -r script; do
+            if [ -n "$script" ] && [ -f "$script" ]; then
+              echo "  Checking: $script"
+              
+              # Use bash -n to check syntax without executing
+              if ! bash -n "$script" 2>&1; then
+                echo "❌ Syntax error in: $script"
+                VALIDATION_FAILED=1
+              fi
+            fi
+          done <<< "${{ steps.find-scripts.outputs.scripts }}"
+          
+          if [ $VALIDATION_FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ Validation failed: bash script syntax errors found"
+            exit 1
+          fi
+          
+          echo "✅ All bash scripts validated successfully"
+      
+      - name: Validation Summary
+        if: success()
+        run: |
+          echo "### ✅ Bash Script Validation Passed" >> $GITHUB_STEP_SUMMARY
+          echo "All bash scripts have valid syntax." >> $GITHUB_STEP_SUMMARY
+      
+      - name: Validation Failed Summary
+        if: failure()
+        run: |
+          echo "### ❌ Bash Script Validation Failed" >> $GITHUB_STEP_SUMMARY
+          echo "One or more bash scripts have syntax errors. Please fix them before merging." >> $GITHUB_STEP_SUMMARY
