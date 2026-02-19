@@ -1,0 +1,120 @@
+name: Validate Skills
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-skill-files:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Find all SKILL.md files
+        id: find-skills
+        run: |
+          echo "Finding all SKILL.md files..."
+          SKILL_FILES=$(find . -name "SKILL.md" -type f)
+          echo "$SKILL_FILES"
+          
+          # Store skill directories (parent of SKILL.md)
+          SKILL_DIRS=""
+          while IFS= read -r skill_file; do
+            if [ -n "$skill_file" ]; then
+              skill_dir=$(dirname "$skill_file")
+              SKILL_DIRS="${SKILL_DIRS}${skill_dir}"$'\n'
+            fi
+          done <<< "$SKILL_FILES"
+          
+          echo "skill_dirs<<EOF" >> $GITHUB_OUTPUT
+          echo "$SKILL_DIRS" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          # Count skills found
+          SKILL_COUNT=$(echo "$SKILL_DIRS" | grep -v "^$" | wc -l)
+          echo "skill_count=$SKILL_COUNT" >> $GITHUB_OUTPUT
+          echo "Found $SKILL_COUNT skill(s) to validate"
+      
+      - name: Validate SKILL.md files
+        run: |
+          echo "🔍 Validating SKILL.md files..."
+          echo ""
+          
+          VALIDATION_FAILED=0
+          VALIDATOR=".opencode/skills/skill-creation/scripts/validate-skill.sh"
+          
+          # Check if validator exists
+          if [ ! -f "$VALIDATOR" ]; then
+            echo "❌ Error: Validation script not found at: $VALIDATOR"
+            exit 1
+          fi
+          
+          # Make validator executable
+          chmod +x "$VALIDATOR"
+          
+          # Validate each skill directory
+          SKILL_NUM=0
+          while IFS= read -r skill_dir; do
+            if [ -n "$skill_dir" ]; then
+              ((SKILL_NUM++))
+              echo "========================================="
+              echo "Validating skill #${SKILL_NUM}: $skill_dir"
+              echo "========================================="
+              echo ""
+              
+              # Run validation script
+              if ! "$VALIDATOR" "$skill_dir"; then
+                echo ""
+                echo "❌ Validation failed for: $skill_dir"
+                VALIDATION_FAILED=1
+              else
+                echo ""
+                echo "✅ Validation passed for: $skill_dir"
+              fi
+              echo ""
+            fi
+          done <<< "${{ steps.find-skills.outputs.skill_dirs }}"
+          
+          echo "========================================="
+          echo "Validation Complete"
+          echo "========================================="
+          
+          if [ $VALIDATION_FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ Validation failed: one or more SKILL.md files have errors"
+            exit 1
+          fi
+          
+          echo "✅ All SKILL.md files validated successfully"
+          echo "   Total skills validated: ${{ steps.find-skills.outputs.skill_count }}"
+      
+      - name: Validation Summary
+        if: success()
+        run: |
+          echo "### ✅ Skill Validation Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All SKILL.md files have valid structure and frontmatter." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Skills validated:** ${{ steps.find-skills.outputs.skill_count }}" >> $GITHUB_STEP_SUMMARY
+      
+      - name: Validation Failed Summary
+        if: failure()
+        run: |
+          echo "### ❌ Skill Validation Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "One or more SKILL.md files have validation errors." >> $GITHUB_STEP_SUMMARY
+          echo "Please check the logs above for details and fix the errors before merging." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Common issues:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Missing or invalid frontmatter" >> $GITHUB_STEP_SUMMARY
+          echo "- Name doesn't match directory" >> $GITHUB_STEP_SUMMARY
+          echo "- Invalid name pattern (must be lowercase with hyphens)" >> $GITHUB_STEP_SUMMARY
+          echo "- Missing required fields (name, description)" >> $GITHUB_STEP_SUMMARY

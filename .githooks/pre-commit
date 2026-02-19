@@ -1,10 +1,16 @@
 #!/bin/bash
 
-# Pre-commit hook to validate bash script syntax
-# This hook validates all bash scripts that are being committed
+# Pre-commit hook to validate bash scripts and SKILL.md files
+# This hook validates all bash scripts and skill files that are being committed
 
 set -e
 
+# Track if any validation failed
+VALIDATION_FAILED=0
+
+# ========================================
+# 1. Validate Bash Scripts
+# ========================================
 echo "🔍 Validating bash script syntax..."
 
 # Get all staged .sh files
@@ -12,31 +18,76 @@ STAGED_SCRIPTS=$(git diff --cached --name-only --diff-filter=ACM | grep '\.sh$' 
 
 if [ -z "$STAGED_SCRIPTS" ]; then
     echo "✅ No bash scripts to validate"
-    exit 0
+else
+    # Validate each staged script
+    for script in $STAGED_SCRIPTS; do
+        if [ -f "$script" ]; then
+            echo "  Checking: $script"
+            
+            # Use bash -n to check syntax without executing
+            if ! bash -n "$script" 2>&1; then
+                echo "❌ Syntax error in: $script"
+                VALIDATION_FAILED=1
+            fi
+        fi
+    done
+    
+    if [ $VALIDATION_FAILED -eq 0 ]; then
+        echo "✅ All bash scripts validated successfully"
+    fi
 fi
 
-# Track if any validation failed
-VALIDATION_FAILED=0
+# ========================================
+# 2. Validate SKILL.md Files
+# ========================================
+echo ""
+echo "🔍 Validating SKILL.md files..."
 
-# Validate each staged script
-for script in $STAGED_SCRIPTS; do
-    if [ -f "$script" ]; then
-        echo "  Checking: $script"
-        
-        # Use bash -n to check syntax without executing
-        if ! bash -n "$script" 2>&1; then
-            echo "❌ Syntax error in: $script"
-            VALIDATION_FAILED=1
-        fi
+# Get all staged SKILL.md files
+STAGED_SKILLS=$(git diff --cached --name-only --diff-filter=ACM | grep 'SKILL\.md$' || true)
+
+if [ -z "$STAGED_SKILLS" ]; then
+    echo "✅ No SKILL.md files to validate"
+else
+    # Path to validation script
+    VALIDATOR=".opencode/skills/skill-creation/scripts/validate-skill.sh"
+    
+    if [ ! -f "$VALIDATOR" ]; then
+        echo "⚠️  Warning: Validation script not found at: $VALIDATOR"
+        echo "   Skipping SKILL.md validation"
+    else
+        # Validate each staged SKILL.md file
+        for skill_file in $STAGED_SKILLS; do
+            if [ -f "$skill_file" ]; then
+                # Get the directory containing SKILL.md
+                skill_dir=$(dirname "$skill_file")
+                
+                echo ""
+                echo "  Validating: $skill_file"
+                echo "  ---"
+                
+                # Run validation script on the skill directory
+                if ! "$VALIDATOR" "$skill_dir"; then
+                    echo "❌ Validation failed for: $skill_file"
+                    VALIDATION_FAILED=1
+                else
+                    echo "  ---"
+                    echo "✅ Validation passed for: $skill_file"
+                fi
+            fi
+        done
     fi
-done
+fi
 
+# ========================================
+# Final Result
+# ========================================
+echo ""
 if [ $VALIDATION_FAILED -eq 1 ]; then
-    echo ""
-    echo "❌ Commit rejected: bash script syntax validation failed"
-    echo "   Fix the syntax errors above and try again"
+    echo "❌ Commit rejected: validation failed"
+    echo "   Fix the errors above and try again"
     exit 1
 fi
 
-echo "✅ All bash scripts validated successfully"
+echo "✅ All validations passed"
 exit 0
