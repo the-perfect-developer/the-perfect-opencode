@@ -143,7 +143,15 @@
     {
       "name": "implement",
       "description": "Execute implementation plan with specialized engineering agents"
+    },
+    {
+      "name": "install-perfect-tools",
+      "description": "Discover and install perfect agents/skills/commands for your project"
+    },
+    {
+      "name": "update-perfect-tools",
+      "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-02-20T19:08:06Z"
+  "generated_at": "2026-02-20T19:23:13Z"
 }
