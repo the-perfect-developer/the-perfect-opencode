@@ -64,7 +64,7 @@ jobs:
           SKILL_NUM=0
           while IFS= read -r skill_dir; do
             if [ -n "$skill_dir" ]; then
-              ((SKILL_NUM++))
+              SKILL_NUM=$((SKILL_NUM + 1))
               echo "========================================="
               echo "Validating skill #${SKILL_NUM}: $skill_dir"
               echo "========================================="
