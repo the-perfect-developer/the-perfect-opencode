@@ -22,28 +22,41 @@ View recent commit history for style reference:
 
 ## Step 2: Present Summary to User
 
-Before committing, you MUST:
+Before committing, you MUST present a summary to the user in this exact format:
 
+```
+## Summary
+[1-2 sentence overall description of changes]
+
+## Files Changed
+
+**Added:**
+- filename.ext
+  Summary: [brief description]
+
+**Modified:**
+- filename.ext
+  Summary: [brief description]
+
+**Deleted:**
+- filename.ext
+  Summary: [brief description]
+
+## Proposed Commit Message
+[conventional commit message]
+
+## Attention Required
+[List any issues like secrets, large files, or None if nothing to note]
+
+---
+
+Is it okay to proceed with staging, committing, and pushing these changes?
+```
+
+Then:
 1. **Analyze all changes** (both staged and unstaged)
-2. **Provide a clear, concise summary** to the user including:
-   - What files are being added/modified/deleted
-   - The nature of the changes (new feature, bug fix, refactor, etc.)
-   - The proposed conventional commit message you plan to use
+2. **Provide the formatted summary** to the user
 3. **Ask for confirmation** before proceeding with the commit
-
-Example summary format:
-```
-I found the following changes:
-- Added: .opencode/commands/new-command.md (new custom command)
-- Modified: src/utils/helper.ts (refactored validation logic)
-
-Proposed commit message:
-feat(commands): add new-command for automated deployment
-
-This will create a new feature commit and push it to the remote repository.
-
-Is it okay to proceed with this commit?
-```
 
 ## Step 3: Commit with Conventional Commits
 
