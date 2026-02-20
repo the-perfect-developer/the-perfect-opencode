@@ -36,27 +36,35 @@ Then stop the process.
 
 ## Step 3: Present Summary to User
 
-If there ARE commits to push, you MUST:
+If there ARE commits to push, present a summary to the user in this exact format:
 
-1. **Analyze commits to be pushed**
-2. **Provide a clear, concise summary** to the user including:
-    - The number of commits to be pushed
-    - Brief description of each commit
-    - The target branch and remote
-    - Any warnings about force push or conflicts
-3. **Ask for confirmation** before proceeding with the push
-
-Example summary format:
 ```
-I found the following commits ready to push:
+## Summary
+[1-2 sentence overall description of commits to push]
 
-1. refactor(utils): improve validation logic with better error handling
-2. test(utils): add unit tests for validation
+## Commits to Push
 
-Target: origin/main (2 commits ahead)
+1. [commit message]
+2. [commit message]
+3. [commit message]
+
+## Target
+Branch: [branch name]
+Remote: [remote name]
+Status: [commits ahead/details]
+
+## Attention Required
+[List any issues like force push needed, conflicts, or None if nothing to note]
+
+---
 
 Is it okay to proceed with pushing these commits?
 ```
+
+Then:
+1. **Analyze commits to be pushed**
+2. **Provide the formatted summary** to the user
+3. **Ask for confirmation** before proceeding with the push
 
 ## Step 4: Push to Remote
 
