@@ -21,8 +21,8 @@ else
     REPO_ROOT="$(pwd)"
 fi
 
-REPO_URL="https://github.com/the-perfect-developer/opencode-base-collection"
-TEMP_DIR="/tmp/opencode-base-collection-$$"
+REPO_URL="https://github.com/the-perfect-developer/the-perfect-opencode"
+TEMP_DIR="/tmp/the-perfect-opencode-$$"
 
 # Arrays to store selected items
 declare -a SELECTED_AGENTS
@@ -115,7 +115,7 @@ fi
 AGENTS_DIR="${REPO_ROOT}/.opencode/agents"
 mkdir -p "$AGENTS_DIR"
 
-AGENTS_SOURCE_DIR="${TEMP_DIR}/opencode-developer-collection-main/.opencode/agents"
+AGENTS_SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/agents"
 if [ -d "$AGENTS_SOURCE_DIR" ]; then
     if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
         echo -e "${BLUE}ℹ${NC} Installing agents to ${AGENTS_DIR}..."
@@ -155,7 +155,7 @@ fi
 SKILLS_DIR="${REPO_ROOT}/.opencode/skills"
 mkdir -p "$SKILLS_DIR"
 
-SOURCE_DIR="${TEMP_DIR}/opencode-base-collection-main/.opencode/skills"
+SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/skills"
 if [ -d "$SOURCE_DIR" ]; then
     if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_SKILLS[@]} -gt 0 ]; then
         echo -e "${BLUE}ℹ${NC} Installing skills to ${SKILLS_DIR}..."
@@ -197,7 +197,7 @@ fi
 COMMANDS_DIR="${REPO_ROOT}/.opencode/commands"
 mkdir -p "$COMMANDS_DIR"
 
-COMMANDS_SOURCE_DIR="${TEMP_DIR}/opencode-base-collection-main/.opencode/commands"
+COMMANDS_SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/commands"
 if [ -d "$COMMANDS_SOURCE_DIR" ]; then
     if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_COMMANDS[@]} -gt 0 ]; then
         echo -e "${BLUE}ℹ${NC} Installing commands to ${COMMANDS_DIR}..."
