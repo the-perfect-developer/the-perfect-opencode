@@ -36,28 +36,41 @@ Then stop the process.
 
 ## Step 3: Present Summary to User
 
-If there ARE staged changes, you MUST:
+If there ARE staged changes, present a summary to the user in this exact format:
 
+```
+## Summary
+[1-2 sentence overall description of staged changes]
+
+## Files Changed
+
+**Added:**
+- filename.ext
+  Summary: [brief description]
+
+**Modified:**
+- filename.ext
+  Summary: [brief description]
+
+**Deleted:**
+- filename.ext
+  Summary: [brief description]
+
+## Proposed Commit Message
+[conventional commit message]
+
+## Attention Required
+[List any issues like secrets, large files, or None if nothing to note]
+
+---
+
+Is it okay to proceed with committing and pushing these changes?
+```
+
+Then:
 1. **Analyze staged changes**
-2. **Provide a clear, concise summary** to the user including:
-    - What files are staged for commit
-    - The nature of the changes (new feature, bug fix, refactor, etc.)
-    - The proposed conventional commit message you plan to use (following Conventional Commits specification)
+2. **Provide the formatted summary** to the user
 3. **Ask for confirmation** before proceeding with the commit and push
-
-Example summary format:
-```
-I found the following staged changes:
-- Modified: src/utils/helper.ts (refactored validation logic)
-- Added: tests/helper.test.ts (added unit tests)
-
-Proposed commit message:
-refactor(utils): improve validation logic with better error handling
-
-This will create a commit from your staged changes and push it to the remote repository.
-
-Is it okay to proceed?
-```
 
 ## Step 4: Commit with Conventional Commits
 
