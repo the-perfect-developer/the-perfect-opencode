@@ -1,0 +1,149 @@
+{
+  "agents": [
+    {
+      "name": "architect",
+      "description": "Software Architect - Focus on system design, architectural patterns, design decisions, and complex backend logic"
+    },
+    {
+      "name": "backend-engineer",
+      "description": "Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions"
+    },
+    {
+      "name": "frontend-engineer",
+      "description": "Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences"
+    },
+    {
+      "name": "junior-engineer",
+      "description": "Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes"
+    },
+    {
+      "name": "performance-engineer",
+      "description": "Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis"
+    },
+    {
+      "name": "security-expert",
+      "description": "Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices"
+    }
+  ],
+  "skills": [
+    {
+      "name": "agent-configuration",
+      "description": "This skill should be used when the user asks to configure agents, create a custom agent, set up agent permissions, customize agent behavior, switch agents, or needs guidance on OpenCode agent system."
+    },
+    {
+      "name": "alpinejs",
+      "description": "This skill should be used when the user asks to add Alpine.js, create Alpine component, use Alpine directives, build interactive UI with Alpine, or needs guidance on Alpine.js development patterns and best practices."
+    },
+    {
+      "name": "bash-shell",
+      "description": "This skill should be used when the user asks to write a bash script, follow shell style guide, format shell scripts, create shell utilities, or needs guidance on Bash/shell scripting best practices and conventions."
+    },
+    {
+      "name": "command-creation",
+      "description": "This skill should be used when the user asks to create a command, add a custom command, make a slash command, create /command, or needs guidance on creating custom commands in OpenCode."
+    },
+    {
+      "name": "conventional-git-commit",
+      "description": "This skill MUST be loaded on every git commit without exception. It should also be used when the user asks to write a conventional commit, format a commit message, follow conventional commits spec, create a semantic commit, make a commit, commit changes, or git commit. Every commit message produced in this project MUST conform to this specification."
+    },
+    {
+      "name": "css",
+      "description": "Apply Google CSS style guide conventions to CSS code"
+    },
+    {
+      "name": "git-hooks",
+      "description": "This skill should be used when the user asks to create git hooks, set up pre-commit hooks, configure git hooks, add commit validation, implement pre-push hooks, or needs guidance on Git hooks implementation, validation scripts, or hook best practices."
+    },
+    {
+      "name": "github-actions",
+      "description": "This skill should be used when the user asks to create a GitHub Actions workflow, set up CI/CD, configure GitHub Actions, add automated testing, deploy with GitHub Actions, or needs guidance on GitHub Actions workflows, syntax, or automation."
+    },
+    {
+      "name": "go",
+      "description": "Apply Go style guide conventions to code"
+    },
+    {
+      "name": "html",
+      "description": "Apply Google HTML style guide conventions to HTML code"
+    },
+    {
+      "name": "htmx",
+      "description": "Provides guidance for building dynamic interactive web applications using htmx library with AJAX requests and dynamic content swapping"
+    },
+    {
+      "name": "implementation",
+      "description": "This skill should be used when the user asks to implement a plan, execute implementation, build from plan, implement feature, or needs to orchestrate execution of an implementation plan with specialized engineering agents."
+    },
+    {
+      "name": "javascript",
+      "description": "This skill should be used when the user asks to \\write JavaScript code\\, \\follow JavaScript style guide\\, \\format JS files\\, \\create Node.js scripts\\, or needs guidance on JavaScript/Node.js coding standards and best practices."
+    },
+    {
+      "name": "json-style",
+      "description": "This skill should be used when the user asks to format JSON, design JSON API, write JSON response, structure JSON data, or needs guidance on JSON naming conventions and best practices based on Google's JSON Style Guide."
+    },
+    {
+      "name": "markdown",
+      "description": "This skill should be used when the user asks to format markdown, write markdown documentation, follow markdown style guide, apply markdown conventions, or needs guidance on markdown best practices."
+    },
+    {
+      "name": "planning",
+      "description": "This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis."
+    },
+    {
+      "name": "python",
+      "description": "Apply Python style guide conventions to code"
+    },
+    {
+      "name": "rules-creation",
+      "description": "This skill should be used when the user asks to create rules, add custom instructions, set up AGENTS.md, configure project rules, add global rules, or needs guidance on customizing OpenCode behavior with custom instructions."
+    },
+    {
+      "name": "skill-creation",
+      "description": "This skill should be used when the user asks to create a skill, write a new skill, add a skill, SKILL.md format, skill frontmatter, or needs guidance on skill structure, progressive disclosure, or OpenCode skill development."
+    },
+    {
+      "name": "tailwind-css",
+      "description": "This skill should be used when the user asks to use Tailwind CSS, install Tailwind, style with Tailwind, add Tailwind utilities, create responsive design with Tailwind, or needs guidance on Tailwind CSS utility-first styling and configuration."
+    },
+    {
+      "name": "typescript-style",
+      "description": "This skill should be used when the user asks to write TypeScript code, format TypeScript, follow TypeScript style guide, TypeScript best practices, or needs guidance on Google's TypeScript coding conventions."
+    }
+  ],
+  "commands": [
+    {
+      "name": "create-agent",
+      "description": "Create a new OpenCode agent with interactive configuration"
+    },
+    {
+      "name": "create-command",
+      "description": "Create a new OpenCode command with interactive requirements gathering"
+    },
+    {
+      "name": "create-skill",
+      "description": "Create a new OpenCode skill with proper structure and frontmatter"
+    },
+    {
+      "name": "extended-planing",
+      "description": "Gather requirements, analyze code, and create implementation plan"
+    },
+    {
+      "name": "git-commit-push",
+      "description": "Stage changes, commit with conventional commit message, and push to remote"
+    },
+    {
+      "name": "git-push",
+      "description": "Push commits to remote repository"
+    },
+    {
+      "name": "git-stage-commit-push",
+      "description": "Stage all files, commit with conventional commit message, and push to remote"
+    },
+    {
+      "name": "implement",
+      "description": "Execute implementation plan with specialized engineering agents"
+    }
+  ],
+  "generated_at": "2026-02-20T18:21:03Z"
+}
