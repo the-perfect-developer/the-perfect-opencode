@@ -48,6 +48,22 @@ if ! curl -fsSL "${REPO_URL}/archive/refs/heads/main.tar.gz" | tar -xz -C "$TEMP
     exit 1
 fi
 
+# Install to .opencode/agents
+AGENTS_DIR=".opencode/agents"
+mkdir -p "$AGENTS_DIR"
+
+AGENTS_SOURCE_DIR="${TEMP_DIR}/opencode-developer-collection-main/.opencode/agents"
+if [ -d "$AGENTS_SOURCE_DIR" ]; then
+    echo -e "${BLUE}ℹ${NC} Installing agents to ${AGENTS_DIR}..."
+    for agent in "${AGENTS_SOURCE_DIR}"/*; do
+        if [ -f "$agent" ]; then
+            agent_name=$(basename "$agent")
+            cp "$agent" "${AGENTS_DIR}/"
+            echo -e "  ${GREEN}✓${NC} Installed agent: ${agent_name}"
+        fi
+    done
+fi
+
 # Install to .opencode/skills
 SKILLS_DIR=".opencode/skills"
 mkdir -p "$SKILLS_DIR"
@@ -84,5 +100,6 @@ fi
 
 echo ""
 echo -e "${BLUE}ℹ${NC} Installation complete!"
+echo -e "  ${GREEN}✓${NC} Agents installed to: ${AGENTS_DIR}"
 echo -e "  ${GREEN}✓${NC} Skills installed to: ${SKILLS_DIR}"
 echo -e "  ${GREEN}✓${NC} Commands installed to: ${COMMANDS_DIR}"
