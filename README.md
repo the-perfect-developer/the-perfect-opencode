@@ -318,7 +318,7 @@ Examples:
 ## Installation
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/opencode-base-collection/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/opencode-base-collection/main/scripts/install.sh | bash
 ```
 
 This installs skills to `.opencode/skills/` in your current directory.

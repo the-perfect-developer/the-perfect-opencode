@@ -16,7 +16,7 @@ cd opencode-base-collection
 Set up git hooks for automatic code quality checks:
 
 ```bash
-./setup-hooks.sh
+./scripts/setup-hooks.sh
 ```
 
 This configures git to use hooks from the `.githooks/` directory.

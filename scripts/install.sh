@@ -8,6 +8,10 @@ RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
+# Get the repository root directory (parent of scripts directory)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+
 REPO_URL="https://github.com/the-perfect-developer/opencode-base-collection"
 TEMP_DIR="/tmp/opencode-base-collection-$$"
 
@@ -49,7 +53,7 @@ if ! curl -fsSL "${REPO_URL}/archive/refs/heads/main.tar.gz" | tar -xz -C "$TEMP
 fi
 
 # Install to .opencode/agents
-AGENTS_DIR=".opencode/agents"
+AGENTS_DIR="${REPO_ROOT}/.opencode/agents"
 mkdir -p "$AGENTS_DIR"
 
 AGENTS_SOURCE_DIR="${TEMP_DIR}/opencode-developer-collection-main/.opencode/agents"
@@ -65,7 +69,7 @@ if [ -d "$AGENTS_SOURCE_DIR" ]; then
 fi
 
 # Install to .opencode/skills
-SKILLS_DIR=".opencode/skills"
+SKILLS_DIR="${REPO_ROOT}/.opencode/skills"
 mkdir -p "$SKILLS_DIR"
 
 echo -e "${BLUE}ℹ${NC} Installing to ${SKILLS_DIR}..."
@@ -83,7 +87,7 @@ if [ -d "$SOURCE_DIR" ]; then
 fi
 
 # Install to .opencode/commands
-COMMANDS_DIR=".opencode/commands"
+COMMANDS_DIR="${REPO_ROOT}/.opencode/commands"
 mkdir -p "$COMMANDS_DIR"
 
 COMMANDS_SOURCE_DIR="${TEMP_DIR}/opencode-base-collection-main/.opencode/commands"
