@@ -7,6 +7,8 @@ on:
 jobs:
   generate-catalog:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
     - uses: actions/checkout@v4
@@ -25,3 +27,5 @@ jobs:
           git commit -m "chore: update catalog"
           git push
         fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
