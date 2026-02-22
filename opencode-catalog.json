@@ -31,6 +31,10 @@
       "description": "This skill should be used when the user asks to configure agents, create a custom agent, set up agent permissions, customize agent behavior, switch agents, or needs guidance on OpenCode agent system."
     },
     {
+      "name": "alembic",
+      "description": "This skill should be used when the user asks to set up Alembic migrations, create a database migration, run alembic upgrade, configure alembic autogenerate, or needs guidance on SQLAlchemy schema versioning and migration best practices."
+    },
+    {
       "name": "alpinejs",
       "description": "This skill should be used when the user asks to add Alpine.js, create Alpine component, use Alpine directives, build interactive UI with Alpine, or needs guidance on Alpine.js development patterns and best practices."
     },
@@ -49,6 +53,10 @@
     {
       "name": "css",
       "description": "Apply Google CSS style guide conventions to CSS code"
+    },
+    {
+      "name": "eslint",
+      "description": "This skill should be used when the user asks to set up ESLint, configure ESLint rules, fix ESLint errors, migrate to flat config, or needs guidance on JavaScript/TypeScript linting best practices."
     },
     {
       "name": "git-hooks",
@@ -99,6 +107,14 @@
       "description": "This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis."
     },
     {
+      "name": "pydantic",
+      "description": "This skill should be used when the user asks to validate data with pydantic, create a pydantic model, use pydantic best practices, write pydantic validators, or needs guidance on pydantic v2 patterns, serialization, configuration, or performance optimization."
+    },
+    {
+      "name": "python",
+      "description": "Apply Python style guide conventions to code"
+    },
+    {
       "name": "python-flet",
       "description": "This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet."
     },
@@ -111,16 +127,16 @@
       "description": "This skill should be used when the user asks to set up a Python project with uv, manage dependencies with uv, create a uv project, use uv for Python package management, or needs guidance on uv workflows, pyproject.toml configuration, lockfiles, and development dependency groups."
     },
     {
-      "name": "python",
-      "description": "Apply Python style guide conventions to code"
-    },
-    {
       "name": "rules-creation",
       "description": "This skill should be used when the user asks to create rules, add custom instructions, set up AGENTS.md, configure project rules, add global rules, or needs guidance on customizing OpenCode behavior with custom instructions."
     },
     {
       "name": "skill-creation",
       "description": "This skill should be used when the user asks to create a skill, write a new skill, add a skill, SKILL.md format, skill frontmatter, or needs guidance on skill structure, progressive disclosure, or OpenCode skill development."
+    },
+    {
+      "name": "sqlmodel",
+      "description": "This skill should be used when the user asks to use SQLModel, define SQLModel models, connect SQLModel with FastAPI, set up a database with SQLModel, or needs guidance on SQLModel best practices, relationships, or session management."
     },
     {
       "name": "tailwind-css",
@@ -177,5 +193,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-02-22T15:13:44Z"
+  "generated_at": "2026-02-22T17:41:42Z"
 }
