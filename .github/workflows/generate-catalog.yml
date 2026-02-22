@@ -24,8 +24,10 @@ jobs:
         if git diff --cached --quiet; then
           echo "Catalog unchanged, skipping commit and push"
         else
+          git fetch origin
+          git rebase origin/${{ github.ref_name }}
           git commit -m "chore: update catalog"
-          git push
+          git push origin ${{ github.ref_name }}
         fi
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
