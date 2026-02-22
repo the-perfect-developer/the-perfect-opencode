@@ -1,0 +1,29 @@
+# .pre-commit-config.yaml
+#
+# Pre-commit hooks for Ruff linting and formatting.
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Pin to a specific version — check https://github.com/astral-sh/ruff-pre-commit/releases
+    rev: v0.9.0
+    hooks:
+      # Linter: check and auto-fix safe violations
+      - id: ruff
+        args: [--fix]
+        # Include Jupyter notebooks
+        types_or: [python, pyi, jupyter]
+
+      # Formatter: format Python files
+      - id: ruff-format
+        types_or: [python, pyi, jupyter]
+
+# To include Markdown files in formatting (preview feature):
+#   - id: ruff-format
+#     types_or: [python, pyi, jupyter, markdown]
+#     args: [--preview]
+
+# Hook execution order matters:
+# ruff (linter with --fix) must run BEFORE ruff-format
+# so the formatter sees already-fixed imports and syntax.

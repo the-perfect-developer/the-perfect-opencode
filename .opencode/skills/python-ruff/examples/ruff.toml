@@ -1,0 +1,43 @@
+# Standalone ruff.toml — suitable for a monorepo root
+# Child packages can extend this with: extend = "../../ruff.toml"
+
+target-version = "py311"
+line-length = 88
+indent-width = 4
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # Pyflakes
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "I",    # isort
+    "RUF",  # Ruff-native
+]
+
+ignore = [
+    "COM812",   # formatter conflict: missing-trailing-comma
+    "ISC001",   # formatter conflict: single-line-implicit-string-concatenation
+    "E501",     # line-too-long (formatter handles line length)
+]
+
+fixable = ["ALL"]
+unfixable = ["F401"]  # flag unused imports; don't silently remove them
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/**/*.py" = ["S101", "ANN", "D", "PLR2004"]
+
+[lint.isort]
+known-first-party = ["mypackage"]
+
+[lint.mccabe]
+max-complexity = 10
+
+[format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
