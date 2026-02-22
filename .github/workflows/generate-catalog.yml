@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main, develop ]
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   generate-catalog:
     runs-on: ubuntu-latest
@@ -33,7 +37,7 @@ jobs:
         if git diff --cached --quiet; then
           echo "Catalog unchanged, skipping commit and push"
         else
-          git commit -m "chore: update catalog"
+          git commit -m "chore: update catalog [skip ci]"
           git push origin ${{ github.ref_name }}
         fi
       env:
