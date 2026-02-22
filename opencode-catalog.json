@@ -91,6 +91,10 @@
       "description": "This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis."
     },
     {
+      "name": "python-flet",
+      "description": "This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet."
+    },
+    {
       "name": "python",
       "description": "Apply Python style guide conventions to code"
     },
@@ -105,6 +109,10 @@
     {
       "name": "tailwind-css",
       "description": "This skill should be used when the user asks to use Tailwind CSS, install Tailwind, style with Tailwind, add Tailwind utilities, create responsive design with Tailwind, or needs guidance on Tailwind CSS utility-first styling and configuration."
+    },
+    {
+      "name": "turso-libsql",
+      "description": "This skill should be used when the user asks to connect to Turso, use libSQL, set up a Turso database, query Turso with TypeScript, or needs guidance on Turso Cloud, embedded replicas, or vector search with libSQL."
     },
     {
       "name": "typescript-style",
@@ -153,5 +161,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-02-20T20:39:02Z"
+  "generated_at": "2026-02-22T13:27:19Z"
 }
