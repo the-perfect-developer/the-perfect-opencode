@@ -78,7 +78,7 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 | `/create-agent` | Create a new OpenCode agent with interactive configuration | `build` | `github-copilot/claude-sonnet-4.6` |
 | `/create-command` | Create a new OpenCode command with interactive requirements gathering | `build` | `github-copilot/claude-sonnet-4.6` |
 | `/create-skill` | Create a new OpenCode skill with proper structure and frontmatter | `build` | `github-copilot/claude-sonnet-4.6` |
-| `/extended-planing` | Gather requirements, analyze code, and create implementation plan | `plan` | `github-copilot/claude-sonnet-4.6` |
+| `/extended-planning` | Gather requirements, analyze code, and create implementation plan | `plan` | `github-copilot/claude-sonnet-4.6` |
 | `/git-commit-push` | Stage changes, commit with conventional commit message, and push to remote | `build` | `github-copilot/claude-haiku-4.5` |
 | `/git-push` | Push commits to remote repository | `build` | `github-copilot/claude-haiku-4.5` |
 | `/git-stage-commit-push` | Stage all files, commit with conventional commit message, and push to remote | `build` | `github-copilot/claude-haiku-4.5` |
@@ -110,6 +110,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-02-22 13:54:36 UTC
+**Generated on:** 2026-02-22 14:09:09 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
