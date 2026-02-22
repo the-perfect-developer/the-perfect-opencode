@@ -55,10 +55,10 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `nextjs-react` | This skill should be used when the user asks to write a Next.js app, follow React best practices, optimize a Next.js application, build with the App Router, or needs guidance on modern React and Next.js patterns for 2025. |
 | `nuxt` | This skill should be used when the user asks to build a Nuxt app, optimize Nuxt performance, configure Nuxt rendering, follow Nuxt best practices, or needs guidance on Nuxt 4 development patterns, hybrid rendering, or Core Web Vitals optimization. |
 | `planning` | This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis. |
-| `python` | Apply Python style guide conventions to code |
 | `python-flet` | This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet. |
 | `python-ruff` | This skill should be used when the user asks to configure ruff, set up ruff linting, use ruff formatter, replace flake8 with ruff, or needs guidance on Python code quality with Ruff linting and formatting best practices. |
 | `python-uv` | This skill should be used when the user asks to set up a Python project with uv, manage dependencies with uv, create a uv project, use uv for Python package management, or needs guidance on uv workflows, pyproject.toml configuration, lockfiles, and development dependency groups. |
+| `python` | Apply Python style guide conventions to code |
 | `rules-creation` | This skill should be used when the user asks to create rules, add custom instructions, set up AGENTS.md, configure project rules, add global rules, or needs guidance on customizing OpenCode behavior with custom instructions. |
 | `skill-creation` | This skill should be used when the user asks to create a skill, write a new skill, add a skill, SKILL.md format, skill frontmatter, or needs guidance on skill structure, progressive disclosure, or OpenCode skill development. |
 | `tailwind-css` | This skill should be used when the user asks to use Tailwind CSS, install Tailwind, style with Tailwind, add Tailwind utilities, create responsive design with Tailwind, or needs guidance on Tailwind CSS utility-first styling and configuration. |
@@ -110,6 +110,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-02-22 13:42:00 UTC
+**Generated on:** 2026-02-22 13:54:36 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
