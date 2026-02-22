@@ -99,10 +99,6 @@
       "description": "This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis."
     },
     {
-      "name": "python",
-      "description": "Apply Python style guide conventions to code"
-    },
-    {
       "name": "python-flet",
       "description": "This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet."
     },
@@ -113,6 +109,10 @@
     {
       "name": "python-uv",
       "description": "This skill should be used when the user asks to set up a Python project with uv, manage dependencies with uv, create a uv project, use uv for Python package management, or needs guidance on uv workflows, pyproject.toml configuration, lockfiles, and development dependency groups."
+    },
+    {
+      "name": "python",
+      "description": "Apply Python style guide conventions to code"
     },
     {
       "name": "rules-creation",
@@ -177,5 +177,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-02-22T15:07:04Z"
+  "generated_at": "2026-02-22T15:08:26Z"
 }
