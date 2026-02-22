@@ -13,6 +13,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
+    - name: Fetch and rebase on latest remote changes
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git fetch origin
+        git rebase origin/${{ github.ref_name }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
     - name: Run catalog generation script
       run: bash ./scripts/generate-catalog.sh
     
@@ -24,8 +33,6 @@ jobs:
         if git diff --cached --quiet; then
           echo "Catalog unchanged, skipping commit and push"
         else
-          git fetch origin
-          git rebase origin/${{ github.ref_name }}
           git commit -m "chore: update catalog"
           git push origin ${{ github.ref_name }}
         fi
