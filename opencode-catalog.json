@@ -87,16 +87,32 @@
       "description": "This skill should be used when the user asks to format markdown, write markdown documentation, follow markdown style guide, apply markdown conventions, or needs guidance on markdown best practices."
     },
     {
+      "name": "nextjs-react",
+      "description": "This skill should be used when the user asks to write a Next.js app, follow React best practices, optimize a Next.js application, build with the App Router, or needs guidance on modern React and Next.js patterns for 2025."
+    },
+    {
+      "name": "nuxt",
+      "description": "This skill should be used when the user asks to build a Nuxt app, optimize Nuxt performance, configure Nuxt rendering, follow Nuxt best practices, or needs guidance on Nuxt 4 development patterns, hybrid rendering, or Core Web Vitals optimization."
+    },
+    {
       "name": "planning",
       "description": "This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis."
+    },
+    {
+      "name": "python",
+      "description": "Apply Python style guide conventions to code"
     },
     {
       "name": "python-flet",
       "description": "This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet."
     },
     {
-      "name": "python",
-      "description": "Apply Python style guide conventions to code"
+      "name": "python-ruff",
+      "description": "This skill should be used when the user asks to configure ruff, set up ruff linting, use ruff formatter, replace flake8 with ruff, or needs guidance on Python code quality with Ruff linting and formatting best practices."
+    },
+    {
+      "name": "python-uv",
+      "description": "This skill should be used when the user asks to set up a Python project with uv, manage dependencies with uv, create a uv project, use uv for Python package management, or needs guidance on uv workflows, pyproject.toml configuration, lockfiles, and development dependency groups."
     },
     {
       "name": "rules-creation",
@@ -133,7 +149,7 @@
       "description": "Create a new OpenCode skill with proper structure and frontmatter"
     },
     {
-      "name": "extended-planing",
+      "name": "extended-planning",
       "description": "Gather requirements, analyze code, and create implementation plan"
     },
     {
@@ -161,5 +177,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-02-22T13:27:19Z"
+  "generated_at": "2026-02-22T15:07:04Z"
 }
