@@ -43,6 +43,10 @@
       "description": "This skill should be used when the user asks to write a bash script, follow shell style guide, format shell scripts, create shell utilities, or needs guidance on Bash/shell scripting best practices and conventions."
     },
     {
+      "name": "capacitor",
+      "description": "This skill should be used when the user asks to build a Capacitor app, add Capacitor to a web project, use Capacitor plugins, configure Capacitor for iOS or Android, or needs guidance on Capacitor best practices, security, storage, deep links, or the development workflow."
+    },
+    {
       "name": "command-creation",
       "description": "This skill should be used when the user asks to create a command, add a custom command, make a slash command, create /command, or needs guidance on creating custom commands in OpenCode."
     },
@@ -193,5 +197,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-02-22T17:42:41Z"
+  "generated_at": "2026-02-23T18:15:38Z"
 }
