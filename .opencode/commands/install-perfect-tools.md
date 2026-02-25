@@ -1,7 +1,7 @@
 ---
 description: Discover and install perfect agents/skills/commands for your project
 agent: build
-model: github-copilot/claude-sonnet-4.5
+model: github-copilot/claude-haiku-4.5
 ---
 
 User is asking $1.

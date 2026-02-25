@@ -1,7 +1,7 @@
 ---
 description: Update already-installed perfect tools to their latest versions
 agent: build
-model: github-copilot/claude-sonnet-4.5
+model: github-copilot/claude-haiku-4.5
 ---
 
 You are helping the user update their already-installed OpenCode agents, skills, and commands to the latest versions from the catalog.
