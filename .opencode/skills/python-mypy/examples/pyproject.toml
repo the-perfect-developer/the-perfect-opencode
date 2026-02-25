@@ -1,0 +1,107 @@
+# pyproject.toml — mypy configuration examples
+#
+# Copy the relevant section into your project's pyproject.toml.
+# Three profiles are provided:
+#   1. strict    — new project, full strict mode
+#   2. standard  — growing project, moderate strictness
+#   3. migration — existing codebase being gradually typed
+
+# ──────────────────────────────────────────────────────────────────
+# PROFILE 1: Strict (new projects, libraries)
+# ──────────────────────────────────────────────────────────────────
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+warn_unused_configs = true
+warn_redundant_casts = true
+
+# Third-party stubs — add as needed
+[[tool.mypy.overrides]]
+module = [
+    # "boto3.*",
+    # "botocore.*",
+]
+ignore_missing_imports = true
+
+
+# ──────────────────────────────────────────────────────────────────
+# PROFILE 2: Standard (applications, services)
+# ──────────────────────────────────────────────────────────────────
+
+# [tool.mypy]
+# python_version = "3.11"
+# warn_return_any = true
+# warn_unused_configs = true
+# warn_unused_ignores = true
+# disallow_untyped_defs = true
+# disallow_incomplete_defs = true
+# check_untyped_defs = true
+# no_implicit_reexport = true
+#
+# [[tool.mypy.overrides]]
+# module = ["boto3.*", "botocore.*"]
+# ignore_missing_imports = true
+
+
+# ──────────────────────────────────────────────────────────────────
+# PROFILE 3: Incremental migration (large existing codebases)
+# ──────────────────────────────────────────────────────────────────
+
+# [tool.mypy]
+# python_version = "3.10"
+# warn_unused_configs = true
+# warn_return_any = true
+# warn_unused_ignores = true
+#
+# # Catch bugs in untyped code without requiring annotations
+# check_untyped_defs = true
+#
+# # Strictly typed packages (expand this list over time)
+# [[tool.mypy.overrides]]
+# module = "myapp.core.*"
+# disallow_untyped_defs = true
+# disallow_incomplete_defs = true
+#
+# [[tool.mypy.overrides]]
+# module = "myapp.api.*"
+# disallow_untyped_defs = true
+#
+# # Legacy packages — deal with later
+# [[tool.mypy.overrides]]
+# module = "myapp.legacy.*"
+# ignore_errors = true
+#
+# # Third-party libraries without stubs — always scope, never global
+# [[tool.mypy.overrides]]
+# module = [
+#     "some_untyped_lib.*",
+#     "another_lib.*",
+# ]
+# ignore_missing_imports = true
+
+
+# ──────────────────────────────────────────────────────────────────
+# PLUGIN EXAMPLES
+# ──────────────────────────────────────────────────────────────────
+
+# Pydantic v2
+# [tool.mypy]
+# plugins = ["pydantic.mypy"]
+#
+# [tool.pydantic-mypy]
+# init_forbid_extra = true
+# init_typed = true
+# warn_required_dynamic_aliases = true
+
+# SQLAlchemy 2.x
+# [tool.mypy]
+# plugins = ["sqlalchemy.ext.mypy.plugin"]
+
+# Django
+# [tool.mypy]
+# plugins = ["mypy_django_plugin.main"]
+#
+# [tool.django-stubs]
+# django_settings_module = "myproject.settings"
