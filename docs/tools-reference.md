@@ -59,6 +59,8 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `nuxt` | This skill should be used when the user asks to build a Nuxt app, optimize Nuxt performance, configure Nuxt rendering, follow Nuxt best practices, or needs guidance on Nuxt 4 development patterns, hybrid rendering, or Core Web Vitals optimization. |
 | `planning` | This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis. |
 | `pydantic` | This skill should be used when the user asks to validate data with pydantic, create a pydantic model, use pydantic best practices, write pydantic validators, or needs guidance on pydantic v2 patterns, serialization, configuration, or performance optimization. |
+| `pytest` | This skill should be used when the user asks to write pytest tests, set up pytest best practices, configure pytest, write fixtures, or needs guidance on pytest testing patterns and project structure. |
+| `python-dependency-injection` | This skill should be used when the user asks to implement dependency injection in Python, use the dependency-injector library, decouple Python components, write testable Python services, or needs guidance on Inversion of Control, DI containers, provider types, and wiring in Python applications. |
 | `python-flet` | This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet. |
 | `python-ruff` | This skill should be used when the user asks to configure ruff, set up ruff linting, use ruff formatter, replace flake8 with ruff, or needs guidance on Python code quality with Ruff linting and formatting best practices. |
 | `python-uv` | This skill should be used when the user asks to set up a Python project with uv, manage dependencies with uv, create a uv project, use uv for Python package management, or needs guidance on uv workflows, pyproject.toml configuration, lockfiles, and development dependency groups. |
@@ -69,6 +71,7 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `tailwind-css` | This skill should be used when the user asks to use Tailwind CSS, install Tailwind, style with Tailwind, add Tailwind utilities, create responsive design with Tailwind, or needs guidance on Tailwind CSS utility-first styling and configuration. |
 | `turso-libsql` | This skill should be used when the user asks to connect to Turso, use libSQL, set up a Turso database, query Turso with TypeScript, or needs guidance on Turso Cloud, embedded replicas, or vector search with libSQL. |
 | `typescript-style` | This skill should be used when the user asks to write TypeScript code, format TypeScript, follow TypeScript style guide, TypeScript best practices, or needs guidance on Google's TypeScript coding conventions. |
+| `unit-testing` | This skill should be used when the user asks to write unit tests, follow unit testing best practices, improve test quality, structure test cases, or needs guidance on unit testing concepts, patterns, and principles. |
 
 ---
 
@@ -115,6 +118,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-02-23 18:15:29 UTC
+**Generated on:** 2026-02-25 04:16:31 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
