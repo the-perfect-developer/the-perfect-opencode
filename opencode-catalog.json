@@ -115,6 +115,14 @@
       "description": "This skill should be used when the user asks to validate data with pydantic, create a pydantic model, use pydantic best practices, write pydantic validators, or needs guidance on pydantic v2 patterns, serialization, configuration, or performance optimization."
     },
     {
+      "name": "pytest",
+      "description": "This skill should be used when the user asks to write pytest tests, set up pytest best practices, configure pytest, write fixtures, or needs guidance on pytest testing patterns and project structure."
+    },
+    {
+      "name": "python-dependency-injection",
+      "description": "This skill should be used when the user asks to implement dependency injection in Python, use the dependency-injector library, decouple Python components, write testable Python services, or needs guidance on Inversion of Control, DI containers, provider types, and wiring in Python applications."
+    },
+    {
       "name": "python-flet",
       "description": "This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet."
     },
@@ -153,6 +161,10 @@
     {
       "name": "typescript-style",
       "description": "This skill should be used when the user asks to write TypeScript code, format TypeScript, follow TypeScript style guide, TypeScript best practices, or needs guidance on Google's TypeScript coding conventions."
+    },
+    {
+      "name": "unit-testing",
+      "description": "This skill should be used when the user asks to write unit tests, follow unit testing best practices, improve test quality, structure test cases, or needs guidance on unit testing concepts, patterns, and principles."
     }
   ],
   "commands": [
@@ -197,5 +209,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-02-23T18:15:38Z"
+  "generated_at": "2026-02-25T04:16:39Z"
 }
