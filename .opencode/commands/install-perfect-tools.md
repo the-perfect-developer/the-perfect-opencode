@@ -4,7 +4,7 @@ agent: build
 model: github-copilot/claude-haiku-4.5
 ---
 
-User is asking $1.
+User is asking to install $1.
 
 You are helping the user discover and install the perfect set of OpenCode agents, skills, and commands for their project.
 
