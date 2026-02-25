@@ -103,8 +103,20 @@
       "description": "This skill should be used when the user asks to write a Next.js app, follow React best practices, optimize a Next.js application, build with the App Router, or needs guidance on modern React and Next.js patterns for 2025."
     },
     {
+      "name": "numpy",
+      "description": "This skill should be used when the user asks to use NumPy, write NumPy code, optimize NumPy arrays, vectorize with NumPy, or needs guidance on NumPy best practices, array operations, broadcasting, memory management, or scientific computing with Python."
+    },
+    {
       "name": "nuxt",
       "description": "This skill should be used when the user asks to build a Nuxt app, optimize Nuxt performance, configure Nuxt rendering, follow Nuxt best practices, or needs guidance on Nuxt 4 development patterns, hybrid rendering, or Core Web Vitals optimization."
+    },
+    {
+      "name": "pandas",
+      "description": "This skill should be used when the user asks to use pandas, analyze data with pandas, work with DataFrames, clean data with pandas, or needs guidance on pandas best practices, data manipulation, performance optimization, or common pandas patterns."
+    },
+    {
+      "name": "pandera",
+      "description": "This skill should be used when the user asks to validate a DataFrame with pandera, write a pandera schema, use pandera DataFrameModel, add data validation to a pipeline, or needs guidance on pandera best practices for data quality."
     },
     {
       "name": "planning",
@@ -119,12 +131,20 @@
       "description": "This skill should be used when the user asks to write pytest tests, set up pytest best practices, configure pytest, write fixtures, or needs guidance on pytest testing patterns and project structure."
     },
     {
+      "name": "python-bandit",
+      "description": "This skill should be used when the user asks to scan Python code for security issues, set up Bandit, configure bandit security linting, fix bandit warnings, or needs guidance on Python static security analysis with Bandit."
+    },
+    {
       "name": "python-dependency-injection",
       "description": "This skill should be used when the user asks to implement dependency injection in Python, use the dependency-injector library, decouple Python components, write testable Python services, or needs guidance on Inversion of Control, DI containers, provider types, and wiring in Python applications."
     },
     {
       "name": "python-flet",
       "description": "This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet."
+    },
+    {
+      "name": "python-mypy",
+      "description": "This skill should be used when the user asks to add mypy to a project, set up static type checking, fix mypy errors, configure mypy, annotate Python code with types, or needs guidance on Python type checking best practices with mypy."
     },
     {
       "name": "python-ruff",
@@ -213,5 +233,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-02-25T17:08:39Z"
+  "generated_at": "2026-02-25T18:19:27Z"
 }
