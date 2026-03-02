@@ -42,13 +42,16 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `alpinejs` | This skill should be used when the user asks to add Alpine.js, create Alpine component, use Alpine directives, build interactive UI with Alpine, or needs guidance on Alpine.js development patterns and best practices. |
 | `bash-shell` | This skill should be used when the user asks to write a bash script, follow shell style guide, format shell scripts, create shell utilities, or needs guidance on Bash/shell scripting best practices and conventions. |
 | `capacitor` | This skill should be used when the user asks to build a Capacitor app, add Capacitor to a web project, use Capacitor plugins, configure Capacitor for iOS or Android, or needs guidance on Capacitor best practices, security, storage, deep links, or the development workflow. |
+| `claude-agent-sdk` | This skill should be used when the user asks to build an AI agent with Claude, use the Claude Agent SDK, integrate claude-agent-sdk into a project, set up an autonomous agent with tools, or needs guidance on the Anthropic Claude Agent SDK best practices for Python and TypeScript. |
 | `command-creation` | This skill should be used when the user asks to create a command, add a custom command, make a slash command, create /command, or needs guidance on creating custom commands in OpenCode. |
 | `conventional-git-commit` | This skill MUST be loaded on every git commit without exception. It should also be used when the user asks to write a conventional commit, format a commit message, follow conventional commits spec, create a semantic commit, make a commit, commit changes, or git commit. Every commit message produced in this project MUST conform to this specification. |
+| `copilot-sdk` | This skill should be used when the user asks to integrate GitHub Copilot into an app, use the Copilot SDK, build a Copilot-powered agent, embed Copilot in a service, or needs guidance on the GitHub Copilot SDK for Python, TypeScript, Go, or .NET. |
 | `css` | Apply Google CSS style guide conventions to CSS code |
 | `eslint` | This skill should be used when the user asks to set up ESLint, configure ESLint rules, fix ESLint errors, migrate to flat config, or needs guidance on JavaScript/TypeScript linting best practices. |
 | `git-hooks` | This skill should be used when the user asks to create git hooks, set up pre-commit hooks, configure git hooks, add commit validation, implement pre-push hooks, or needs guidance on Git hooks implementation, validation scripts, or hook best practices. |
 | `github-actions` | This skill should be used when the user asks to create a GitHub Actions workflow, set up CI/CD, configure GitHub Actions, add automated testing, deploy with GitHub Actions, or needs guidance on GitHub Actions workflows, syntax, or automation. |
 | `go` | Apply Go style guide conventions to code |
+| `google-adk` | This skill should be used when the user asks to build an agent with Google ADK, use the Agent Development Kit, create a Google ADK agent, set up ADK tools, or needs guidance on Google's Agent Development Kit best practices, multi-agent systems, or agent evaluation. |
 | `html` | Apply Google HTML style guide conventions to HTML code |
 | `htmx` | Provides guidance for building dynamic interactive web applications using htmx library with AJAX requests and dynamic content swapping |
 | `implementation` | This skill should be used when the user asks to implement a plan, execute implementation, build from plan, implement feature, or needs to orchestrate execution of an implementation plan with specialized engineering agents. |
@@ -124,6 +127,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-02-25 18:27:56 UTC
+**Generated on:** 2026-03-02 17:31:44 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
