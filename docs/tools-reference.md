@@ -50,7 +50,9 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `eslint` | This skill should be used when the user asks to set up ESLint, configure ESLint rules, fix ESLint errors, migrate to flat config, or needs guidance on JavaScript/TypeScript linting best practices. |
 | `git-hooks` | This skill should be used when the user asks to create git hooks, set up pre-commit hooks, configure git hooks, add commit validation, implement pre-push hooks, or needs guidance on Git hooks implementation, validation scripts, or hook best practices. |
 | `github-actions` | This skill should be used when the user asks to create a GitHub Actions workflow, set up CI/CD, configure GitHub Actions, add automated testing, deploy with GitHub Actions, or needs guidance on GitHub Actions workflows, syntax, or automation. |
+| `go-testing` | This skill should be used when the user asks to write Go unit tests, add tests to a Go package, use the testing package, write table-driven tests in Go, or needs guidance on Go test patterns, subtests, benchmarks, and test helpers. |
 | `go` | Apply Go style guide conventions to code |
+| `golangci-lint` | This skill should be used when the user asks to set up golangci-lint, add linting to a Go project, configure golangci-lint, fix golangci-lint errors, or needs guidance on Go code quality and linting best practices. |
 | `google-adk` | This skill should be used when the user asks to build an agent with Google ADK, use the Agent Development Kit, create a Google ADK agent, set up ADK tools, or needs guidance on Google's Agent Development Kit best practices, multi-agent systems, or agent evaluation. |
 | `html` | Apply Google HTML style guide conventions to HTML code |
 | `htmx` | Provides guidance for building dynamic interactive web applications using htmx library with AJAX requests and dynamic content swapping |
@@ -127,6 +129,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-02 17:31:44 UTC
+**Generated on:** 2026-03-03 08:48:38 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
