@@ -79,8 +79,16 @@
       "description": "This skill should be used when the user asks to create a GitHub Actions workflow, set up CI/CD, configure GitHub Actions, add automated testing, deploy with GitHub Actions, or needs guidance on GitHub Actions workflows, syntax, or automation."
     },
     {
+      "name": "go-testing",
+      "description": "This skill should be used when the user asks to write Go unit tests, add tests to a Go package, use the testing package, write table-driven tests in Go, or needs guidance on Go test patterns, subtests, benchmarks, and test helpers."
+    },
+    {
       "name": "go",
       "description": "Apply Go style guide conventions to code"
+    },
+    {
+      "name": "golangci-lint",
+      "description": "This skill should be used when the user asks to set up golangci-lint, add linting to a Go project, configure golangci-lint, fix golangci-lint errors, or needs guidance on Go code quality and linting best practices."
     },
     {
       "name": "google-adk",
@@ -245,5 +253,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-03-02T17:31:57Z"
+  "generated_at": "2026-03-03T08:48:46Z"
 }
