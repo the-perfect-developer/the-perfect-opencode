@@ -1,0 +1,60 @@
+{
+	"$schema": "https://opencode.ai/config.json",
+	"agent": {
+		"architect": {
+			"model": "github-copilot/claude-opus-4.6",
+			"temperature": 0.2,
+			"color": "#7C3AED"
+		},
+		"backend-engineer": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.4,
+			"color": "#2563EB"
+		},
+		"code-analyst": {
+			"model": "github-copilot/gpt-5.2-codex",
+			"temperature": 0.1,
+			"color": "#0891B2"
+		},
+		"frontend-engineer": {
+			"model": "github-copilot/gemini-3-pro-preview",
+			"temperature": 0.5,
+			"color": "#EC4899"
+		},
+		"junior-engineer": {
+			"model": "github-copilot/claude-haiku-4.5",
+			"temperature": 0.3,
+			"color": "#16A34A"
+		},
+		"performance-engineer": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.2,
+			"color": "#EA580C"
+		},
+		"security-expert": {
+			"model": "github-copilot/claude-opus-4.6",
+			"temperature": 0.1,
+			"color": "#DC2626"
+		},
+		"build": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.4,
+			"color": "#10B981"
+		},
+		"plan": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.2,
+			"color": "#F59E0B"
+		},
+		"explore": {
+			"model": "github-copilot/claude-haiku-4.5",
+			"temperature": 0.2,
+			"color": "#0EA5E9"
+		},
+		"general": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.4,
+			"color": "#6366F1"
+		}
+	}
+}

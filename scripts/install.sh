@@ -30,7 +30,7 @@ declare -a SELECTED_SKILLS
 declare -a SELECTED_COMMANDS
 
 # Core items that are always installed (bare minimum requirements)
-CORE_AGENTS=("architect" "backend-engineer" "frontend-engineer" "junior-engineer" "performance-engineer" "security-expert")
+CORE_AGENTS=("architect" "backend-engineer" "code-analyst" "frontend-engineer" "junior-engineer" "performance-engineer" "security-expert")
 CORE_SKILLS=("agent-configuration" "command-creation" "skill-creation" "planning" "implementation")
 CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "implement" "install-perfect-tools" "plan" "update-perfect-tools")
 
@@ -253,3 +253,27 @@ fi
 # Custom actions that always run, regardless of install arguments.
 echo ""
 echo -e "${BLUE}ℹ${NC} Running custom post-install steps..."
+
+# Copy opencode.json to the installation directory
+OPENCODE_JSON_SOURCE="${TEMP_DIR}/the-perfect-opencode-main/opencode.json"
+OPENCODE_JSON_DEST="${REPO_ROOT}/opencode.json"
+if [ -f "$OPENCODE_JSON_SOURCE" ]; then
+    if [ -f "$OPENCODE_JSON_DEST" ]; then
+        echo -e "  ${YELLOW}⚠${NC} opencode.json already exists at: ${OPENCODE_JSON_DEST}"
+        read -r -p "  Overwrite? [y/N] " response
+        case "$response" in
+            [yY][eE][sS]|[yY])
+                cp "$OPENCODE_JSON_SOURCE" "$OPENCODE_JSON_DEST"
+                echo -e "  ${GREEN}✓${NC} Overwritten: ${OPENCODE_JSON_DEST}"
+                ;;
+            *)
+                echo -e "  ${BLUE}ℹ${NC} Skipped opencode.json"
+                ;;
+        esac
+    else
+        cp "$OPENCODE_JSON_SOURCE" "$OPENCODE_JSON_DEST"
+        echo -e "  ${GREEN}✓${NC} Copied opencode.json to: ${REPO_ROOT}"
+    fi
+else
+    echo -e "  ${YELLOW}⚠${NC} opencode.json not found in repository, skipping"
+fi

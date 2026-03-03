@@ -1,7 +1,6 @@
 ---
 description: Analyze current project and recommend uninstalled agents/skills/commands
 agent: build
-model: github-copilot/claude-haiku-4.5
 subtask: true
 ---
 

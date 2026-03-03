@@ -1,7 +1,6 @@
 ---
 description: Push commits to remote repository
 agent: build
-model: github-copilot/claude-haiku-4.5
 ---
 
 You are about to push commits to the remote git repository. Follow these steps carefully:

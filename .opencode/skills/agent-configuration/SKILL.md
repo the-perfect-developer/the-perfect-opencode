@@ -275,6 +275,25 @@ Maximum agentic iterations before text-only response.
 
 **top_p** - Alternative to temperature for controlling diversity (0.0-1.0)
 
+## MUST FOLLOW
+
+**Always define `color`, `model`, and `temperature` for every agent in `opencode.json`** — never in the markdown agent file. These fields belong in `opencode.json` as the single source of truth for runtime configuration.
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "your-agent-name": {
+      "model": "github-copilot/claude-sonnet-4.6",
+      "temperature": 0.3,
+      "color": "#ff6b6b"
+    }
+  }
+}
+```
+
+Do **not** include `model`, `temperature`, or `color` in the agent's `.opencode/agents/<name>.md` frontmatter. The markdown file should only contain `description`, `mode`, `tools`, `permission`, `steps`, `hidden`, and the system prompt body.
+
 ## Creating Custom Agents
 
 ### Interactive Creation

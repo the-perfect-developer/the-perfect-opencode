@@ -1,7 +1,6 @@
 ---
 description: Create a new OpenCode agent with interactive configuration
 agent: build
-model: github-copilot/claude-sonnet-4.6
 ---
 
 Create a custom agent $1
@@ -66,6 +65,24 @@ Please provide the following information:
 
 12. **UI color** (optional): Custom color for this agent? (hex code like `#ff6b6b` or theme color like `primary`, `accent`)
 
+## MUST FOLLOW
+
+> **ALWAYS register `color`, `model`, and `temperature` for the new agent in `opencode.json`** under the `agent` key — never in the markdown agent file. These three fields are managed centrally so the project has a single source of truth for runtime configuration.
+>
+> ```json
+> {
+>   "agent": {
+>     "your-agent-name": {
+>       "model": "github-copilot/claude-sonnet-4.6",
+>       "temperature": 0.3,
+>       "color": "#ff6b6b"
+>     }
+>   }
+> }
+> ```
+>
+> Do **not** put `model`, `temperature`, or `color` in the agent's `.opencode/agents/<name>.md` frontmatter.
+
 ## Instructions
 
 After gathering the above information, I will:
@@ -73,8 +90,9 @@ After gathering the above information, I will:
 1. Validate the configuration
 2. Create the agent file in `.opencode/agents/` directory
 3. Include proper frontmatter and system prompt
-4. Test the configuration syntax
-5. Provide usage examples
+4. Add `model`, `temperature`, and `color` for the new agent to `opencode.json`
+5. Test the configuration syntax
+6. Provide usage examples
 
 Please answer the questions above, and I'll create your custom agent configuration.
 

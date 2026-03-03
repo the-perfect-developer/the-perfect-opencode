@@ -1,5 +1,6 @@
 ---
 description: Add a MUST FOLLOW rule to AGENTS.md
+agent: build
 ---
 
 Add the following as a **MUST FOLLOW** rule to the `AGENTS.md` file in this project:

@@ -1,8 +1,6 @@
 ---
 description: Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes
 mode: subagent
-model: github-copilot/claude-haiku-4.6
-temperature: 0.3
 tools:
   write: true
   edit: true
@@ -13,6 +11,29 @@ permission:
   edit: ask
   bash:
     "*": ask
+    "ls*": allow
+    "pwd": allow
+    "which*": allow
+    "whoami": allow
+    "cat*": allow
+    "head*": allow
+    "tail*": allow
+    "wc*": allow
+    "file*": allow
+    "grep*": allow
+    "rg*": allow
+    "find*": allow
+    "tree*": allow
+    "echo*": allow
+    "printf*": allow
+    "env": allow
+    "printenv*": allow
+    "git status": allow
+    "git diff*": allow
+    "git log*": allow
+    "git show*": allow
+    "git branch*": allow
+    "git remote*": allow
     "npm install": allow
     "npm run dev": allow
     "npm run build": allow
@@ -26,9 +47,6 @@ permission:
     "pnpm dev": allow
     "pnpm build": allow
     "pnpm test": allow
-    "git status": allow
-    "git diff*": allow
-    "git log*": allow
     "* /tmp/*": allow
     "cd /tmp*": allow
   webfetch: allow

@@ -1,8 +1,6 @@
 ---
 description: Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices
 mode: subagent
-model: github-copilot/claude-opus-4.6
-temperature: 0.1
 tools:
   write: false
   edit: false
@@ -12,9 +10,29 @@ permission:
   edit: ask
   bash:
     "*": ask
+    "ls*": allow
+    "pwd": allow
+    "which*": allow
+    "whoami": allow
+    "cat*": allow
+    "head*": allow
+    "tail*": allow
+    "wc*": allow
+    "file*": allow
+    "grep*": allow
+    "rg*": allow
+    "find*": allow
+    "tree*": allow
+    "echo*": allow
+    "printf*": allow
+    "env": allow
+    "printenv*": allow
     "git status": allow
     "git diff*": allow
     "git log*": allow
+    "git show*": allow
+    "git branch*": allow
+    "git remote*": allow
     "npm audit": allow
     "npm audit fix": ask
     "yarn audit": allow

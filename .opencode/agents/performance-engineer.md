@@ -1,8 +1,6 @@
 ---
 description: Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis
 mode: subagent
-model: github-copilot/claude-sonnet-4.5
-temperature: 0.2
 tools:
   write: false
   edit: false
@@ -12,9 +10,29 @@ permission:
   edit: ask
   bash:
     "*": ask
+    "ls*": allow
+    "pwd": allow
+    "which*": allow
+    "whoami": allow
+    "cat*": allow
+    "head*": allow
+    "tail*": allow
+    "wc*": allow
+    "file*": allow
+    "grep*": allow
+    "rg*": allow
+    "find*": allow
+    "tree*": allow
+    "echo*": allow
+    "printf*": allow
+    "env": allow
+    "printenv*": allow
     "git status": allow
     "git diff*": allow
     "git log*": allow
+    "git show*": allow
+    "git branch*": allow
+    "git remote*": allow
     "npm run benchmark*": allow
     "npm test*": allow
     "node --prof*": allow

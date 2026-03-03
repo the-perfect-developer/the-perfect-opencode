@@ -7,6 +7,24 @@ description: This skill should be used when the user asks to "create a command",
 
 Create custom slash commands for repetitive tasks that execute specific prompts with dynamic arguments.
 
+## MUST FOLLOW
+
+**Commands must only specify `agent` in their frontmatter — never `model`.** Model selection is managed at the agent level in `opencode.json`. Adding a `model` field to a command bypasses centralized configuration and creates inconsistency across the project.
+
+**Always ask the user which agent should run the command.** The `agent:` field is required and must never be omitted. The two primary choices are:
+
+- `build` — For commands that create or modify files, run tests, build, or deploy
+- `plan` — For commands that analyze, review, or read without making changes
+
+```yaml
+---
+description: Brief description
+agent: build   # or: plan
+---
+```
+
+Do **not** add `model:` to command frontmatter. To change the model used by a command, configure the target agent's model in `opencode.json`.
+
 ## What Commands Are
 
 Custom commands let you define reusable prompts that can be triggered with `/command-name` in the OpenCode TUI. They provide:
@@ -91,8 +109,8 @@ Review these changes and suggest any improvements.
 **Frontmatter fields**:
 - `description` - Brief description shown in TUI (optional)
 - `agent` - Which agent should execute the command (optional)
-- `model` - Override default model (optional)
 - `subtask` - Force subagent invocation (optional boolean)
+- ~~`model`~~ - **Do not use** — model is managed in `opencode.json` at the agent level
 
 The content after frontmatter becomes the command template.
 
@@ -264,9 +282,12 @@ description: Run tests with coverage
 ---
 ```
 
-### agent (optional)
+### agent (required)
 
-Specify which agent should execute the command.
+Specify which agent should execute the command. **Always ask the user whether the command should use `build` or `plan` — never leave this field out.**
+
+- `build` — For tasks that create/modify files, run tests, build, or deploy
+- `plan` — For analysis, code review, and read-only tasks
 
 **JSON**:
 ```json
@@ -467,6 +488,7 @@ OpenCode includes built-in commands:
 - Include sensitive data in command templates
 - Override built-in commands unless necessary
 - Forget to document what arguments commands expect
+- Set `model:` in command frontmatter — use `agent:` only; model is managed in `opencode.json`
 
 ## Examples
 
@@ -522,7 +544,6 @@ Working examples in `examples/`:
 ---
 description: Brief description
 agent: agent-name
-model: model-name
 subtask: true
 ---
 

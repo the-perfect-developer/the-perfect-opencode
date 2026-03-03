@@ -1,8 +1,6 @@
 ---
 description: Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences
 mode: subagent
-model: github-copilot/gemini-3-pro-preview
-temperature: 0.5
 tools:
   write: true
   edit: true
@@ -12,6 +10,29 @@ permission:
   edit: ask
   bash:
     "*": ask
+    "ls*": allow
+    "pwd": allow
+    "which*": allow
+    "whoami": allow
+    "cat*": allow
+    "head*": allow
+    "tail*": allow
+    "wc*": allow
+    "file*": allow
+    "grep*": allow
+    "rg*": allow
+    "find*": allow
+    "tree*": allow
+    "echo*": allow
+    "printf*": allow
+    "env": allow
+    "printenv*": allow
+    "git status": allow
+    "git diff*": allow
+    "git log*": allow
+    "git show*": allow
+    "git branch*": allow
+    "git remote*": allow
     "npm run dev": allow
     "npm run build": allow
     "npm run test": allow
@@ -22,9 +43,6 @@ permission:
     "pnpm dev": allow
     "pnpm build": allow
     "pnpm test": allow
-    "git status": allow
-    "git diff*": allow
-    "git log*": allow
     "npm audit": allow
     "npm audit fix": allow
     "yarn audit": allow

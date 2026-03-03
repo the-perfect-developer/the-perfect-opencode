@@ -1,10 +1,10 @@
 ---
 description: Execute implementation plan with specialized engineering agents
 agent: build
-model: github-copilot/claude-sonnet-4.6
 agents:
   - general
   - explore
+  - code-analyst
   - security-expert
   - performance-engineer
   - junior-engineer
@@ -39,7 +39,7 @@ The implementation skill provides:
 
 Follow this high-level workflow (see implementation skill for details):
 
-1. **Phase 1: Understand Requirements** - Analyze what needs to be implemented
+1. **Phase 1: Understand Requirements** - Analyze what needs to be implemented; consult @code-analyst for any complex or unfamiliar existing code
    - **If already planned in this session** (using @.opencode/commands/extended-planing.md): Skip requirement gathering and proceed directly to task breakdown
    - **Otherwise**: Ask simple clarifying questions to avoid conflicts and confusion
 2. **Phase 2: Task Breakdown** - Analyze complexity and create todos
@@ -54,6 +54,7 @@ Follow this high-level workflow (see implementation skill for details):
 You can invoke any of the following specialized agents:
 - **@general** - General-purpose research and multi-step tasks
 - **@explore** - Fast codebase exploration
+- **@code-analyst** - Deep code comprehension: architecture, control flow, data flow, design patterns
 - **@security-expert** - Security audits and cryptography
 - **@performance-engineer** - Performance optimization
 - **@junior-engineer** - Simple features and bug fixes (< 30 min)
@@ -65,15 +66,17 @@ You can invoke any of the following specialized agents:
 
 1. **Load the implementation skill** for complete instructions
 2. **Use TodoWrite** to track all tasks throughout implementation
-3. **Consult experts early** (@architect, @security-expert, @performance-engineer)
-4. **Run independent agents in parallel** to maximize efficiency
-5. **Load appropriate skills** based on technology (typescript-style, python, go, etc.)
-6. **Mark todos as completed immediately** after each task
+3. **Consult @code-analyst** for understanding complex or unfamiliar code before implementation
+4. **Consult experts early** (@architect, @security-expert, @performance-engineer)
+5. **Run independent agents in parallel** to maximize efficiency
+6. **Load appropriate skills** based on technology (typescript-style, python, go, etc.)
+7. **Mark todos as completed immediately** after each task
 
 ## Agent Selection Quick Reference
 
 | Task Type | Agent | Consult First |
 |-----------|-------|---------------|
+| Unfamiliar/complex code | @code-analyst | - |
 | Simple task (< 50 lines) | @junior-engineer | - |
 | Frontend/UI | @frontend-engineer | - |
 | Backend/API | @backend-engineer | @architect (if complex) |

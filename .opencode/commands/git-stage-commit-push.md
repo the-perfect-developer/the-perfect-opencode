@@ -1,7 +1,6 @@
 ---
 description: Stage all files, commit with conventional commit message, and push to remote
 agent: build
-model: github-copilot/claude-haiku-4.5
 ---
 
 You are about to stage all changes, commit with a conventional commit message, and push to the git repository. Follow these steps carefully:

@@ -1,7 +1,6 @@
 ---
 description: Create a new OpenCode command with interactive requirements gathering
 agent: build
-model: github-copilot/claude-sonnet-4.6
 ---
 
 Create a new custom command $1
@@ -34,21 +33,27 @@ Before creating the command, ask the user the following questions to gather comp
    - Both?
    - If yes, specify which commands/files
 
-6. **Agent**: Which agent should execute this command?
-   - Default: Current agent
-   - build: For testing, building, deployment tasks
-   - plan: For code review, analysis tasks
-   - explore: For codebase exploration
-   - general: For general tasks
-   - Other custom agent?
+6. **Agent**: Which agent should execute this command? (REQUIRED — always ask)
+   - `build` — For tasks that create/modify files, run tests, build, or deploy
+   - `plan` — For analysis, code review, and read-only tasks
+   - Other: explore, general, or any custom agent name
 
 7. **Subagent Mode**: Should this run as a subagent task?
    - Yes: For long-running or complex tasks (keeps main context clean)
    - No: For quick tasks in current context
 
-8. **Model Override**: Should this use a specific model?
-   - Default: Use project default
-   - Specific model: Provide model name (e.g., "anthropic/claude-3-5-sonnet-20241022")
+## MUST FOLLOW
+
+> **Commands must only specify `agent` in their frontmatter — never `model`.** Model selection is managed at the agent level in `opencode.json`. Setting a model on a command bypasses the centralized configuration and creates inconsistency.
+>
+> ```yaml
+> ---
+> description: My command
+> agent: build
+> ---
+> ```
+>
+> Do **not** add a `model:` field to command frontmatter.
 
 ## Step 2: Create the Command
 
@@ -78,6 +83,7 @@ Refer to the skill for detailed guidance:
 
 **DO**:
 - Ask ALL questions before creating the command
+- **Always ask the user whether the command should use `build` or `plan` as the agent** — never omit the `agent:` field
 - Use clear, specific descriptions
 - Keep templates focused on a single task
 - Use positional arguments ($1, $2) for multiple parameters
@@ -91,6 +97,7 @@ Refer to the skill for detailed guidance:
 - Use shell commands that modify system state
 - Include sensitive data in templates
 - Forget to document what arguments the command expects
+- Set `model:` in command frontmatter — use `agent:` only; model is managed in `opencode.json`
 
 ## Examples
 
