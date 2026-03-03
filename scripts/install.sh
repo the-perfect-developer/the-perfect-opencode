@@ -32,7 +32,7 @@ declare -a SELECTED_COMMANDS
 # Core items that are always installed (bare minimum requirements)
 CORE_AGENTS=("architect" "backend-engineer" "frontend-engineer" "junior-engineer" "performance-engineer" "security-expert")
 CORE_SKILLS=("agent-configuration" "command-creation" "skill-creation" "planning" "implementation")
-CORE_COMMANDS=("create-agent" "create-command" "create-skill" "extended-planning" "implement" "install-perfect-tools" "update-perfect-tools")
+CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "implement" "install-perfect-tools" "plan" "update-perfect-tools")
 
 # Parse command line arguments
 INSTALL_ALL=true
@@ -136,8 +136,8 @@ if [ -d "$AGENTS_SOURCE_DIR" ]; then
                     fi
                 done
 
-                # Install core agents only when no args (INSTALL_ALL=true)
-                if [ "$is_core" = true ] && [ "$INSTALL_ALL" = true ]; then
+                # Always install core agents
+                if [ "$is_core" = true ]; then
                     cp "$agent" "${AGENTS_DIR}/"
                     echo -e "  ${GREEN}✓${NC} Installed core agent: ${agent_name}"
                 # Check if this agent is in the selected list
@@ -176,8 +176,8 @@ if [ -d "$SOURCE_DIR" ]; then
                     fi
                 done
 
-                # Install core skills only when no args (INSTALL_ALL=true)
-                if [ "$is_core" = true ] && [ "$INSTALL_ALL" = true ]; then
+                # Always install core skills
+                if [ "$is_core" = true ]; then
                     rm -rf "${SKILLS_DIR}/${skill_name}"
                     cp -r "$skill" "${SKILLS_DIR}/"
                     echo -e "  ${GREEN}✓${NC} Installed core skill: ${skill_name}"
@@ -218,8 +218,8 @@ if [ -d "$COMMANDS_SOURCE_DIR" ]; then
                     fi
                 done
 
-                # Install core commands only when no args (INSTALL_ALL=true)
-                if [ "$is_core" = true ] && [ "$INSTALL_ALL" = true ]; then
+                # Always install core commands
+                if [ "$is_core" = true ]; then
                     cp "$cmd" "${COMMANDS_DIR}/"
                     echo -e "  ${GREEN}✓${NC} Installed core command: ${cmd_name}"
                 # Check if this command is in the selected list
@@ -247,4 +247,16 @@ if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_SKILLS[@]} -gt 0 ]; then
 fi
 if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_COMMANDS[@]} -gt 0 ]; then
     echo -e "  ${GREEN}✓${NC} Commands installed to: ${COMMANDS_DIR}"
+fi
+
+# ─── Custom Post-Install ──────────────────────────────────────────────────────
+# Custom actions that always run, regardless of install arguments.
+echo ""
+echo -e "${BLUE}ℹ${NC} Running custom post-install steps..."
+
+# Remove the renamed 'extended-planning' skill (superseded by the 'extended-plan' command)
+EXTENDED_PLANNING_SKILL="${SKILLS_DIR}/extended-planning"
+if [ -d "$EXTENDED_PLANNING_SKILL" ]; then
+    rm -rf "$EXTENDED_PLANNING_SKILL"
+    echo -e "  ${GREEN}✓${NC} Removed obsolete skill: extended-planning"
 fi
