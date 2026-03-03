@@ -20,12 +20,13 @@ The Perfect OpenCode provides several built-in agents that cover different aspec
 
 | Name | Description | Model |
 |------|-------------|-------|
-| `architect` | Software Architect - Focus on system design, architectural patterns, design decisions, and complex backend logic | `github-copilot/claude-opus-4.6` |
-| `backend-engineer` | Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions | `github-copilot/claude-sonnet-4.5` |
-| `frontend-engineer` | Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences | `github-copilot/gemini-3-pro-preview` |
-| `junior-engineer` | Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes | `github-copilot/claude-haiku-4.6` |
-| `performance-engineer` | Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis | `github-copilot/claude-sonnet-4.5` |
-| `security-expert` | Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices | `github-copilot/claude-opus-4.6` |
+| `architect` | Software Architect - Focus on system design, architectural patterns, design decisions, and complex backend logic | `Default` |
+| `backend-engineer` | Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions | `Default` |
+| `code-analyst` | Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms. | `Default` |
+| `frontend-engineer` | Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences | `Default` |
+| `junior-engineer` | Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes | `Default` |
+| `performance-engineer` | Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis | `Default` |
+| `security-expert` | Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices | `Default` |
 
 ---
 
@@ -93,20 +94,20 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 | Name | Description | Agent | Model |
 |------|-------------|-------|-------|
-| `/create-agent` | Create a new OpenCode agent with interactive configuration | `build` | `github-copilot/claude-sonnet-4.6` |
-| `/create-command` | Create a new OpenCode command with interactive requirements gathering | `build` | `github-copilot/claude-sonnet-4.6` |
-| `/create-rule` | Add a MUST FOLLOW rule to AGENTS.md | `Default` | `Default` |
-| `/create-skill` | Create a new OpenCode skill with proper structure and frontmatter | `build` | `github-copilot/claude-sonnet-4.6` |
-| `/extended-implement` | Execute implementation plan with specialized engineering agents | `build` | `github-copilot/claude-sonnet-4.6` |
-| `/extended-plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `github-copilot/claude-sonnet-4.6` |
-| `/git-commit-push` | Stage changes, commit with conventional commit message, and push to remote | `build` | `github-copilot/claude-haiku-4.5` |
-| `/git-push` | Push commits to remote repository | `build` | `github-copilot/claude-haiku-4.5` |
-| `/git-stage-commit-push` | Stage all files, commit with conventional commit message, and push to remote | `build` | `github-copilot/claude-haiku-4.5` |
-| `/implement` | Execute implementation plan with specialized engineering agents | `build` | `github-copilot/claude-sonnet-4.6` |
-| `/install-perfect-tools` | Discover and install perfect agents/skills/commands for your project | `build` | `github-copilot/claude-haiku-4.5` |
-| `/plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `github-copilot/claude-sonnet-4.6` |
-| `/recommend-perfect-tool` | Analyze current project and recommend uninstalled agents/skills/commands | `build` | `github-copilot/claude-haiku-4.5` |
-| `/update-perfect-tools` | Update already-installed perfect tools to their latest versions | `build` | `github-copilot/claude-haiku-4.5` |
+| `/create-agent` | Create a new OpenCode agent with interactive configuration | `build` | `Default` |
+| `/create-command` | Create a new OpenCode command with interactive requirements gathering | `build` | `Default` |
+| `/create-rule` | Add a MUST FOLLOW rule to AGENTS.md | `build` | `Default` |
+| `/create-skill` | Create a new OpenCode skill with proper structure and frontmatter | `build` | `Default` |
+| `/extended-implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
+| `/extended-plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
+| `/git-commit-push` | Stage changes, commit with conventional commit message, and push to remote | `build` | `Default` |
+| `/git-push` | Push commits to remote repository | `build` | `Default` |
+| `/git-stage-commit-push` | Stage all files, commit with conventional commit message, and push to remote | `build` | `Default` |
+| `/implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
+| `/install-perfect-tools` | Discover and install perfect agents/skills/commands for your project | `build` | `Default` |
+| `/plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
+| `/recommend-perfect-tool` | Analyze current project and recommend uninstalled agents/skills/commands | `build` | `Default` |
+| `/update-perfect-tools` | Update already-installed perfect tools to their latest versions | `build` | `Default` |
 
 ---
 
@@ -132,6 +133,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-03 10:06:59 UTC
+**Generated on:** 2026-03-03 19:07:45 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
