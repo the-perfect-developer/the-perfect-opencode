@@ -51,7 +51,10 @@ Present the following to the user before committing:
 [1–2 sentence description of what is being committed]
 
 ## Files Staged
-[List each staged file with a one-line description of the change]
+
+| File | Status | Description |
+|------|--------|-------------|
+| [file path] | Added / Modified / Deleted | [one-line description] |
 
 ## Anomaly Check
 - Large files (>1 MB): [list or "None"]
@@ -62,16 +65,16 @@ Present the following to the user before committing:
 [Full conventional commit message — see rules below]
 ```
 
-Then ask:
+Then use the OpenCode **question tool** to ask the user for confirmation. Present it as a single-choice question with these options:
 
-```
-Proceed with this commit? (yes / no / edit message)
-```
+- **Proceed** — commit with the proposed message
+- **Cancel** — abort the commit
+- **Edit message** — user will provide a revised message in the next turn
 
 Wait for the user's response before continuing.
-- If **yes** or affirmative: proceed to Step 5.
-- If **no** or negative: stop and inform the user the commit was cancelled.
-- If the user provides an edited message or asks to change the message: use the provided message and re-confirm.
+- If **Proceed**: go to Step 5.
+- If **Cancel**: stop and inform the user the commit was cancelled.
+- If **Edit message**: ask the user to provide the revised message (plain text reply), then re-confirm using the question tool before committing.
 
 ## Step 5: Commit
 
