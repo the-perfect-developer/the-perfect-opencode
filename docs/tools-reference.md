@@ -104,9 +104,8 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 | `/create-skill` | Create a new OpenCode skill with proper structure and frontmatter | `build` | `Default` |
 | `/extended-implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
 | `/extended-plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
-| `/git-commit-push` | Stage changes, commit with conventional commit message, and push to remote | `build` | `Default` |
-| `/git-push` | Push commits to remote repository | `build` | `Default` |
-| `/git-stage-commit-push` | Stage all files, commit with conventional commit message, and push to remote | `build` | `Default` |
+| `/git-commit` | Commit staged changes with a conventional commit message | `build` | `Default` |
+| `/git-push` | Push committed changes to remote — never stages or commits anything | `build` | `Default` |
 | `/implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
 | `/install-perfect-tools` | Discover and install perfect agents/skills/commands for your project | `build` | `Default` |
 | `/plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
@@ -139,6 +138,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-08 17:38:21 UTC
+**Generated on:** 2026-03-08 18:16:53 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
