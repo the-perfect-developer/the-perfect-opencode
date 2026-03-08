@@ -253,16 +253,12 @@
       "description": "Gather requirements, analyze code, and create implementation plan"
     },
     {
-      "name": "git-commit-push",
-      "description": "Stage changes, commit with conventional commit message, and push to remote"
+      "name": "git-commit",
+      "description": "Commit staged changes with a conventional commit message"
     },
     {
       "name": "git-push",
-      "description": "Push commits to remote repository"
-    },
-    {
-      "name": "git-stage-commit-push",
-      "description": "Stage all files, commit with conventional commit message, and push to remote"
+      "description": "Push committed changes to remote — never stages or commits anything"
     },
     {
       "name": "implement",
@@ -293,5 +289,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-03-08T17:38:13Z"
+  "generated_at": "2026-03-08T18:16:59Z"
 }
