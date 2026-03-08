@@ -34,6 +34,11 @@ CORE_AGENTS=("architect" "backend-engineer" "code-analyst" "frontend-engineer" "
 CORE_SKILLS=("agent-configuration" "command-creation" "skill-creation" "planning" "implementation")
 CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "implement" "install-perfect-tools" "plan" "quickee" "update-perfect-tools")
 
+# Deprecated items that are removed on install if found in the current directory
+DEPRECATED_AGENTS=()
+DEPRECATED_SKILLS=()
+DEPRECATED_COMMANDS=("git-stage-commit-push" "git-commit-push")
+
 # Parse command line arguments
 INSTALL_ALL=true
 for arg in "$@"; do
@@ -113,6 +118,70 @@ trap cleanup EXIT
 if ! curl -fsSL "${REPO_URL}/archive/refs/heads/main.tar.gz" | tar -xz -C "$TEMP_DIR"; then
     echo -e "${RED}✗${NC} Download failed"
     exit 1
+fi
+
+# ─── Deprecation Cleanup ──────────────────────────────────────────────────────
+# Always runs on every install. Removes deprecated items from the current
+# directory so users are not left with stale/renamed tools.
+_remove_deprecated() {
+    local label="$1"   # e.g. "agent", "skill", "command"
+    local dir="$2"     # target directory to check
+    local ext="$3"     # file extension with dot, or empty string for directories
+    shift 3
+    local items=("$@")
+
+    for item in "${items[@]}"; do
+        if [ -n "$ext" ]; then
+            local path="${dir}/${item}${ext}"
+            if [ -f "$path" ]; then
+                rm -f "$path"
+                echo -e "  ${YELLOW}⚠${NC} Removed deprecated ${label}: ${item}"
+            fi
+        else
+            local path="${dir}/${item}"
+            if [ -d "$path" ]; then
+                rm -rf "$path"
+                echo -e "  ${YELLOW}⚠${NC} Removed deprecated ${label}: ${item}"
+            fi
+        fi
+    done
+}
+
+deprecated_found=false
+
+if [ ${#DEPRECATED_AGENTS[@]} -gt 0 ]; then
+    for item in "${DEPRECATED_AGENTS[@]}"; do
+        if [ -f "${REPO_ROOT}/.opencode/agents/${item}.md" ]; then
+            deprecated_found=true
+            break
+        fi
+    done
+fi
+
+if [ "$deprecated_found" = false ] && [ ${#DEPRECATED_SKILLS[@]} -gt 0 ]; then
+    for item in "${DEPRECATED_SKILLS[@]}"; do
+        if [ -d "${REPO_ROOT}/.opencode/skills/${item}" ]; then
+            deprecated_found=true
+            break
+        fi
+    done
+fi
+
+if [ "$deprecated_found" = false ] && [ ${#DEPRECATED_COMMANDS[@]} -gt 0 ]; then
+    for item in "${DEPRECATED_COMMANDS[@]}"; do
+        if [ -f "${REPO_ROOT}/.opencode/commands/${item}.md" ]; then
+            deprecated_found=true
+            break
+        fi
+    done
+fi
+
+if [ "$deprecated_found" = true ]; then
+    echo -e "${YELLOW}⚠${NC} Removing deprecated items..."
+    _remove_deprecated "agent"   "${REPO_ROOT}/.opencode/agents"   ".md"  "${DEPRECATED_AGENTS[@]+"${DEPRECATED_AGENTS[@]}"}"
+    _remove_deprecated "skill"   "${REPO_ROOT}/.opencode/skills"   ""     "${DEPRECATED_SKILLS[@]+"${DEPRECATED_SKILLS[@]}"}"
+    _remove_deprecated "command" "${REPO_ROOT}/.opencode/commands" ".md"  "${DEPRECATED_COMMANDS[@]+"${DEPRECATED_COMMANDS[@]}"}"
+    echo ""
 fi
 
 # Install to .opencode/agents

@@ -1,106 +1,131 @@
 ---
-description: Push commits to remote repository
+description: Push committed changes to remote — never stages or commits anything
 agent: build
 ---
 
-You are about to push commits to the remote git repository. Follow these steps carefully:
+Push the committed (but not yet pushed) changes to the remote repository.
 
-## Step 1: Analyze Current State
+**HARD CONSTRAINT**: This command only pushes. It MUST NOT stage files, create commits, amend commits, or modify the working tree or index in any way. If there is nothing to push, say so and stop.
 
-Check the current git state:
-!`git status`
+## Step 1: Check Repository State
 
-View commits to be pushed:
-!`git log --oneline @{u}..HEAD`
-
-View remote tracking information:
+Gather the current state:
+!`git status --short`
 !`git branch -vv`
+!`git log --oneline @{u}..HEAD 2>/dev/null || git log --oneline -10`
 
-## Step 2: Check for Commits to Push
-
-Before proceeding, check if there are any commits to push:
-
-!`git log --oneline @{u}..HEAD`
-
-If there are NO commits to push, inform the user:
-```
-No commits found to push. Your local branch is already up to date with the remote.
-
-If you want to commit changes, please use:
-- git-stage-commit-push (to stage, commit and push)
-- git-commit-push (to commit staged changes and push)
-```
-
-Then stop the process.
-
-## Step 3: Present Summary to User
+If the output of `git log --oneline @{u}..HEAD` is **empty** (no commits ahead of the upstream), stop immediately and respond:
 
 ```
-## Summary
-[1-2 sentence overall description of commits to push]
+Nothing to push. Your local branch is already up to date with the remote.
 
-## Commits to Push
-
-1. [commit message]
-2. [commit message]
-3. [commit message]
-
-## Target
-Branch: [branch name]
-Remote: [remote name]
-Status: [commits ahead/details]
-
-## Attention Required
-
-Check for potential issues by running:
-!`git log @{u}..HEAD --name-only --pretty=format:"" | sort -u | grep -v "^$" | xargs -I{} find {} -maxdepth 0 -size +1M 2>/dev/null`
-!`git log @{u}..HEAD --name-only --pretty=format:"" | sort -u | grep -v "^$" | grep -E "\.env$|\.env\.|credentials|secrets|\.pem$|\.key$|\.p12$|\.pfx$|id_rsa|id_dsa|id_ecdsa"`
-
-⚠️  **WARNINGS** (if any found):
-- Large files (>1MB): [list files or "None"]
-- Potential secrets/credentials: [list files or "None"]
-- Other issues: [list or "None"]
-
-If no issues: "None - safe to proceed"
-
----
-
-Is it okay to proceed with pushing these commits?
+To create commits first, use:
+  /git-commit       — commit already-staged changes
+  /git-commit-push  — commit staged changes and push in one step
 ```
 
-Then:
-1. **Analyze commits to be pushed**
-2. **Provide the formatted summary** to the user
-3. **Ask for confirmation** before proceeding with the push
+Do not proceed any further.
 
-## Step 4: Push to Remote
+## Step 2: Scan Commits for Anomalies
 
-Only after receiving user confirmation:
+Before presenting the summary, check the files in commits that are about to be pushed:
 
-1. Push to the remote repository: `git push`
-2. If push fails:
-    - Show the error message to the user
-    - Explain what went wrong (e.g., conflicts, rejected push, authentication issues)
-    - Suggest solutions if applicable
-    - Do not force push unless the user explicitly requests it
-3. Verify the push was successful: `git status`
+**Large files (>1 MB) in unpushed commits:**
+!`git log @{u}..HEAD --name-only --pretty=format:"" 2>/dev/null | sort -u | grep -v "^$" | xargs -I{} find {} -maxdepth 0 -size +1M 2>/dev/null`
+
+**Suspicious filenames in unpushed commits:**
+!`git log @{u}..HEAD --name-only --pretty=format:"" 2>/dev/null | sort -u | grep -v "^$" | grep -Ei "\.env$|\.env\.|credentials|secrets|\.pem$|\.key$|\.p12$|\.pfx$|id_rsa|id_dsa|id_ecdsa|\.password|api_key|token" | head -20`
+
+**Secret-like patterns inside the unpushed diff:**
+!`git diff @{u}..HEAD 2>/dev/null | grep -Ei "(password|secret|api_key|access_token|private_key|client_secret)\s*[:=]\s*['\"]?[A-Za-z0-9+/]{8,}" | head -10`
+
+If any anomalies are found, include prominent warnings in the summary below.
+
+## Step 3: Present Summary and Ask for Confirmation
+
+Present the following to the user:
+
+```
+## Push Summary
+
+### Commits to Push
+[List each unpushed commit: hash — subject line]
+
+### Target
+- Branch : [local branch name]
+- Remote : [remote name, e.g. origin]
+- URL    : [remote URL]
+
+### Anomaly Check
+- Large files (>1 MB) : [list or "None"]
+- Suspicious filenames: [list or "None"]
+- Secret-like content : [list or "None"]
+```
+
+If any anomalies were found, add a clear warning block before asking for confirmation.
+
+Then ask:
+
+```
+Proceed with git push? (yes / no)
+```
+
+Wait for the user's response before continuing.
+- If **yes** or affirmative: proceed to Step 4.
+- If **no** or negative: stop and inform the user the push was cancelled.
+
+## Step 4: Check if Remote Has Diverged
+
+Before pushing, check whether the remote has commits the local branch does not have:
+!`git fetch`
+!`git log --oneline HEAD..@{u} 2>/dev/null`
+
+If `git log HEAD..@{u}` shows commits (i.e., the remote is ahead), a rebase is required before pushing. Proceed to Step 5. Otherwise skip to Step 6.
+
+## Step 5: Rebase onto Remote (if required)
+
+The remote has new commits — rebase local commits on top of them:
+
+1. Run `git rebase @{u}`.
+2. If the rebase completes cleanly, confirm to the user:
+   ```
+   Rebase complete. Local commits replayed on top of [remote]/[branch].
+   ```
+   Then proceed to Step 6.
+3. If the rebase hits **conflicts**:
+   - Show the conflicting files: `git diff --name-only --diff-filter=U`
+   - Present each conflict clearly to the user.
+   - Resolve the conflicts in the affected files.
+   - After resolving, stage only the conflict resolutions: `git add <resolved-files>`
+   - Continue the rebase: `git rebase --continue`
+   - Repeat until the rebase is complete.
+   - If at any point the user wants to abort, run `git rebase --abort` and stop.
+4. **DO NOT** use `git rebase -i` (interactive mode requires a TTY). Use plain `git rebase @{u}`.
+5. **DO NOT** amend or squash commits during the rebase unless the user explicitly asks.
+
+## Step 6: Push
+
+1. Run `git push` — use the default remote and branch as configured.
+2. If the push is still **rejected** after a successful rebase:
+   - Show the full error output.
+   - Explain the cause.
+   - Ask the user what they want to do.
+   - **NEVER force push** unless the user explicitly asks and the branch is not `main` or `master`. If they ask to force push to `main`/`master`, warn them clearly and ask for a second, explicit confirmation before proceeding.
+3. If the push **succeeds**, confirm with:
+   ```
+   Pushed: [branch] -> [remote]/[branch]  ([N] commit(s))
+   ```
+4. If the push **fails** for any other reason (auth, network, hooks):
+   - Show the full error output.
+   - Suggest remediation steps.
+   - Do not retry automatically.
 
 ## Important Notes
 
-- **DO NOT** push without user confirmation
-- **NEVER** force push to main/master branch unless user explicitly requests it
-- **DO** warn the user if they're about to force push
-- **DO** provide clear feedback on what was pushed
-- **DO** handle any errors gracefully and report them to the user
-- **NOTE**: This command ONLY pushes existing commits (no staging or committing occurs)
-
-## Example Workflow
-
-1. Show commits to be pushed ✓
-2. Show target branch and remote ✓
-3. Check for warnings (large files/secrets) ✓
-4. Ask: "Is it okay to proceed with pushing?" ✓
-5. Wait for user confirmation ✓
-6. Push: `git push`
-7. Verify: `git status`
-8. Confirm: "✓ Commits pushed successfully to origin/main"
+- **DO NOT** run `git add`, `git commit`, `git stash`, or any command that modifies staged or unstaged changes — except `git add <file>` strictly to stage conflict resolutions during an active rebase.
+- **DO NOT** use `git rebase -i` — it requires interactive TTY input.
+- **DO NOT** force push without explicit user instruction.
+- **DO NOT** push to `main`/`master` with `--force` without a second explicit confirmation.
+- **DO** run `git fetch` before deciding whether a rebase is needed — never assume the remote state.
+- **DO** show the full error output when any step fails so the user can diagnose it.
+- **DO** handle authentication errors gracefully (suggest checking SSH keys or personal access tokens).
