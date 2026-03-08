@@ -110,7 +110,9 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 | `/implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
 | `/install-perfect-tools` | Discover and install perfect agents/skills/commands for your project | `build` | `Default` |
 | `/plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
+| `/quickee` | Plan then immediately implement — efficient agent-driven workflow for any task | `build` | `Default` |
 | `/recommend-perfect-tool` | Analyze current project and recommend uninstalled agents/skills/commands | `build` | `Default` |
+| `/sync-perfect-configs` | Sync local opencode.json with the canonical remote version | `build` | `Default` |
 | `/update-perfect-tools` | Update already-installed perfect tools to their latest versions | `build` | `Default` |
 
 ---
@@ -137,6 +139,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-05 15:44:49 UTC
+**Generated on:** 2026-03-08 17:38:21 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
