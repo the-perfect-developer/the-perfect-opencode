@@ -31,8 +31,8 @@ declare -a SELECTED_COMMANDS
 
 # Core items that are always installed (bare minimum requirements)
 CORE_AGENTS=("architect" "backend-engineer" "code-analyst" "frontend-engineer" "junior-engineer" "performance-engineer" "security-expert")
-CORE_SKILLS=("agent-configuration" "command-creation" "skill-creation" "planning" "implementation")
-CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "implement" "install-perfect-tools" "plan" "quickee" "update-perfect-tools")
+CORE_SKILLS=("agent-configuration" "command-creation" "conventional-git-commit" "interactive-questions" "skill-creation" "planning" "implementation")
+CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "git-commit" "git-push" "implement" "install-perfect-tools" "plan" "quickee" "update-perfect-tools")
 
 # Deprecated items that are removed on install if found in the current directory
 DEPRECATED_AGENTS=()
@@ -120,69 +120,8 @@ if ! curl -fsSL "${REPO_URL}/archive/refs/heads/main.tar.gz" | tar -xz -C "$TEMP
     exit 1
 fi
 
-# ─── Deprecation Cleanup ──────────────────────────────────────────────────────
-# Always runs on every install. Removes deprecated items from the current
-# directory so users are not left with stale/renamed tools.
-_remove_deprecated() {
-    local label="$1"   # e.g. "agent", "skill", "command"
-    local dir="$2"     # target directory to check
-    local ext="$3"     # file extension with dot, or empty string for directories
-    shift 3
-    local items=("$@")
 
-    for item in "${items[@]}"; do
-        if [ -n "$ext" ]; then
-            local path="${dir}/${item}${ext}"
-            if [ -f "$path" ]; then
-                rm -f "$path"
-                echo -e "  ${YELLOW}⚠${NC} Removed deprecated ${label}: ${item}"
-            fi
-        else
-            local path="${dir}/${item}"
-            if [ -d "$path" ]; then
-                rm -rf "$path"
-                echo -e "  ${YELLOW}⚠${NC} Removed deprecated ${label}: ${item}"
-            fi
-        fi
-    done
-}
-
-deprecated_found=false
-
-if [ ${#DEPRECATED_AGENTS[@]} -gt 0 ]; then
-    for item in "${DEPRECATED_AGENTS[@]}"; do
-        if [ -f "${REPO_ROOT}/.opencode/agents/${item}.md" ]; then
-            deprecated_found=true
-            break
-        fi
-    done
-fi
-
-if [ "$deprecated_found" = false ] && [ ${#DEPRECATED_SKILLS[@]} -gt 0 ]; then
-    for item in "${DEPRECATED_SKILLS[@]}"; do
-        if [ -d "${REPO_ROOT}/.opencode/skills/${item}" ]; then
-            deprecated_found=true
-            break
-        fi
-    done
-fi
-
-if [ "$deprecated_found" = false ] && [ ${#DEPRECATED_COMMANDS[@]} -gt 0 ]; then
-    for item in "${DEPRECATED_COMMANDS[@]}"; do
-        if [ -f "${REPO_ROOT}/.opencode/commands/${item}.md" ]; then
-            deprecated_found=true
-            break
-        fi
-    done
-fi
-
-if [ "$deprecated_found" = true ]; then
-    echo -e "${YELLOW}⚠${NC} Removing deprecated items..."
-    _remove_deprecated "agent"   "${REPO_ROOT}/.opencode/agents"   ".md"  "${DEPRECATED_AGENTS[@]+"${DEPRECATED_AGENTS[@]}"}"
-    _remove_deprecated "skill"   "${REPO_ROOT}/.opencode/skills"   ""     "${DEPRECATED_SKILLS[@]+"${DEPRECATED_SKILLS[@]}"}"
-    _remove_deprecated "command" "${REPO_ROOT}/.opencode/commands" ".md"  "${DEPRECATED_COMMANDS[@]+"${DEPRECATED_COMMANDS[@]}"}"
-    echo ""
-fi
+# ─── Install Agents, Skills, and Commands ──────────────────────────────────────────────────────
 
 # Install to .opencode/agents
 AGENTS_DIR="${REPO_ROOT}/.opencode/agents"
@@ -318,10 +257,78 @@ if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_COMMANDS[@]} -gt 0 ]; then
     echo -e "  ${GREEN}✓${NC} Commands installed to: ${COMMANDS_DIR}"
 fi
 
+
+
+# ─── Deprecation Cleanup ──────────────────────────────────────────────────────
+# Always runs on every install. Removes deprecated items from the current
+# directory so users are not left with stale/renamed tools.
+_remove_deprecated() {
+    local label="$1"   # e.g. "agent", "skill", "command"
+    local dir="$2"     # target directory to check
+    local ext="$3"     # file extension with dot, or empty string for directories
+    shift 3
+    local items=("$@")
+
+    for item in "${items[@]}"; do
+        if [ -n "$ext" ]; then
+            local path="${dir}/${item}${ext}"
+            if [ -f "$path" ]; then
+                rm -f "$path"
+                echo -e "  ${YELLOW}⚠${NC} Removed deprecated ${label}: ${item}"
+            fi
+        else
+            local path="${dir}/${item}"
+            if [ -d "$path" ]; then
+                rm -rf "$path"
+                echo -e "  ${YELLOW}⚠${NC} Removed deprecated ${label}: ${item}"
+            fi
+        fi
+    done
+}
+
+deprecated_found=false
+
+if [ ${#DEPRECATED_AGENTS[@]} -gt 0 ]; then
+    for item in "${DEPRECATED_AGENTS[@]}"; do
+        if [ -f "${REPO_ROOT}/.opencode/agents/${item}.md" ]; then
+            deprecated_found=true
+            break
+        fi
+    done
+fi
+
+if [ "$deprecated_found" = false ] && [ ${#DEPRECATED_SKILLS[@]} -gt 0 ]; then
+    for item in "${DEPRECATED_SKILLS[@]}"; do
+        if [ -d "${REPO_ROOT}/.opencode/skills/${item}" ]; then
+            deprecated_found=true
+            break
+        fi
+    done
+fi
+
+if [ "$deprecated_found" = false ] && [ ${#DEPRECATED_COMMANDS[@]} -gt 0 ]; then
+    for item in "${DEPRECATED_COMMANDS[@]}"; do
+        if [ -f "${REPO_ROOT}/.opencode/commands/${item}.md" ]; then
+            deprecated_found=true
+            break
+        fi
+    done
+fi
+
+if [ "$deprecated_found" = true ]; then
+    echo -e "${YELLOW}⚠${NC} Removing deprecated items..."
+    _remove_deprecated "agent"   "${REPO_ROOT}/.opencode/agents"   ".md"  "${DEPRECATED_AGENTS[@]+"${DEPRECATED_AGENTS[@]}"}"
+    _remove_deprecated "skill"   "${REPO_ROOT}/.opencode/skills"   ""     "${DEPRECATED_SKILLS[@]+"${DEPRECATED_SKILLS[@]}"}"
+    _remove_deprecated "command" "${REPO_ROOT}/.opencode/commands" ".md"  "${DEPRECATED_COMMANDS[@]+"${DEPRECATED_COMMANDS[@]}"}"
+    echo ""
+fi
+
+
 # ─── Custom Post-Install ──────────────────────────────────────────────────────
 # Custom actions that always run, regardless of install arguments.
 echo ""
 echo -e "${BLUE}ℹ${NC} Running custom post-install steps..."
+
 
 # Copy opencode.json to the installation directory
 OPENCODE_JSON_SOURCE="${TEMP_DIR}/the-perfect-opencode-main/opencode.json"
