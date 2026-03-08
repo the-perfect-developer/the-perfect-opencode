@@ -77,6 +77,7 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `python-flet` | This skill should be used when the user asks to build a Flet app, create a Python GUI, use Flet framework, write a Flet control, or needs guidance on cross-platform Python UI development with Flet. |
 | `python-mcp` | This skill should be used when the user asks to build an MCP server, create an MCP tool, expose resources with MCP, write an MCP client, or needs guidance on the Model Context Protocol Python SDK best practices, transports, server primitives, or LLM context integration. |
 | `python-mypy` | This skill should be used when the user asks to add mypy to a project, set up static type checking, fix mypy errors, configure mypy, annotate Python code with types, or needs guidance on Python type checking best practices with mypy. |
+| `python-pip-audit` | This skill should be used when the user asks to audit Python dependencies for vulnerabilities, scan requirements.txt for CVEs, set up pip-audit, fix vulnerable Python packages, or needs guidance on Python dependency security scanning with pip-audit. |
 | `python-pymysql` | This skill should be used when the user asks to connect to MySQL with PyMySQL, use PyMySQL in Python, query a MySQL database with Python, set up PyMySQL, or needs guidance on PyMySQL best practices, transactions, parameterized queries, or cursor types. |
 | `python-ruff` | This skill should be used when the user asks to configure ruff, set up ruff linting, use ruff formatter, replace flake8 with ruff, or needs guidance on Python code quality with Ruff linting and formatting best practices. |
 | `python-uv` | This skill should be used when the user asks to set up a Python project with uv, manage dependencies with uv, create a uv project, use uv for Python package management, or needs guidance on uv workflows, pyproject.toml configuration, lockfiles, and development dependency groups. |
@@ -139,6 +140,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-08 18:26:42 UTC
+**Generated on:** 2026-03-08 19:16:24 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
