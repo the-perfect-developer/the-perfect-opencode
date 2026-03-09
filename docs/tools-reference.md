@@ -24,6 +24,7 @@ The Perfect OpenCode provides several built-in agents that cover different aspec
 | `backend-engineer` | Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions | `Default` |
 | `code-analyst` | Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms. | `Default` |
 | `frontend-engineer` | Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences | `Default` |
+| `ideation-expert` | > | `Default` |
 | `junior-engineer` | Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes | `Default` |
 | `performance-engineer` | Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis | `Default` |
 | `security-expert` | Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices | `Default` |
@@ -57,6 +58,7 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `google-adk` | This skill should be used when the user asks to build an agent with Google ADK, use the Agent Development Kit, create a Google ADK agent, set up ADK tools, or needs guidance on Google's Agent Development Kit best practices, multi-agent systems, or agent evaluation. |
 | `html` | Apply Google HTML style guide conventions to HTML code |
 | `htmx` | Provides guidance for building dynamic interactive web applications using htmx library with AJAX requests and dynamic content swapping |
+| `ideation` | This skill should be used when the user asks to ideate on, brainstorm an idea, let's argue this through, challenge my thinking, help me refine this concept, let's stress-test this, or needs a structured framework for collaborative idea generation, adversarial refinement, and convergence toward the best possible solution. Load this skill before running any ideation or brainstorming session. |
 | `implementation` | This skill should be used when the user asks to implement a plan, execute implementation, build from plan, implement feature, or needs to orchestrate execution of an implementation plan with specialized engineering agents. |
 | `interactive-questions` | This skill should be used when the user asks to ask questions interactively, use the question tool, present choices to the user, avoid yes/no prompts, use interactive confirmations, or needs guidance on asking structured questions with selectable options instead of free-text prompts. |
 | `javascript` | This skill should be used when the user asks to \write JavaScript code\, \follow JavaScript style guide\, \format JS files\, \create Node.js scripts\, or needs guidance on JavaScript/Node.js coding standards and best practices. |
@@ -108,6 +110,7 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 | `/extended-plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
 | `/git-commit` | Commit staged changes with a conventional commit message | `build` | `Default` |
 | `/git-push` | Push committed changes to remote — never stages or commits anything | `build` | `Default` |
+| `/ideate` | Start an ideation session with the Ideation Expert | `ideation-expert` | `Default` |
 | `/implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
 | `/install-perfect-tools` | Discover and install perfect agents/skills/commands for your project | `build` | `Default` |
 | `/plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
@@ -140,6 +143,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-08 19:16:24 UTC
+**Generated on:** 2026-03-09 19:10:22 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
