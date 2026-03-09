@@ -5,6 +5,8 @@ agent: build
 
 You are helping the user update their already-installed OpenCode agents, skills, and commands to the latest versions from the catalog.
 
+**Important**: Only suggest updates for tools that are already installed. Do not recommend installing new tools that are not currently present.
+
 Follow these steps carefully and in order:
 
 ## Step 1: Read the Installation Guide
@@ -30,6 +32,8 @@ List every file found. These are the tools eligible for updating.
 ## Step 4: Compare Installed Tools Against Catalog
 
 For each installed tool, find its counterpart in the catalog and determine whether an update is available.
+
+**Only include tools that are already installed.** Do not suggest installing tools from the catalog that are not currently present on the user's system.
 
 Present the user with a clear summary table:
 

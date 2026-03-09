@@ -32,7 +32,7 @@ declare -a SELECTED_COMMANDS
 # Core items that are always installed (bare minimum requirements)
 CORE_AGENTS=("architect" "backend-engineer" "code-analyst" "frontend-engineer" "ideation-expert" "junior-engineer" "performance-engineer" "security-expert")
 CORE_SKILLS=("agent-configuration" "command-creation" "conventional-git-commit" "ideation" "interactive-questions" "skill-creation" "planning" "implementation")
-CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "git-commit" "git-push" "ideate" "implement" "install-perfect-tools" "plan" "quickee" "update-perfect-tools")
+CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "git-commit" "git-push" "ideate" "implement" "install-perfect-tools" "plan" "quickee" "sync-perfect-configs" "update-perfect-tools")
 
 # Deprecated items that are removed on install if found in the current directory
 DEPRECATED_AGENTS=()
