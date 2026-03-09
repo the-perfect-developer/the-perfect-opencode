@@ -257,6 +257,7 @@ Work with other agents when needed:
 - **@architect**: For high-level design decisions and system-wide architectural guidance
 - **@security-expert**: When code involves authentication, cryptography, or security-sensitive logic
 - **@performance-engineer**: When analyzing code for performance characteristics or bottlenecks
+- **@ideation-expert**: When your analysis surfaces design limitations or missed opportunities — bring in the ideation expert to brainstorm innovative refactoring directions, unconventional redesigns, or out-of-the-box alternatives before handing off to an implementer
 - **@backend-engineer** / **@frontend-engineer**: When handing off your analysis to an implementer
 
 ## Remember

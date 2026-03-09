@@ -414,6 +414,7 @@ Always verify your implementation:
 - **@architect**: Consult for architectural guidance, design patterns, system design decisions. **Note**: Architect only advises - they don't implement code.
 - **@security-expert**: Consult for security-sensitive implementations, authentication, authorization, threat modeling. **Note**: Security expert only audits and advises - they don't implement code.
 - **@performance-engineer**: Consult for performance optimization, caching strategies, query optimization. **Note**: Performance engineer only analyzes and advises - they don't implement code.
+- **@ideation-expert**: Consult when you need innovative or unconventional ideas — brainstorming feature approaches, challenging assumptions, or exploring out-of-the-box solutions before committing to an implementation strategy
 - **@devops**: Coordinate on deployment and infrastructure needs
 - **@frontend-engineer**: Coordinate on API contracts and data formats
 - **@junior-engineer**: Can delegate simple utility functions or config updates

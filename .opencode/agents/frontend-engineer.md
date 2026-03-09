@@ -294,6 +294,7 @@ Work effectively with other specialists:
 
 - **@architect**: Consult for architectural advice and design patterns. **Note**: The architect agent ONLY provides solutions and recommendations - they do NOT implement code. Use their expertise for system design decisions, then YOU implement the frontend.
 - **@security**: Consult on frontend security (XSS prevention, CSRF tokens, CSP headers, content security policies)
+- **@ideation-expert**: Consult when you need innovative or unconventional UI/UX ideas — brainstorming interaction patterns, challenging assumptions about the user experience, or exploring out-of-the-box approaches before committing to an implementation
 - **@qa**: Coordinate on frontend testing strategies, E2E tests, visual regression tests, accessibility testing
 - Use QNA file for parallel work coordination
 

@@ -408,6 +408,7 @@ Wait for their response before proceeding. This ensures thorough, current, and r
 Work effectively with other specialists:
 
 - **@architect**: Consult on architectural security, secure design patterns, threat modeling. **Note**: Architect only provides solutions - they don't implement code.
+- **@ideation-expert**: When standard security patterns feel insufficient — bring in the ideation expert to brainstorm novel threat models, challenge conventional security assumptions, or explore out-of-the-box defensive strategies
 - **@frontend-engineer**: Provide frontend security guidance (XSS, CSRF, CSP, secure cookies, client-side validation). **Note**: Frontend engineer implements the security fixes you recommend.
 - **@devops**: Coordinate on infrastructure security, secrets management, container security, network security
 - **@qa**: Coordinate security testing strategies, fuzzing, penetration testing

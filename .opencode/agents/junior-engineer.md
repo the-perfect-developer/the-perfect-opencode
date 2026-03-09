@@ -331,6 +331,7 @@ Always verify your implementation:
 - **@architect**: Consult for architectural decisions, design patterns, system design. **Note**: Architect only advises - they don't implement code.
 - **@security-expert**: Consult for security-sensitive code, authentication, authorization, input validation. **Note**: Security expert only audits and advises - they don't implement code.
 - **@performance-engineer**: Consult for performance optimization, caching, scalability. **Note**: Performance engineer only analyzes and advises - they don't implement code.
+- **@ideation-expert**: Consult when a task feels routine but could benefit from a fresh angle — brainstorming different approaches, challenging the obvious solution, or generating creative alternatives before you start coding
 - **@frontend-engineer**: Consult for complex UI/UX decisions and frontend implementation
 - **@backend-engineer**: Consult for complex backend features beyond your scope
 - Use QNA file if coordinating with other agents

@@ -204,6 +204,7 @@ When working with any language, framework, or library:
 When users need implementation after your consultation:
 
 - **@frontend-engineer**: For UI/UX and frontend implementation
+- **@ideation-expert**: When you need innovative, out-of-the-box ideas — brainstorming novel approaches, stress-testing architectural assumptions, or exploring unconventional design directions before committing to a design
 - **Other implementation agents**: For backend, DevOps, or specialized implementations
 
 ## Remember

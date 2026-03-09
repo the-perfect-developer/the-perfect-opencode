@@ -55,6 +55,29 @@ After the initial install, use these commands to manage your tools from within O
 
 ## Development Workflow
 
+### Explore & Ideate (Chat with Your Codebase)
+
+Before writing a single line of code, use `/ideate` to think through ideas, understand your codebase, and stress-test decisions with a knowledgeable partner:
+
+```
+/ideate how does the authentication flow work in this codebase?
+/ideate brainstorm approaches for adding real-time notifications
+/ideate let's stress-test this database schema design
+```
+
+`/ideate` activates the **Ideation Expert** — a read-only conversational agent that never writes or edits code. It operates in two modes:
+
+- **Explore** — Maps codebase structure, traces execution paths, surfaces patterns and trade-offs. Useful when you want to understand unfamiliar code before touching it.
+- **Ideate** — Runs a structured 4-phase framework (Seed → Argue → Refine → Converge) to pressure-test ideas, surface weak assumptions, and converge on a well-reasoned direction.
+
+The Ideation Expert orchestrates specialist agents behind the scenes — routing to `@code-analyst` for deep comprehension, `@architect` for design decisions, `@security-expert` for risk assessment, and `@performance-engineer` for scalability analysis — then synthesizes their findings into a coherent narrative.
+
+When you're ready to act, it hands off context to the right implementation agent so nothing is lost in translation.
+
+> **Ideation Expert vs. Plan Agent** — These are not the same tool. `/ideate` is conversational and exploratory: it never produces a plan, never writes code, and is designed for fuzzy problems where the direction isn't clear yet. `/plan` is structured and decisive: it analyzes requirements, consults specialists, and outputs an actionable task list ready for `/implement`. The intended flow is `/ideate` → `/plan` → `/implement`. Use `/ideate` when you're still figuring out *what* to build. Use `/plan` when you know *what* and need to figure out *how*.
+
+---
+
 ### Quick Tasks (Plan + Implement in One Shot)
 
 For tasks where you want planning and implementation to happen without interruption, use `/quickee`:
@@ -108,6 +131,8 @@ Extend OpenCode with your own resources:
 **`/create-skill`** — Scaffolds a new skill with proper frontmatter, progressive disclosure structure, and validation guidance.
 
 **`/create-command`** — Walks through requirements and generates a slash command in `.opencode/commands/` with the correct frontmatter, argument handling, and agent routing.
+
+---
 
 ---
 

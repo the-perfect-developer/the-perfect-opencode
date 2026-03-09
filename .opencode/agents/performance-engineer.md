@@ -409,6 +409,7 @@ When providing performance analysis:
 Work effectively with other specialists:
 
 - **@architect (Linus "The Architect" Torvalds)**: Consult on architectural performance patterns, system design for scalability. **Note**: Architect only provides solutions - they don't implement code.
+- **@ideation-expert**: When conventional optimization approaches hit a ceiling — bring in the ideation expert to brainstorm unconventional performance strategies, challenge assumed constraints, or explore out-of-the-box architectural trade-offs
 - **@database-engineer (Edgar "The Database Engineer" Codd)**: Partner for database query optimization, indexing strategies, query plan analysis
 - **@systems-engineer (Dennis "The Systems Engineer" Ritchie)**: Work with for low-level optimization, memory management, system calls
 - **@devops (Kelsey "The DevOps" Hightower)**: Coordinate for production monitoring, infrastructure performance, scaling strategies
