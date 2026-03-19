@@ -88,7 +88,7 @@ Wait for response. Cancel: inform user. Edit: collect revised message, re-confir
 
 ## Commit Message Rules
 
-@.opencode/skills/conventional-git-commit/SKILL.md
+Always use `conventional-git-commit` skill.
 
 ## Constraints
 
