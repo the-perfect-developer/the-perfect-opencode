@@ -112,8 +112,8 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 | `/create-rule` | Add a MUST FOLLOW rule to AGENTS.md | `build` | `Default` |
 | `/create-skill` | Create a new OpenCode skill with proper structure and frontmatter | `build` | `Default` |
 | `/evaluate` | Evaluate whether an implementation matches its plan | `plan` | `Default` |
-| `/git-commit` | Commit staged changes with a conventional commit message | `build` | `Default` |
-| `/git-push` | Push committed changes to remote — never stages or commits anything | `build` | `Default` |
+| `/git-commit` | Commit staged changes with a conventional commit message | `developer-fast` | `Default` |
+| `/git-push` | Push committed changes to remote — never stages or commits anything | `developer-fast` | `Default` |
 | `/ideate` | Start an ideation session with the Ideation Expert | `build` | `Default` |
 | `/implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
 | `/install-perfect-tools` | Discover and install perfect agents/skills/commands for your project | `build` | `Default` |
@@ -146,6 +146,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-19 18:49:19 UTC
+**Generated on:** 2026-03-19 19:29:34 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
