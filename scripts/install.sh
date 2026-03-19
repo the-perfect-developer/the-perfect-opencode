@@ -25,14 +25,14 @@ REPO_URL="https://github.com/the-perfect-developer/the-perfect-opencode"
 TEMP_DIR="/tmp/the-perfect-opencode-$$"
 
 # Arrays to store selected items
-declare -a SELECTED_AGENTS
-declare -a SELECTED_SKILLS
-declare -a SELECTED_COMMANDS
+declare -a SELECTED_AGENTS=()
+declare -a SELECTED_SKILLS=()
+declare -a SELECTED_COMMANDS=()
 
 # Arrays to record items actually installed in this run
-declare -a INSTALLED_AGENTS
-declare -a INSTALLED_SKILLS
-declare -a INSTALLED_COMMANDS
+declare -a INSTALLED_AGENTS=()
+declare -a INSTALLED_SKILLS=()
+declare -a INSTALLED_COMMANDS=()
 
 # Core items that are always installed (bare minimum requirements)
 CORE_AGENTS=("code-analyst" "database-architect" "developer-fast" "developer-prime" "devops-engineer" "orchestrix" "performance-engineer" "principal-architect" "security-expert" "solution-architect" "test-engineer" "ui-ux-designer")
