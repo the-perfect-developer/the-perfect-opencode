@@ -20,13 +20,17 @@ The Perfect OpenCode provides several built-in agents that cover different aspec
 
 | Name | Description | Model |
 |------|-------------|-------|
+| `build` | Build agent - Default implementation agent for general coding tasks | `Default` |
 | `code-analyst` | Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms. | `Default` |
 | `database-architect` | Database Architect - Data modeling, schema design, query optimization, migration strategy, and polyglot persistence decisions across the stack | `Default` |
 | `developer-fast` | Developer Fast - High-speed implementation agent for scoped, single-file, boilerplate, and high-volume tasks. Receives specs from SolutionArchitect and executes with minimal latency. | `Default` |
 | `developer-prime` | Developer Prime - Full-stack implementation agent for complex, multi-file, long-context, and frontend tasks. Receives specs from SolutionArchitect and design specs from UI/UX Designer. | `Default` |
 | `devops-engineer` | DevOps Engineer - Infrastructure, CI/CD pipelines, containerization, deployment strategies, and operational tooling across Python, Go, and Node.js services | `Default` |
+| `explore` | Explore agent - Fast agent specialized for exploring codebases, finding files by patterns, and searching code | `Default` |
+| `general` | General agent - General-purpose agent for researching complex questions and executing multi-step tasks | `Default` |
 | `normal` | > | `Default` |
 | `performance-engineer` | Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis | `Default` |
+| `plan` | Plan agent - Planning and analysis agent for structured task decomposition | `Default` |
 | `principal-architect` | Principal Architect - Responsible for high-level system strategy, cross-service architectural decisions, long-horizon design, and technical governance across the entire stack | `Default` |
 | `security-expert` | Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices | `Default` |
 | `solution-architect` | Solution Architect - Translates principal-level architectural decisions into concrete, implementable designs across Python, Go, and Node.js services | `Default` |
@@ -74,6 +78,8 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `nuxt` | This skill should be used when the user asks to build a Nuxt app, optimize Nuxt performance, configure Nuxt rendering, follow Nuxt best practices, or needs guidance on Nuxt 4 development patterns, hybrid rendering, or Core Web Vitals optimization. |
 | `pandas` | This skill should be used when the user asks to use pandas, analyze data with pandas, work with DataFrames, clean data with pandas, or needs guidance on pandas best practices, data manipulation, performance optimization, or common pandas patterns. |
 | `pandera` | This skill should be used when the user asks to validate a DataFrame with pandera, write a pandera schema, use pandera DataFrameModel, add data validation to a pipeline, or needs guidance on pandera best practices for data quality. |
+| `perfectcode-zen-implement` | This skill should be used when the user asks to implement a zen plan, execute the zen workflow, run parallel agent implementation, build from an opencode plan, or needs to execute a written plan from .opencode/plans/ using parallel engineering agents with quality gates. |
+| `perfectcode-zen-plan` | This skill should be used when the user asks to plan a feature, run the zen planning workflow, consult all senior agents on a plan, create a structured plan with agent consultation, or needs a thorough multi-agent planning phase before building anything. |
 | `planning` | This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis. |
 | `pydantic` | This skill should be used when the user asks to validate data with pydantic, create a pydantic model, use pydantic best practices, write pydantic validators, or needs guidance on pydantic v2 patterns, serialization, configuration, or performance optimization. |
 | `pytest` | This skill should be used when the user asks to write pytest tests, set up pytest best practices, configure pytest, write fixtures, or needs guidance on pytest testing patterns and project structure. |
@@ -148,6 +154,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-19 14:49:24 UTC
+**Generated on:** 2026-03-19 16:09:56 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
