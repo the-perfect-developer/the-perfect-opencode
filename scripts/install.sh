@@ -30,14 +30,14 @@ declare -a SELECTED_SKILLS
 declare -a SELECTED_COMMANDS
 
 # Core items that are always installed (bare minimum requirements)
-CORE_AGENTS=("architect" "backend-engineer" "code-analyst" "frontend-engineer" "ideation-expert" "junior-engineer" "performance-engineer" "security-expert")
-CORE_SKILLS=("agent-configuration" "command-creation" "conventional-git-commit" "ideation" "interactive-questions" "skill-creation" "planning" "implementation")
-CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "git-commit" "git-push" "ideate" "implement" "install-perfect-tools" "plan" "quickee" "sync-perfect-configs" "update-perfect-tools")
+CORE_AGENTS=("code-analyst" "database-architect" "developer-fast" "developer-prime" "devops-engineer" "orchestrix" "performance-engineer" "principal-architect" "security-expert" "solution-architect" "test-engineer" "ui-ux-designer")
+CORE_SKILLS=("agent-configuration" "command-creation" "conventional-git-commit" "interactive-questions" "perfectcode-zen-evaluation" "perfectcode-zen-ideation" "perfectcode-zen-implement" "perfectcode-zen-plan" "skill-creation")
+CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "evaluate" "git-commit" "git-push" "ideate" "implement" "install-perfect-tools" "plan" "recommend-perfect-tool" "sync-perfect-configs" "update-perfect-tools")
 
 # Deprecated items that are removed on install if found in the current directory
-DEPRECATED_AGENTS=("architect" "frontend-engineer.md" "backend-engineer" "junior-engineer" "ideation-expert")
-DEPRECATED_SKILLS=()
-DEPRECATED_COMMANDS=("git-stage-commit-push" "git-commit-push")
+DEPRECATED_AGENTS=("architect" "backend-engineer" "frontend-engineer" "ideation-expert" "junior-engineer")
+DEPRECATED_SKILLS=("planning" "implementation" "ideation")
+DEPRECATED_COMMANDS=("git-stage-commit-push" "git-commit-push" "extended-implement" "extended-plan" "quickee")
 
 # Parse command line arguments
 INSTALL_ALL=true
