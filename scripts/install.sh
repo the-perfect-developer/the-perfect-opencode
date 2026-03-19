@@ -406,7 +406,51 @@ _print_installed_report() {
 }
 
 
+# ─── .opencode/.gitignore Sync ───────────────────────────────────────────────
+# Ensures .opencode/.gitignore contains an entry for every installed item.
+# Idempotent: never duplicates existing lines, never removes user-added lines.
+
+# _ensure_gitignore_entry <file> <entry>
+# Appends <entry> to <file> if it is not already present as an exact line.
+_ensure_gitignore_entry() {
+    local file="$1"
+    local entry="$2"
+    grep -qxF -- "$entry" "$file" 2>/dev/null || printf '%s\n' "$entry" >> "$file"
+}
+
+# _sync_opencode_gitignore
+# Writes gitignore entries for all installed agents (except orchestrix),
+# all installed skills, and all installed commands (except install-perfect-tools),
+# plus static entries /plans and /evaluations.
+_sync_opencode_gitignore() {
+    local gitignore="${REPO_ROOT}/.opencode/.gitignore"
+    local item
+
+    touch "$gitignore"
+
+    _ensure_gitignore_entry "$gitignore" "/plans"
+    _ensure_gitignore_entry "$gitignore" "/evaluations"
+
+    for item in "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}"; do
+        [ "$item" = "orchestrix" ] && continue
+        _ensure_gitignore_entry "$gitignore" "/agents/${item}.md"
+    done
+
+    for item in "${INSTALLED_SKILLS[@]+"${INSTALLED_SKILLS[@]}"}"; do
+        _ensure_gitignore_entry "$gitignore" "/skills/${item}"
+    done
+
+    for item in "${INSTALLED_COMMANDS[@]+"${INSTALLED_COMMANDS[@]}"}"; do
+        [ "$item" = "install-perfect-tools" ] && continue
+        _ensure_gitignore_entry "$gitignore" "/commands/${item}.md"
+    done
+
+    echo -e "  ${GREEN}✓${NC} .opencode/.gitignore synced: ${gitignore}"
+}
+
+
 _write_manifest
+_sync_opencode_gitignore
 _print_installed_report
 
 echo ""
