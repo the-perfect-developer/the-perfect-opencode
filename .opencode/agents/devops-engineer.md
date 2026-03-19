@@ -2,13 +2,11 @@
 description: DevOps Engineer - Infrastructure, CI/CD pipelines, containerization, deployment strategies, and operational tooling across Python, Go, and Node.js services
 mode: subagent
 tools:
-  write: true
-  edit: true
+  write: false
+  edit: false
   bash: true
   webfetch: true
 permission:
-  write: ask
-  edit: ask
   bash:
     "*": ask
     "ls*": allow
@@ -102,57 +100,6 @@ permission:
     "netstat*": ask
     "make -n*": ask
     "* /tmp*": allow
-    "git add*": allow
-    "git commit*": allow
-    "git stash*": allow
-    "git switch*": allow
-    "git checkout*": ask
-    "git push*": ask
-    "git reset*": ask
-    "git merge*": ask
-    "git rebase*": ask
-    "npm install": allow
-    "npm ci": allow
-    "npm run dev": allow
-    "npm run build": allow
-    "npm run test": allow
-    "npm run lint": allow
-    "npm run format": allow
-    "yarn install": allow
-    "yarn dev": allow
-    "yarn build": allow
-    "yarn test": allow
-    "pnpm install": allow
-    "pnpm dev": allow
-    "pnpm build": allow
-    "pnpm test": allow
-    "bun install": allow
-    "bun run*": allow
-    "python -m pytest*": allow
-    "pytest*": allow
-    "pip install*": allow
-    "uv pip install*": allow
-    "ruff check*": allow
-    "ruff format*": allow
-    "mypy*": allow
-    "go test*": allow
-    "go build*": allow
-    "go run*": allow
-    "go mod tidy": allow
-    "go mod download": allow
-    "cargo test*": allow
-    "cargo build*": allow
-    "cargo run*": allow
-    "cargo fmt*": allow
-    "cargo clippy*": allow
-    "mkdir*": allow
-    "touch*": allow
-    "cp*": ask
-    "mv*": ask
-    "rm*": ask
-    "chmod*": ask
-    "ln -s*": ask
-    "bash -n*": allow
   webfetch: allow
 ---
 

@@ -7,5 +7,10 @@ description: >
   "what do you think about", "how does this work", "what are my options", "ideate on",
   "brainstorm", "let's stress-test this", "challenge my thinking".
 mode: primary
+tools:
+  write: false
+  edit: false
+  bash: false
+  webfetch: false
 ---
 
