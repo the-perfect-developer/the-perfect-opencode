@@ -20,16 +20,19 @@ The Perfect OpenCode provides several built-in agents that cover different aspec
 
 | Name | Description | Model |
 |------|-------------|-------|
-| `backend-engineer` | Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions | `Default` |
 | `code-analyst` | Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms. | `Default` |
-| `frontend-engineer` | Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences | `Default` |
-| `junior-engineer` | Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes | `Default` |
-| `nitro+` | > | `Default` |
+| `database-architect` | Database Architect - Data modeling, schema design, query optimization, migration strategy, and polyglot persistence decisions across the stack | `Default` |
+| `developer-fast` | Developer Fast - High-speed implementation agent for scoped, single-file, boilerplate, and high-volume tasks. Receives specs from SolutionArchitect and executes with minimal latency. | `Default` |
+| `developer-prime` | Developer Prime - Full-stack implementation agent for complex, multi-file, long-context, and frontend tasks. Receives specs from SolutionArchitect and design specs from UI/UX Designer. | `Default` |
+| `devops-engineer` | DevOps Engineer - Infrastructure, CI/CD pipelines, containerization, deployment strategies, and operational tooling across Python, Go, and Node.js services | `Default` |
 | `normal` | > | `Default` |
 | `performance-engineer` | Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis | `Default` |
-| `principal-architect` | Principal Architect - Responsible for high-level system strategy, cross-service architectural decisions, long-horizon design, and technical governance across the entire stack | `claude-opus-4-6` |
+| `principal-architect` | Principal Architect - Responsible for high-level system strategy, cross-service architectural decisions, long-horizon design, and technical governance across the entire stack | `Default` |
 | `security-expert` | Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices | `Default` |
-| `solution-architect` | Solution Architect - Translates principal-level architectural decisions into concrete, implementable designs across Python, Go, and Node.js services | `gpt-5.4` |
+| `solution-architect` | Solution Architect - Translates principal-level architectural decisions into concrete, implementable designs across Python, Go, and Node.js services | `Default` |
+| `test-engineer` | Test Engineer - Unit, integration, contract, and e2e test design and implementation across Python, Go, and Node.js services | `Default` |
+| `turbo` | > | `Default` |
+| `ui-ux-designer` | UI/UX Designer - Produces design specs, component definitions, interaction flows, and visual guidelines for implementation agents. Does not write code. | `Default` |
 
 ---
 
@@ -145,6 +148,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-19 14:12:06 UTC
+**Generated on:** 2026-03-19 14:49:24 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
