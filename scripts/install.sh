@@ -45,24 +45,25 @@ DEPRECATED_SKILLS=("planning" "implementation" "ideation")
 DEPRECATED_COMMANDS=("git-stage-commit-push" "git-commit-push" "extended-implement" "extended-plan" "quickee")
 
 # Parse command line arguments
-INSTALL_ALL=true
+# Default: core-only. Pass --all to install everything.
+INSTALL_ALL=false
 for arg in "$@"; do
     case "$arg" in
+        --all)
+            INSTALL_ALL=true
+            ;;
         agent:*)
-            INSTALL_ALL=false
             SELECTED_AGENTS+=("${arg#agent:}")
             ;;
         skill:*)
-            INSTALL_ALL=false
             SELECTED_SKILLS+=("${arg#skill:}")
             ;;
         command:*)
-            INSTALL_ALL=false
             SELECTED_COMMANDS+=("${arg#command:}")
             ;;
         *)
             echo -e "${YELLOW}Warning:${NC} Unknown argument format: $arg"
-            echo "Use: agent:<name>, skill:<name>, or command:<name>"
+            echo "Use: --all, agent:<name>, skill:<name>, or command:<name>"
             ;;
     esac
 done
@@ -96,6 +97,21 @@ echo ""
 # Show what will be installed
 if [ "$INSTALL_ALL" = true ]; then
     echo -e "${BLUE}ℹ${NC} Installing all agents, skills, and commands"
+elif [ ${#SELECTED_AGENTS[@]} -eq 0 ] && [ ${#SELECTED_SKILLS[@]} -eq 0 ] && [ ${#SELECTED_COMMANDS[@]} -eq 0 ]; then
+    echo -e "${BLUE}ℹ${NC} Installing core items only (pass ${GREEN}--all${NC} to install everything)"
+    echo ""
+    echo -e "  ${GREEN}Core agents${NC} (${#CORE_AGENTS[@]}):"
+    for item in "${CORE_AGENTS[@]}"; do
+        echo -e "    • ${item}"
+    done
+    echo -e "  ${GREEN}Core skills${NC} (${#CORE_SKILLS[@]}):"
+    for item in "${CORE_SKILLS[@]}"; do
+        echo -e "    • ${item}"
+    done
+    echo -e "  ${GREEN}Core commands${NC} (${#CORE_COMMANDS[@]}):"
+    for item in "${CORE_COMMANDS[@]}"; do
+        echo -e "    • ${item}"
+    done
 else
     echo -e "${BLUE}ℹ${NC} Selective installation:"
     if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
@@ -134,7 +150,7 @@ mkdir -p "$AGENTS_DIR"
 
 AGENTS_SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/agents"
 if [ -d "$AGENTS_SOURCE_DIR" ]; then
-    if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
+    if true; then
         echo -e "${BLUE}ℹ${NC} Installing agents to ${AGENTS_DIR}..."
         for agent in "${AGENTS_SOURCE_DIR}"/*; do
             if [ -f "$agent" ]; then
@@ -180,7 +196,7 @@ mkdir -p "$SKILLS_DIR"
 
 SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/skills"
 if [ -d "$SOURCE_DIR" ]; then
-    if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_SKILLS[@]} -gt 0 ]; then
+    if true; then
         echo -e "${BLUE}ℹ${NC} Installing skills to ${SKILLS_DIR}..."
         for skill in "${SOURCE_DIR}"/*; do
             if [ -d "$skill" ]; then
@@ -229,7 +245,7 @@ mkdir -p "$COMMANDS_DIR"
 
 COMMANDS_SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/commands"
 if [ -d "$COMMANDS_SOURCE_DIR" ]; then
-    if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_COMMANDS[@]} -gt 0 ]; then
+    if true; then
         echo -e "${BLUE}ℹ${NC} Installing commands to ${COMMANDS_DIR}..."
         for cmd in "${COMMANDS_SOURCE_DIR}"/*; do
             if [ -f "$cmd" ]; then
@@ -271,15 +287,9 @@ fi
 
 echo ""
 echo -e "${BLUE}ℹ${NC} Installation complete!"
-if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
-    echo -e "  ${GREEN}✓${NC} Agents installed to: ${AGENTS_DIR}"
-fi
-if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_SKILLS[@]} -gt 0 ]; then
-    echo -e "  ${GREEN}✓${NC} Skills installed to: ${SKILLS_DIR}"
-fi
-if [ "$INSTALL_ALL" = true ] || [ ${#SELECTED_COMMANDS[@]} -gt 0 ]; then
-    echo -e "  ${GREEN}✓${NC} Commands installed to: ${COMMANDS_DIR}"
-fi
+echo -e "  ${GREEN}✓${NC} Agents installed to: ${AGENTS_DIR}"
+echo -e "  ${GREEN}✓${NC} Skills installed to: ${SKILLS_DIR}"
+echo -e "  ${GREEN}✓${NC} Commands installed to: ${COMMANDS_DIR}"
 
 
 
