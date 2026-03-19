@@ -20,22 +20,17 @@ The Perfect OpenCode provides several built-in agents that cover different aspec
 
 | Name | Description | Model |
 |------|-------------|-------|
-| `build` | Build agent - Default implementation agent for general coding tasks | `Default` |
 | `code-analyst` | Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms. | `Default` |
 | `database-architect` | Database Architect - Data modeling, schema design, query optimization, migration strategy, and polyglot persistence decisions across the stack | `Default` |
 | `developer-fast` | Developer Fast - High-speed implementation agent for scoped, single-file, boilerplate, and high-volume tasks. Receives specs from SolutionArchitect and executes with minimal latency. | `Default` |
 | `developer-prime` | Developer Prime - Full-stack implementation agent for complex, multi-file, long-context, and frontend tasks. Receives specs from SolutionArchitect and design specs from UI/UX Designer. | `Default` |
 | `devops-engineer` | DevOps Engineer - Infrastructure, CI/CD pipelines, containerization, deployment strategies, and operational tooling across Python, Go, and Node.js services | `Default` |
-| `explore` | Explore agent - Fast agent specialized for exploring codebases, finding files by patterns, and searching code | `Default` |
-| `general` | General agent - General-purpose agent for researching complex questions and executing multi-step tasks | `Default` |
-| `normal` | > | `Default` |
+| `orchestrix` | > | `Default` |
 | `performance-engineer` | Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis | `Default` |
-| `plan` | Plan agent - Planning and analysis agent for structured task decomposition | `Default` |
 | `principal-architect` | Principal Architect - Responsible for high-level system strategy, cross-service architectural decisions, long-horizon design, and technical governance across the entire stack | `Default` |
 | `security-expert` | Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices | `Default` |
 | `solution-architect` | Solution Architect - Translates principal-level architectural decisions into concrete, implementable designs across Python, Go, and Node.js services | `Default` |
 | `test-engineer` | Test Engineer - Unit, integration, contract, and e2e test design and implementation across Python, Go, and Node.js services | `Default` |
-| `turbo` | > | `Default` |
 | `ui-ux-designer` | UI/UX Designer - Produces design specs, component definitions, interaction flows, and visual guidelines for implementation agents. Does not write code. | `Default` |
 
 ---
@@ -68,7 +63,6 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `html` | Apply Google HTML style guide conventions to HTML code |
 | `htmx` | Provides guidance for building dynamic interactive web applications using htmx library with AJAX requests and dynamic content swapping |
 | `ideation` | This skill should be used when the user asks to ideate on, brainstorm an idea, let's argue this through, challenge my thinking, help me refine this concept, let's stress-test this, or needs a structured framework for collaborative idea generation, adversarial refinement, and convergence toward the best possible solution. Load this skill before running any ideation or brainstorming session. |
-| `implementation` | This skill should be used when the user asks to implement a plan, execute implementation, build from plan, implement feature, or needs to orchestrate execution of an implementation plan with specialized engineering agents. |
 | `interactive-questions` | This skill should be used when the user asks to ask questions interactively, use the question tool, present choices to the user, avoid yes/no prompts, use interactive confirmations, or needs guidance on asking structured questions with selectable options instead of free-text prompts. |
 | `javascript` | This skill should be used when the user asks to \write JavaScript code\, \follow JavaScript style guide\, \format JS files\, \create Node.js scripts\, or needs guidance on JavaScript/Node.js coding standards and best practices. |
 | `json-style` | This skill should be used when the user asks to format JSON, design JSON API, write JSON response, structure JSON data, or needs guidance on JSON naming conventions and best practices based on Google's JSON Style Guide. |
@@ -80,7 +74,6 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `pandera` | This skill should be used when the user asks to validate a DataFrame with pandera, write a pandera schema, use pandera DataFrameModel, add data validation to a pipeline, or needs guidance on pandera best practices for data quality. |
 | `perfectcode-zen-implement` | This skill should be used when the user asks to implement a zen plan, execute the zen workflow, run parallel agent implementation, build from an opencode plan, or needs to execute a written plan from .opencode/plans/ using parallel engineering agents with quality gates. |
 | `perfectcode-zen-plan` | This skill should be used when the user asks to plan a feature, run the zen planning workflow, consult all senior agents on a plan, create a structured plan with agent consultation, or needs a thorough multi-agent planning phase before building anything. |
-| `planning` | This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis. |
 | `pydantic` | This skill should be used when the user asks to validate data with pydantic, create a pydantic model, use pydantic best practices, write pydantic validators, or needs guidance on pydantic v2 patterns, serialization, configuration, or performance optimization. |
 | `pytest` | This skill should be used when the user asks to write pytest tests, set up pytest best practices, configure pytest, write fixtures, or needs guidance on pytest testing patterns and project structure. |
 | `python-aiomysql` | This skill should be used when the user asks to connect to MySQL with asyncio, use aiomysql, set up an async MySQL connection pool, query MySQL asynchronously in Python, or needs guidance on aiomysql best practices, connection lifecycle, transactions, or cursor types. |
@@ -117,15 +110,12 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 | `/create-command` | Create a new OpenCode command with interactive requirements gathering | `build` | `Default` |
 | `/create-rule` | Add a MUST FOLLOW rule to AGENTS.md | `build` | `Default` |
 | `/create-skill` | Create a new OpenCode skill with proper structure and frontmatter | `build` | `Default` |
-| `/extended-implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
-| `/extended-plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
 | `/git-commit` | Commit staged changes with a conventional commit message | `build` | `Default` |
 | `/git-push` | Push committed changes to remote — never stages or commits anything | `build` | `Default` |
 | `/ideate` | Start an ideation session with the Ideation Expert | `ideation-expert` | `Default` |
 | `/implement` | Execute implementation plan with specialized engineering agents | `build` | `Default` |
 | `/install-perfect-tools` | Discover and install perfect agents/skills/commands for your project | `build` | `Default` |
 | `/plan` | Gather requirements, analyze code, and create implementation plan | `plan` | `Default` |
-| `/quickee` | Plan then immediately implement — efficient agent-driven workflow for any task | `build` | `Default` |
 | `/recommend-perfect-tool` | Analyze current project and recommend uninstalled agents/skills/commands | `build` | `Default` |
 | `/sync-perfect-configs` | Sync local opencode.json with the canonical remote version | `build` | `Default` |
 | `/update-perfect-tools` | Update already-installed perfect tools to their latest versions | `build` | `Default` |
@@ -154,6 +144,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-19 16:09:56 UTC
+**Generated on:** 2026-03-19 18:07:04 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
