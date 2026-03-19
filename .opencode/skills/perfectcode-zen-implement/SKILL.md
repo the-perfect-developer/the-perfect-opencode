@@ -78,6 +78,61 @@ tasks in parallel:
 Run all independent tasks simultaneously. Never serialise work that can be
 parallelised.
 
+### Load Language Skills Before Delegating
+
+Before dispatching each task, load the skill matching the target technology so
+the coder agent inherits the correct style conventions:
+
+| Technology | Skill |
+|---|---|
+| TypeScript / TSX | `typescript-style` |
+| JavaScript / JSX | `javascript` |
+| Python | `python` |
+| Go | `go` |
+| CSS | `css` |
+| HTML | `html` |
+| Tailwind | `tailwind-css` |
+
+### Task Prompt Template
+
+Give every coder agent a fully-formed prompt — never a vague description:
+
+```
+Task: <specific action from the plan>
+
+Context: <relevant background and any consultation outputs>
+
+Requirements:
+  - <requirement 1>
+  - <requirement 2>
+
+Files to modify:
+  - <path>
+
+Files to create:
+  - <path>
+
+Architectural guidance: <from principal-architect or solution-architect if consulted>
+Security requirements: <from security-expert if consulted>
+Database guidance: <from database-architect if consulted>
+
+Success criteria:
+  - <how to verify this task is done>
+  - <tests that must pass>
+```
+
+### Per-Task Verification
+
+After each coder agent completes a task, verify before marking it done:
+
+1. Run the relevant tests (`npm test` / `pytest` / `go test ./...`)
+2. Check type errors (`tsc --noEmit` / `mypy` / `go vet`)
+3. Run linter / formatter
+4. Confirm expected behaviour
+5. Mark the todo `completed` **immediately** — do not batch
+
+Never advance to the next task while the current one has a failing check.
+
 ---
 
 ## Step 5 — Consult Immediately When Blocked or Uncertain
@@ -127,14 +182,34 @@ All tests must pass before the workflow closes. No exceptions.
 
 ---
 
-## Step 8 — Final Summary
+## Step 8 — Documentation and Git Review
+
+Before presenting the final summary, do a clean-up pass:
+
+1. **Update code documentation** — add JSDoc / docstrings to all new public
+   APIs; add inline comments for non-obvious logic.
+2. **Update README** if the feature requires new setup steps, environment
+   variables, or changed behaviour.
+3. **Update `.env.example`** for any new environment variables introduced.
+4. **Remove all debug artefacts** — no `console.log`, no commented-out code,
+   no temporary files.
+5. **Run `git status` and `git diff --stat`** to confirm only intended files
+   changed and no unintended modifications are included.
+
+---
+
+## Step 9 — Final Summary
 
 Present a concise summary covering:
 
 - What was built
 - Which agents contributed
+- Tasks completed (count)
+- Files changed (count, added vs modified)
+- Test results (passing / total, coverage if available)
 - Any deviations from the original plan and their justifications
-- Test results
+- Warnings or post-deployment considerations (migrations, env vars, etc.)
+- Suggested next steps (review `git diff`, commit, open PR, deploy)
 
 ---
 
@@ -143,12 +218,16 @@ Present a concise summary covering:
 - **Build agent owns the workflow.** This workflow starts and ends with the build agent.
 - **Read the plan carefully and thoroughly.** Every action must trace to the plan.
 - **Follow instructions thoroughly.** Do exactly what the plan specifies. Do not reinterpret or skip steps.
+- **Load language skills before delegating.** Give coders the right style context.
+- **Use the task prompt template.** Never delegate with a vague description — include task, context, files, consultation outputs, and success criteria.
+- **Verify each task before moving on.** Run tests, type-check, and lint after every task. Do not accumulate failures.
 - **Delegate to developer-prime and developer-fast.** These are the two coder agents in this workflow.
 - **Consult immediately when blocked.** principal-architect, solution-architect, database-architect, and security-expert are on call for Think → Advise → Review.
 - **Parallel by default.** Never run independent tasks or consultations sequentially.
 - **Track every task.** Use TodoWrite throughout. No task is done until marked completed.
 - **Quality gates are mandatory.** Do not skip the parallel review step before testing.
 - **All tests must pass.** Do not close the workflow with failing tests.
+- **Clean up before closing.** Update docs, remove debug code, verify git status before the final summary.
 
 ---
 
@@ -190,9 +269,13 @@ Read plan from .opencode/plans/<name>.md (carefully and thoroughly)
 Decompose into atomic tasks (TodoWrite)
     │
     ▼
-Parallel implementation
+For each task:
+    Load language skill → build task prompt → delegate
     ├── developer-prime  (complex / multi-file)
     └── developer-fast   (scoped / single-file)
+    │
+    ▼ (after each task)
+Per-task verification: tests → type-check → lint → mark completed
     │
     ▼ (if blocked or uncertain at any point)
 Consult immediately (in parallel as needed)
@@ -212,5 +295,8 @@ Parallel quality gates
 Testing and validation (all tests must pass)
     │
     ▼
-Final summary
+Documentation update + git status review
+    │
+    ▼
+Final summary (tasks, files, tests, deviations, next steps)
 ```
