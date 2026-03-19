@@ -35,7 +35,7 @@ CORE_SKILLS=("agent-configuration" "command-creation" "conventional-git-commit" 
 CORE_COMMANDS=("create-agent" "create-command" "create-rule" "create-skill" "extended-implement" "extended-plan" "git-commit" "git-push" "ideate" "implement" "install-perfect-tools" "plan" "quickee" "sync-perfect-configs" "update-perfect-tools")
 
 # Deprecated items that are removed on install if found in the current directory
-DEPRECATED_AGENTS=("ideation-expert")
+DEPRECATED_AGENTS=("architect" "ideation-expert")
 DEPRECATED_SKILLS=()
 DEPRECATED_COMMANDS=("git-stage-commit-push" "git-commit-push")
 
