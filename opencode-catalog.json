@@ -1,10 +1,6 @@
 {
   "agents": [
     {
-      "name": "build",
-      "description": "Build agent - Default implementation agent for general coding tasks"
-    },
-    {
       "name": "code-analyst",
       "description": "Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms."
     },
@@ -25,24 +21,12 @@
       "description": "DevOps Engineer - Infrastructure, CI/CD pipelines, containerization, deployment strategies, and operational tooling across Python, Go, and Node.js services"
     },
     {
-      "name": "explore",
-      "description": "Explore agent - Fast agent specialized for exploring codebases, finding files by patterns, and searching code"
-    },
-    {
-      "name": "general",
-      "description": "General agent - General-purpose agent for researching complex questions and executing multi-step tasks"
-    },
-    {
-      "name": "normal",
+      "name": "orchestrix",
       "description": ">"
     },
     {
       "name": "performance-engineer",
       "description": "Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis"
-    },
-    {
-      "name": "plan",
-      "description": "Plan agent - Planning and analysis agent for structured task decomposition"
     },
     {
       "name": "principal-architect",
@@ -59,10 +43,6 @@
     {
       "name": "test-engineer",
       "description": "Test Engineer - Unit, integration, contract, and e2e test design and implementation across Python, Go, and Node.js services"
-    },
-    {
-      "name": "turbo",
-      "description": ">"
     },
     {
       "name": "ui-ux-designer",
@@ -151,10 +131,6 @@
       "description": "This skill should be used when the user asks to ideate on, brainstorm an idea, let's argue this through, challenge my thinking, help me refine this concept, let's stress-test this, or needs a structured framework for collaborative idea generation, adversarial refinement, and convergence toward the best possible solution. Load this skill before running any ideation or brainstorming session."
     },
     {
-      "name": "implementation",
-      "description": "This skill should be used when the user asks to implement a plan, execute implementation, build from plan, implement feature, or needs to orchestrate execution of an implementation plan with specialized engineering agents."
-    },
-    {
       "name": "interactive-questions",
       "description": "This skill should be used when the user asks to ask questions interactively, use the question tool, present choices to the user, avoid yes/no prompts, use interactive confirmations, or needs guidance on asking structured questions with selectable options instead of free-text prompts."
     },
@@ -197,10 +173,6 @@
     {
       "name": "perfectcode-zen-plan",
       "description": "This skill should be used when the user asks to plan a feature, run the zen planning workflow, consult all senior agents on a plan, create a structured plan with agent consultation, or needs a thorough multi-agent planning phase before building anything."
-    },
-    {
-      "name": "planning",
-      "description": "This skill should be used when the user asks to create an implementation plan, plan a feature, create detailed plan, analyze requirements, or needs comprehensive project planning with requirements gathering and architectural analysis."
     },
     {
       "name": "pydantic",
@@ -305,14 +277,6 @@
       "description": "Create a new OpenCode skill with proper structure and frontmatter"
     },
     {
-      "name": "extended-implement",
-      "description": "Execute implementation plan with specialized engineering agents"
-    },
-    {
-      "name": "extended-plan",
-      "description": "Gather requirements, analyze code, and create implementation plan"
-    },
-    {
       "name": "git-commit",
       "description": "Commit staged changes with a conventional commit message"
     },
@@ -337,10 +301,6 @@
       "description": "Gather requirements, analyze code, and create implementation plan"
     },
     {
-      "name": "quickee",
-      "description": "Plan then immediately implement — efficient agent-driven workflow for any task"
-    },
-    {
       "name": "recommend-perfect-tool",
       "description": "Analyze current project and recommend uninstalled agents/skills/commands"
     },
@@ -353,5 +313,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-03-19T16:56:20Z"
+  "generated_at": "2026-03-19T18:07:19Z"
 }
