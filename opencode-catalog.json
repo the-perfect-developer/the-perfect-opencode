@@ -167,6 +167,10 @@
       "description": "This skill should be used when the user asks to validate a DataFrame with pandera, write a pandera schema, use pandera DataFrameModel, add data validation to a pipeline, or needs guidance on pandera best practices for data quality."
     },
     {
+      "name": "perfectcode-zen-evaluation",
+      "description": "This skill should be used when the user asks to evaluate an implementation, run the zen evaluation workflow, check if the plan was properly implemented, review implementation against a plan, or needs to assess implementation quality and surface improvement suggestions after a zen build cycle."
+    },
+    {
       "name": "perfectcode-zen-ideation",
       "description": "This skill should be used when the user asks to ideate a feature together, zen ideation, let's think through this together, help me shape this idea, collaborative ideation session, or needs a structured framework for LLM-user co-creation where both parties actively contribute, challenge, and build toward the best possible idea."
     },
@@ -281,6 +285,10 @@
       "description": "Create a new OpenCode skill with proper structure and frontmatter"
     },
     {
+      "name": "evaluate",
+      "description": "Evaluate whether an implementation matches its plan"
+    },
+    {
       "name": "git-commit",
       "description": "Commit staged changes with a conventional commit message"
     },
@@ -317,5 +325,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-03-19T18:16:53Z"
+  "generated_at": "2026-03-19T18:26:00Z"
 }
