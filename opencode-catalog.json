@@ -1,10 +1,6 @@
 {
   "agents": [
     {
-      "name": "architect",
-      "description": "Software Architect - Focus on system design, architectural patterns, design decisions, and complex backend logic"
-    },
-    {
       "name": "backend-engineer",
       "description": "Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions"
     },
@@ -33,8 +29,16 @@
       "description": "Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis"
     },
     {
+      "name": "principal-architect",
+      "description": "Principal Architect - Responsible for high-level system strategy, cross-service architectural decisions, long-horizon design, and technical governance across the entire stack"
+    },
+    {
       "name": "security-expert",
       "description": "Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices"
+    },
+    {
+      "name": "solution-architect",
+      "description": "Solution Architect - Translates principal-level architectural decisions into concrete, implementable designs across Python, Go, and Node.js services"
     }
   ],
   "skills": [
@@ -313,5 +317,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-03-19T13:20:28Z"
+  "generated_at": "2026-03-19T14:12:25Z"
 }
