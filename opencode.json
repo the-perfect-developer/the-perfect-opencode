@@ -4,62 +4,225 @@
 		"architect": {
 			"model": "github-copilot/claude-opus-4.6",
 			"temperature": 0.2,
-			"color": "#7C3AED"
-		},
-		"backend-engineer": {
-			"model": "github-copilot/claude-sonnet-4.6",
-			"temperature": 0.4,
-			"color": "#2563EB"
+			"color": "#7C3AED",
+			"tools": {
+				"write": false,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
 		},
 		"code-analyst": {
 			"model": "github-copilot/gpt-5.2-codex",
 			"temperature": 0.1,
-			"color": "#0891B2"
-		},
-		"frontend-engineer": {
-			"model": "github-copilot/gemini-3-pro-preview",
-			"temperature": 0.5,
-			"color": "#EC4899"
-		},
-		"junior-engineer": {
-			"model": "github-copilot/claude-haiku-4.5",
-			"temperature": 0.3,
-			"color": "#16A34A"
+			"color": "#0891B2",
+			"tools": {
+				"write": false,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
 		},
 		"performance-engineer": {
 			"model": "github-copilot/claude-sonnet-4.6",
 			"temperature": 0.2,
-			"color": "#EA580C"
+			"color": "#EA580C",
+			"tools": {
+				"write": false,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
 		},
 		"security-expert": {
 			"model": "github-copilot/claude-opus-4.6",
 			"temperature": 0.1,
-			"color": "#DC2626"
-		},
-		"build": {
-			"model": "github-copilot/claude-sonnet-4.6",
-			"temperature": 0.4,
-			"color": "#10B981"
-		},
-		"plan": {
-			"model": "github-copilot/claude-sonnet-4.6",
-			"temperature": 0.2,
-			"color": "#F59E0B"
-		},
-		"explore": {
-			"model": "github-copilot/claude-haiku-4.5",
-			"temperature": 0.2,
-			"color": "#0EA5E9"
-		},
-		"general": {
-			"model": "github-copilot/claude-sonnet-4.6",
-			"temperature": 0.4,
-			"color": "#6366F1"
+			"color": "#DC2626",
+			"tools": {
+				"write": false,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
 		},
 		"ideation-expert": {
 			"model": "github-copilot/claude-sonnet-4.6",
 			"temperature": 0.7,
-			"color": "#8B5CF6"
+			"color": "#8B5CF6",
+			"tools": {
+				"write": false,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
+		},
+		"backend-engineer": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.4,
+			"color": "#2563EB",
+			"tools": {
+				"write": true,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"write": "allow",
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
+		},
+		"frontend-engineer": {
+			"model": "github-copilot/gemini-3-pro-preview",
+			"temperature": 0.5,
+			"color": "#EC4899",
+			"tools": {
+				"write": true,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"write": "allow",
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
+		},
+		"junior-engineer": {
+			"model": "github-copilot/claude-haiku-4.5",
+			"temperature": 0.3,
+			"color": "#16A34A",
+			"tools": {
+				"write": true,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"write": "allow",
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
+		},
+		"build": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.4,
+			"color": "#10B981",
+			"tools": {
+				"write": true,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"write": "allow",
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
+		},
+		"plan": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.2,
+			"color": "#F59E0B",
+			"tools": {
+				"write": true,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"write": "allow",
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
+		},
+		"explore": {
+			"model": "github-copilot/claude-haiku-4.5",
+			"temperature": 0.2,
+			"color": "#0EA5E9",
+			"tools": {
+				"write": true,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"write": "allow",
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
+		},
+		"general": {
+			"model": "github-copilot/claude-sonnet-4.6",
+			"temperature": 0.4,
+			"color": "#6366F1",
+			"tools": {
+				"write": true,
+				"edit": true,
+				"bash": true,
+				"webfetch": true
+			},
+			"permission": {
+				"write": "allow",
+				"edit": "allow",
+				"bash": {
+					"*": "allow"
+				},
+				"webfetch": "allow"
+			}
 		}
 	}
 }
