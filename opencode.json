@@ -74,7 +74,7 @@
 		},
 
 		"plan": {
-			"model": "github-copilot/claude-sonnet-4.6",
+			"model": "github-copilot/github-copilot/gpt-5.4",
 			"temperature": 0.2,
 			"color": "#F59E0B"
 		},
@@ -86,14 +86,14 @@
 		},
 
 		"normal": {
-			"model": "github-copilot/claude-sonnet-4.6",
-			"temperature": 0.2,
+			"model": "github-copilot/github-copilot/gpt-5.4",
+			"temperature": 0.1,
 			"color": "#10B981"
 		},
 
 		"turbo": {
-			"model": "github-copilot/claude-sonnet-4.6",
-			"temperature": 0.2,
+			"model": "github-copilot/github-copilot/gpt-5.4",
+			"temperature": 0.1,
 			"color": "#EF4444"
 		},
 
