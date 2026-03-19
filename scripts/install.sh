@@ -12,14 +12,9 @@ NC='\033[0m'
 # Get the installation directory
 # When piped from curl, BASH_SOURCE[0] is /dev/fd/XX or /proc/self/fd/XX
 # In that case, or when run from any location, install to current directory
-if [[ "${BASH_SOURCE[0]}" == "/dev/fd/"* ]] || [[ "${BASH_SOURCE[0]}" == "/proc/self/fd/"* ]]; then
-    # Being piped from curl or process substitution
-    REPO_ROOT="$(pwd)"
-else
-    # Running as a downloaded script file - still use current directory
-    # This allows users to run the script from wherever they want to install
-    REPO_ROOT="$(pwd)"
-fi
+# Always install to the current working directory,
+# whether invoked as a file or via process substitution (bash <(curl …)).
+REPO_ROOT="$(pwd)"
 
 REPO_URL="https://github.com/the-perfect-developer/the-perfect-opencode"
 TEMP_DIR="/tmp/the-perfect-opencode-$$"
@@ -115,13 +110,13 @@ elif [ ${#SELECTED_AGENTS[@]} -eq 0 ] && [ ${#SELECTED_SKILLS[@]} -eq 0 ] && [ $
 else
     echo -e "${BLUE}ℹ${NC} Selective installation:"
     if [ ${#SELECTED_AGENTS[@]} -gt 0 ]; then
-        echo -e "  Agents: ${SELECTED_AGENTS[*]}"
+        echo -e "  Agents: ${SELECTED_AGENTS[*]+"${SELECTED_AGENTS[*]}"}"
     fi
     if [ ${#SELECTED_SKILLS[@]} -gt 0 ]; then
-        echo -e "  Skills: ${SELECTED_SKILLS[*]}"
+        echo -e "  Skills: ${SELECTED_SKILLS[*]+"${SELECTED_SKILLS[*]}"}"
     fi
     if [ ${#SELECTED_COMMANDS[@]} -gt 0 ]; then
-        echo -e "  Commands: ${SELECTED_COMMANDS[*]}"
+        echo -e "  Commands: ${SELECTED_COMMANDS[*]+"${SELECTED_COMMANDS[*]}"}"
     fi
 fi
 echo ""
@@ -150,45 +145,40 @@ mkdir -p "$AGENTS_DIR"
 
 AGENTS_SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/agents"
 if [ -d "$AGENTS_SOURCE_DIR" ]; then
-    if true; then
-        echo -e "${BLUE}ℹ${NC} Installing agents to ${AGENTS_DIR}..."
-        for agent in "${AGENTS_SOURCE_DIR}"/*; do
-            if [ -f "$agent" ]; then
-                agent_name=$(basename "$agent" .md)
+    for agent in "${AGENTS_SOURCE_DIR}"/*; do
+        if [ -f "$agent" ]; then
+            agent_name=$(basename "$agent" .md)
 
-                # Check if this is a core agent (always installed regardless of selection)
-                is_core=false
-                for core_agent in "${CORE_AGENTS[@]}"; do
-                    if [ "$agent_name" = "$core_agent" ]; then
-                        is_core=true
+            # Check if this is a core agent (always installed regardless of selection)
+            is_core=false
+            for core_agent in "${CORE_AGENTS[@]}"; do
+                if [ "$agent_name" = "$core_agent" ]; then
+                    is_core=true
+                    break
+                fi
+            done
+
+            # Always install core agents
+            if [ "$is_core" = true ]; then
+                cp "$agent" "${AGENTS_DIR}/"
+                INSTALLED_AGENTS+=("$agent_name")
+            # Install all non-core agents when INSTALL_ALL, or check selected list
+            elif [ "$INSTALL_ALL" = true ]; then
+                cp "$agent" "${AGENTS_DIR}/"
+                INSTALLED_AGENTS+=("$agent_name")
+            else
+                for selected in "${SELECTED_AGENTS[@]+"${SELECTED_AGENTS[@]}"}"; do
+                    if [ "$agent_name" = "$selected" ]; then
+                        cp "$agent" "${AGENTS_DIR}/"
+                        INSTALLED_AGENTS+=("$agent_name")
                         break
                     fi
                 done
-
-                # Always install core agents
-                if [ "$is_core" = true ]; then
-                    cp "$agent" "${AGENTS_DIR}/"
-                    INSTALLED_AGENTS+=("$agent_name")
-                    echo -e "  ${GREEN}✓${NC} Installed core agent: ${agent_name}"
-                # Install all non-core agents when INSTALL_ALL, or check selected list
-                elif [ "$INSTALL_ALL" = true ]; then
-                    cp "$agent" "${AGENTS_DIR}/"
-                    INSTALLED_AGENTS+=("$agent_name")
-                    echo -e "  ${GREEN}✓${NC} Installed agent: ${agent_name}"
-                else
-                    for selected in "${SELECTED_AGENTS[@]}"; do
-                        if [ "$agent_name" = "$selected" ]; then
-                            cp "$agent" "${AGENTS_DIR}/"
-                            INSTALLED_AGENTS+=("$agent_name")
-                            echo -e "  ${GREEN}✓${NC} Installed agent: ${agent_name}"
-                            break
-                        fi
-                    done
-                fi
             fi
-        done
-    fi
+        fi
+    done
 fi
+
 
 # Install to .opencode/skills
 SKILLS_DIR="${REPO_ROOT}/.opencode/skills"
@@ -196,48 +186,43 @@ mkdir -p "$SKILLS_DIR"
 
 SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/skills"
 if [ -d "$SOURCE_DIR" ]; then
-    if true; then
-        echo -e "${BLUE}ℹ${NC} Installing skills to ${SKILLS_DIR}..."
-        for skill in "${SOURCE_DIR}"/*; do
-            if [ -d "$skill" ]; then
-                skill_name=$(basename "$skill")
+    for skill in "${SOURCE_DIR}"/*; do
+        if [ -d "$skill" ]; then
+            skill_name=$(basename "$skill")
 
-                # Check if this is a core skill (always installed regardless of selection)
-                is_core=false
-                for core_skill in "${CORE_SKILLS[@]}"; do
-                    if [ "$skill_name" = "$core_skill" ]; then
-                        is_core=true
+            # Check if this is a core skill (always installed regardless of selection)
+            is_core=false
+            for core_skill in "${CORE_SKILLS[@]}"; do
+                if [ "$skill_name" = "$core_skill" ]; then
+                    is_core=true
+                    break
+                fi
+            done
+
+            # Always install core skills
+            if [ "$is_core" = true ]; then
+                rm -rf "${SKILLS_DIR}/${skill_name}"
+                cp -r "$skill" "${SKILLS_DIR}/"
+                INSTALLED_SKILLS+=("$skill_name")
+            # Install all non-core skills when INSTALL_ALL, or check selected list
+            elif [ "$INSTALL_ALL" = true ]; then
+                rm -rf "${SKILLS_DIR}/${skill_name}"
+                cp -r "$skill" "${SKILLS_DIR}/"
+                INSTALLED_SKILLS+=("$skill_name")
+            else
+                for selected in "${SELECTED_SKILLS[@]+"${SELECTED_SKILLS[@]}"}"; do
+                    if [ "$skill_name" = "$selected" ]; then
+                        rm -rf "${SKILLS_DIR}/${skill_name}"
+                        cp -r "$skill" "${SKILLS_DIR}/"
+                        INSTALLED_SKILLS+=("$skill_name")
                         break
                     fi
                 done
-
-                # Always install core skills
-                if [ "$is_core" = true ]; then
-                    rm -rf "${SKILLS_DIR}/${skill_name}"
-                    cp -r "$skill" "${SKILLS_DIR}/"
-                    INSTALLED_SKILLS+=("$skill_name")
-                    echo -e "  ${GREEN}✓${NC} Installed core skill: ${skill_name}"
-                # Install all non-core skills when INSTALL_ALL, or check selected list
-                elif [ "$INSTALL_ALL" = true ]; then
-                    rm -rf "${SKILLS_DIR}/${skill_name}"
-                    cp -r "$skill" "${SKILLS_DIR}/"
-                    INSTALLED_SKILLS+=("$skill_name")
-                    echo -e "  ${GREEN}✓${NC} Installed skill: ${skill_name}"
-                else
-                    for selected in "${SELECTED_SKILLS[@]}"; do
-                        if [ "$skill_name" = "$selected" ]; then
-                            rm -rf "${SKILLS_DIR}/${skill_name}"
-                            cp -r "$skill" "${SKILLS_DIR}/"
-                            INSTALLED_SKILLS+=("$skill_name")
-                            echo -e "  ${GREEN}✓${NC} Installed skill: ${skill_name}"
-                            break
-                        fi
-                    done
-                fi
             fi
-        done
-    fi
+        fi
+    done
 fi
+
 
 # Install to .opencode/commands
 COMMANDS_DIR="${REPO_ROOT}/.opencode/commands"
@@ -245,45 +230,40 @@ mkdir -p "$COMMANDS_DIR"
 
 COMMANDS_SOURCE_DIR="${TEMP_DIR}/the-perfect-opencode-main/.opencode/commands"
 if [ -d "$COMMANDS_SOURCE_DIR" ]; then
-    if true; then
-        echo -e "${BLUE}ℹ${NC} Installing commands to ${COMMANDS_DIR}..."
-        for cmd in "${COMMANDS_SOURCE_DIR}"/*; do
-            if [ -f "$cmd" ]; then
-                cmd_name=$(basename "$cmd" .md)
+    for cmd in "${COMMANDS_SOURCE_DIR}"/*; do
+        if [ -f "$cmd" ]; then
+            cmd_name=$(basename "$cmd" .md)
 
-                # Check if this is a core command (always installed regardless of selection)
-                is_core=false
-                for core_cmd in "${CORE_COMMANDS[@]}"; do
-                    if [ "$cmd_name" = "$core_cmd" ]; then
-                        is_core=true
+            # Check if this is a core command (always installed regardless of selection)
+            is_core=false
+            for core_cmd in "${CORE_COMMANDS[@]}"; do
+                if [ "$cmd_name" = "$core_cmd" ]; then
+                    is_core=true
+                    break
+                fi
+            done
+
+            # Always install core commands
+            if [ "$is_core" = true ]; then
+                cp "$cmd" "${COMMANDS_DIR}/"
+                INSTALLED_COMMANDS+=("$cmd_name")
+            # Install all non-core commands when INSTALL_ALL, or check selected list
+            elif [ "$INSTALL_ALL" = true ]; then
+                cp "$cmd" "${COMMANDS_DIR}/"
+                INSTALLED_COMMANDS+=("$cmd_name")
+            else
+                for selected in "${SELECTED_COMMANDS[@]+"${SELECTED_COMMANDS[@]}"}"; do
+                    if [ "$cmd_name" = "$selected" ]; then
+                        cp "$cmd" "${COMMANDS_DIR}/"
+                        INSTALLED_COMMANDS+=("$cmd_name")
                         break
                     fi
                 done
-
-                # Always install core commands
-                if [ "$is_core" = true ]; then
-                    cp "$cmd" "${COMMANDS_DIR}/"
-                    INSTALLED_COMMANDS+=("$cmd_name")
-                    echo -e "  ${GREEN}✓${NC} Installed core command: ${cmd_name}"
-                # Install all non-core commands when INSTALL_ALL, or check selected list
-                elif [ "$INSTALL_ALL" = true ]; then
-                    cp "$cmd" "${COMMANDS_DIR}/"
-                    INSTALLED_COMMANDS+=("$cmd_name")
-                    echo -e "  ${GREEN}✓${NC} Installed command: ${cmd_name}"
-                else
-                    for selected in "${SELECTED_COMMANDS[@]}"; do
-                        if [ "$cmd_name" = "$selected" ]; then
-                            cp "$cmd" "${COMMANDS_DIR}/"
-                            INSTALLED_COMMANDS+=("$cmd_name")
-                            echo -e "  ${GREEN}✓${NC} Installed command: ${cmd_name}"
-                            break
-                        fi
-                    done
-                fi
             fi
-        done
-    fi
+        fi
+    done
 fi
+
 
 # ─── Deprecation Cleanup ──────────────────────────────────────────────────────
 # Always runs on every install. Removes deprecated items from the current
@@ -451,16 +431,20 @@ if [ -f "$OPENCODE_JSON_SOURCE" ]; then
         echo -e "  ${BLUE}💡 Tip:${NC} To avoid conflicts, open OpenCode and run ${GREEN}/sync-perfect-configs${NC}"
         echo -e "     This will compare your config with the remote and apply only the necessary changes."
         echo ""
-        read -r -p "  Overwrite anyway? [y/N] " response
-        case "$response" in
-            [yY][eE][sS]|[yY])
-                cp "$OPENCODE_JSON_SOURCE" "$OPENCODE_JSON_DEST"
-                echo -e "  ${GREEN}✓${NC} Overwritten: ${OPENCODE_JSON_DEST}"
-                ;;
-            *)
-                echo -e "  ${BLUE}ℹ${NC} Skipped opencode.json"
-                ;;
-        esac
+        if [ ! -t 0 ]; then
+            echo -e "  ${BLUE}ℹ${NC} Non-interactive mode — skipping opencode.json prompt (keeping existing file)"
+        else
+            read -r -p "  Overwrite anyway? [y/N] " response
+            case "$response" in
+                [yY][eE][sS]|[yY])
+                    cp "$OPENCODE_JSON_SOURCE" "$OPENCODE_JSON_DEST"
+                    echo -e "  ${GREEN}✓${NC} Overwritten: ${OPENCODE_JSON_DEST}"
+                    ;;
+                *)
+                    echo -e "  ${BLUE}ℹ${NC} Skipped opencode.json"
+                    ;;
+            esac
+        fi
     else
         cp "$OPENCODE_JSON_SOURCE" "$OPENCODE_JSON_DEST"
         echo -e "  ${GREEN}✓${NC} Copied opencode.json to: ${REPO_ROOT}"
