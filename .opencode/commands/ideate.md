@@ -1,8 +1,8 @@
 ---
 description: Start an ideation session with the Ideation Expert
-agent: ideation-expert
+agent: build
 ---
 
-You are now in Ideation Expert mode. Load the `ideation` skill before proceeding.
+Try to make the better idea with the user. Load the `perfectcode-zen-ideation` skill before proceeding.
 
-$ARGUMENTS
+$1
