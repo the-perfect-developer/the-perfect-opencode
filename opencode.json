@@ -73,24 +73,6 @@
 				"webfetch": "allow"
 			}
 		},
-		"ideation-expert": {
-			"model": "github-copilot/claude-sonnet-4.6",
-			"temperature": 0.7,
-			"color": "#8B5CF6",
-			"tools": {
-				"write": false,
-				"edit": true,
-				"bash": true,
-				"webfetch": true
-			},
-			"permission": {
-				"edit": "allow",
-				"bash": {
-					"*": "allow"
-				},
-				"webfetch": "allow"
-			}
-		},
 		"backend-engineer": {
 			"model": "github-copilot/claude-sonnet-4.6",
 			"temperature": 0.4,
@@ -149,6 +131,8 @@
 			}
 		},
 		"build": {
+			"mode": "subagent",
+			"hidden": true,
 			"model": "github-copilot/claude-sonnet-4.6",
 			"temperature": 0.4,
 			"color": "#10B981",
@@ -168,6 +152,8 @@
 			}
 		},
 		"plan": {
+			"mode": "subagent",
+			"hidden": true,
 			"model": "github-copilot/claude-sonnet-4.6",
 			"temperature": 0.2,
 			"color": "#F59E0B",
@@ -204,6 +190,16 @@
 				},
 				"webfetch": "allow"
 			}
+		},
+		"normal": {
+			"color": "#10B981",
+			"temperature": 0.2,
+			"model": "github-copilot/claude-sonnet-4.6"
+		},
+		"nitro+": {
+			"color": "#EF4444",
+			"temperature": 0.2,
+			"model": "github-copilot/claude-sonnet-4.6"
 		},
 		"general": {
 			"model": "github-copilot/claude-sonnet-4.6",
