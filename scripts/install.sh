@@ -285,14 +285,6 @@ if [ -d "$COMMANDS_SOURCE_DIR" ]; then
     fi
 fi
 
-echo ""
-echo -e "${BLUE}ℹ${NC} Installation complete!"
-echo -e "  ${GREEN}✓${NC} Agents installed to: ${AGENTS_DIR}"
-echo -e "  ${GREEN}✓${NC} Skills installed to: ${SKILLS_DIR}"
-echo -e "  ${GREEN}✓${NC} Commands installed to: ${COMMANDS_DIR}"
-
-
-
 # ─── Deprecation Cleanup ──────────────────────────────────────────────────────
 # Always runs on every install. Removes deprecated items from the current
 # directory so users are not left with stale/renamed tools.
@@ -360,88 +352,26 @@ fi
 
 # ─── Manifest Generation ─────────────────────────────────────────────────────
 # Builds .opencode/the-perfect-opencode.json listing every tool installed in
-# this run. Writes atomically via /tmp to avoid partially-written files.
-
-# Helper function to deduplicate an array in place
-_dedup_array() {
-    local -n arr_ref="$1"
-    local -a seen=()
-    local -a unique=()
-    for item in "${arr_ref[@]+"${arr_ref[@]}"}"; do
-        if [[ ! " ${seen[*]+"${seen[*]}"} " =~ " ${item} " ]]; then
-            seen+=("${item}")
-            unique+=("${item}")
-        fi
-    done
-    arr_ref=("${unique[@]+"${unique[@]}"}")
-}
-
-# Helper function to parse JSON array string into one item per line
-_parse_json_array() {
-    local input="$1"
-    [[ -z "${input// }" ]] && return
-    echo "$input" | sed 's/"//g' | tr ',' '\n' | sed 's/^ *//; s/ *$//' | grep -v '^$'
-}
+# this run. Reflects only the current run — overwritten on every install.
+# Writes atomically via /tmp to avoid partially-written files.
 
 _write_manifest() {
     local manifest_dest="${REPO_ROOT}/.opencode/the-perfect-opencode.json"
     local manifest_tmp="/tmp/tpo-manifest-$$.json"
-    local install_mode="all"
+    local install_mode
     local installed_at
-    local manifest_existed=false
     installed_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+    mkdir -p "${REPO_ROOT}/.opencode"
 
-    if [ "$INSTALL_ALL" != true ]; then
+    if [ "$INSTALL_ALL" = true ]; then
+        install_mode="all"
+    elif [ ${#SELECTED_AGENTS[@]} -eq 0 ] && [ ${#SELECTED_SKILLS[@]} -eq 0 ] && [ ${#SELECTED_COMMANDS[@]} -eq 0 ]; then
+        install_mode="core"
+    else
         install_mode="selective"
     fi
 
-    # Check if manifest exists and merge with existing items
-    if [ -f "$manifest_dest" ]; then
-        manifest_existed=true
-        # Parse existing agents
-        local existing_agents_line
-        existing_agents_line=$(grep '"agents":' "$manifest_dest")
-        if [ -n "$existing_agents_line" ]; then
-            local existing_agents_raw
-            existing_agents_raw=$(echo "$existing_agents_line" | sed 's/.*\[//' | sed 's/\].*//')
-            local existing_agents=()
-            mapfile -t existing_agents < <(_parse_json_array "$existing_agents_raw")
-            # Merge and dedup
-            local merged_agents=("${existing_agents[@]+"${existing_agents[@]}"}" "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}")
-            _dedup_array merged_agents
-            INSTALLED_AGENTS=("${merged_agents[@]+"${merged_agents[@]}"}")
-        fi
-
-        # Parse existing skills
-        local existing_skills_line
-        existing_skills_line=$(grep '"skills":' "$manifest_dest")
-        if [ -n "$existing_skills_line" ]; then
-            local existing_skills_raw
-            existing_skills_raw=$(echo "$existing_skills_line" | sed 's/.*\[//' | sed 's/\].*//')
-            local existing_skills=()
-            mapfile -t existing_skills < <(_parse_json_array "$existing_skills_raw")
-            # Merge and dedup
-            local merged_skills=("${existing_skills[@]+"${existing_skills[@]}"}" "${INSTALLED_SKILLS[@]+"${INSTALLED_SKILLS[@]}"}")
-            _dedup_array merged_skills
-            INSTALLED_SKILLS=("${merged_skills[@]+"${merged_skills[@]}"}")
-        fi
-
-        # Parse existing commands
-        local existing_commands_line
-        existing_commands_line=$(grep '"commands":' "$manifest_dest")
-        if [ -n "$existing_commands_line" ]; then
-            local existing_commands_raw
-            existing_commands_raw=$(echo "$existing_commands_line" | sed 's/.*\[//' | sed 's/\].*//')
-            local existing_commands=()
-            mapfile -t existing_commands < <(_parse_json_array "$existing_commands_raw")
-            # Merge and dedup
-            local merged_commands=("${existing_commands[@]+"${existing_commands[@]}"}" "${INSTALLED_COMMANDS[@]+"${INSTALLED_COMMANDS[@]}"}")
-            _dedup_array merged_commands
-            INSTALLED_COMMANDS=("${merged_commands[@]+"${merged_commands[@]}"}")
-        fi
-    fi
-
-    # Build JSON arrays from (now merged) tracking arrays
+    # Build JSON arrays from tracking arrays
     local agents_json=""
     for item in "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}"; do
         agents_json="${agents_json:+${agents_json}, }\"${item}\""
@@ -467,11 +397,7 @@ _write_manifest() {
     printf '}\n' >> "$manifest_tmp"
 
     mv "$manifest_tmp" "$manifest_dest"
-    if [ "$manifest_existed" = true ]; then
-        echo -e "  ${GREEN}✓${NC} Manifest updated: ${manifest_dest}"
-    else
-        echo -e "  ${GREEN}✓${NC} Manifest written to: ${manifest_dest}"
-    fi
+    echo -e "  ${GREEN}✓${NC} Manifest written to: ${manifest_dest}"
 }
 
 # Prints a human-readable installed-tools summary grouped by category.
@@ -502,6 +428,12 @@ _print_installed_report() {
 
 _write_manifest
 _print_installed_report
+
+echo ""
+echo -e "${BLUE}ℹ${NC} Installation complete!"
+echo -e "  ${GREEN}✓${NC} Agents installed to: ${AGENTS_DIR}"
+echo -e "  ${GREEN}✓${NC} Skills installed to: ${SKILLS_DIR}"
+echo -e "  ${GREEN}✓${NC} Commands installed to: ${COMMANDS_DIR}"
 
 
 # ─── Custom Post-Install ──────────────────────────────────────────────────────
