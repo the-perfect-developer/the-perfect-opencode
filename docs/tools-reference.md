@@ -20,7 +20,6 @@ The Perfect OpenCode provides several built-in agents that cover different aspec
 
 | Name | Description | Model |
 |------|-------------|-------|
-| `architect` | Software Architect - Focus on system design, architectural patterns, design decisions, and complex backend logic | `Default` |
 | `backend-engineer` | Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions | `Default` |
 | `code-analyst` | Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms. | `Default` |
 | `frontend-engineer` | Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences | `Default` |
@@ -28,7 +27,9 @@ The Perfect OpenCode provides several built-in agents that cover different aspec
 | `nitro+` | > | `Default` |
 | `normal` | > | `Default` |
 | `performance-engineer` | Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis | `Default` |
+| `principal-architect` | Principal Architect - Responsible for high-level system strategy, cross-service architectural decisions, long-horizon design, and technical governance across the entire stack | `claude-opus-4-6` |
 | `security-expert` | Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices | `Default` |
+| `solution-architect` | Solution Architect - Translates principal-level architectural decisions into concrete, implementable designs across Python, Go, and Node.js services | `gpt-5.4` |
 
 ---
 
@@ -144,6 +145,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-19 13:20:19 UTC
+**Generated on:** 2026-03-19 14:12:06 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
