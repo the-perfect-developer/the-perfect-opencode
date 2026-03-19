@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -uo pipefail
 
 # Colors
 GREEN='\033[0;32m'
@@ -28,6 +28,11 @@ TEMP_DIR="/tmp/the-perfect-opencode-$$"
 declare -a SELECTED_AGENTS
 declare -a SELECTED_SKILLS
 declare -a SELECTED_COMMANDS
+
+# Arrays to record items actually installed in this run
+declare -a INSTALLED_AGENTS
+declare -a INSTALLED_SKILLS
+declare -a INSTALLED_COMMANDS
 
 # Core items that are always installed (bare minimum requirements)
 CORE_AGENTS=("code-analyst" "database-architect" "developer-fast" "developer-prime" "devops-engineer" "orchestrix" "performance-engineer" "principal-architect" "security-expert" "solution-architect" "test-engineer" "ui-ux-designer")
@@ -147,15 +152,18 @@ if [ -d "$AGENTS_SOURCE_DIR" ]; then
                 # Always install core agents
                 if [ "$is_core" = true ]; then
                     cp "$agent" "${AGENTS_DIR}/"
+                    INSTALLED_AGENTS+=("$agent_name")
                     echo -e "  ${GREEN}✓${NC} Installed core agent: ${agent_name}"
                 # Install all non-core agents when INSTALL_ALL, or check selected list
                 elif [ "$INSTALL_ALL" = true ]; then
                     cp "$agent" "${AGENTS_DIR}/"
+                    INSTALLED_AGENTS+=("$agent_name")
                     echo -e "  ${GREEN}✓${NC} Installed agent: ${agent_name}"
                 else
                     for selected in "${SELECTED_AGENTS[@]}"; do
                         if [ "$agent_name" = "$selected" ]; then
                             cp "$agent" "${AGENTS_DIR}/"
+                            INSTALLED_AGENTS+=("$agent_name")
                             echo -e "  ${GREEN}✓${NC} Installed agent: ${agent_name}"
                             break
                         fi
@@ -191,17 +199,20 @@ if [ -d "$SOURCE_DIR" ]; then
                 if [ "$is_core" = true ]; then
                     rm -rf "${SKILLS_DIR}/${skill_name}"
                     cp -r "$skill" "${SKILLS_DIR}/"
+                    INSTALLED_SKILLS+=("$skill_name")
                     echo -e "  ${GREEN}✓${NC} Installed core skill: ${skill_name}"
                 # Install all non-core skills when INSTALL_ALL, or check selected list
                 elif [ "$INSTALL_ALL" = true ]; then
                     rm -rf "${SKILLS_DIR}/${skill_name}"
                     cp -r "$skill" "${SKILLS_DIR}/"
+                    INSTALLED_SKILLS+=("$skill_name")
                     echo -e "  ${GREEN}✓${NC} Installed skill: ${skill_name}"
                 else
                     for selected in "${SELECTED_SKILLS[@]}"; do
                         if [ "$skill_name" = "$selected" ]; then
                             rm -rf "${SKILLS_DIR}/${skill_name}"
                             cp -r "$skill" "${SKILLS_DIR}/"
+                            INSTALLED_SKILLS+=("$skill_name")
                             echo -e "  ${GREEN}✓${NC} Installed skill: ${skill_name}"
                             break
                         fi
@@ -236,15 +247,18 @@ if [ -d "$COMMANDS_SOURCE_DIR" ]; then
                 # Always install core commands
                 if [ "$is_core" = true ]; then
                     cp "$cmd" "${COMMANDS_DIR}/"
+                    INSTALLED_COMMANDS+=("$cmd_name")
                     echo -e "  ${GREEN}✓${NC} Installed core command: ${cmd_name}"
                 # Install all non-core commands when INSTALL_ALL, or check selected list
                 elif [ "$INSTALL_ALL" = true ]; then
                     cp "$cmd" "${COMMANDS_DIR}/"
+                    INSTALLED_COMMANDS+=("$cmd_name")
                     echo -e "  ${GREEN}✓${NC} Installed command: ${cmd_name}"
                 else
                     for selected in "${SELECTED_COMMANDS[@]}"; do
                         if [ "$cmd_name" = "$selected" ]; then
                             cp "$cmd" "${COMMANDS_DIR}/"
+                            INSTALLED_COMMANDS+=("$cmd_name")
                             echo -e "  ${GREEN}✓${NC} Installed command: ${cmd_name}"
                             break
                         fi
@@ -332,6 +346,152 @@ if [ "$deprecated_found" = true ]; then
     _remove_deprecated "command" "${REPO_ROOT}/.opencode/commands" ".md"  "${DEPRECATED_COMMANDS[@]+"${DEPRECATED_COMMANDS[@]}"}"
     echo ""
 fi
+
+
+# ─── Manifest Generation ─────────────────────────────────────────────────────
+# Builds .opencode/the-perfect-opencode.json listing every tool installed in
+# this run. Writes atomically via /tmp to avoid partially-written files.
+
+# Helper function to deduplicate an array in place
+_dedup_array() {
+    local -n arr_ref="$1"
+    local -a seen=()
+    local -a unique=()
+    for item in "${arr_ref[@]+"${arr_ref[@]}"}"; do
+        if [[ ! " ${seen[*]+"${seen[*]}"} " =~ " ${item} " ]]; then
+            seen+=("${item}")
+            unique+=("${item}")
+        fi
+    done
+    arr_ref=("${unique[@]+"${unique[@]}"}")
+}
+
+# Helper function to parse JSON array string into one item per line
+_parse_json_array() {
+    local input="$1"
+    [[ -z "${input// }" ]] && return
+    echo "$input" | sed 's/"//g' | tr ',' '\n' | sed 's/^ *//; s/ *$//' | grep -v '^$'
+}
+
+_write_manifest() {
+    local manifest_dest="${REPO_ROOT}/.opencode/the-perfect-opencode.json"
+    local manifest_tmp="/tmp/tpo-manifest-$$.json"
+    local install_mode="all"
+    local installed_at
+    local manifest_existed=false
+    installed_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+
+    if [ "$INSTALL_ALL" != true ]; then
+        install_mode="selective"
+    fi
+
+    # Check if manifest exists and merge with existing items
+    if [ -f "$manifest_dest" ]; then
+        manifest_existed=true
+        # Parse existing agents
+        local existing_agents_line
+        existing_agents_line=$(grep '"agents":' "$manifest_dest")
+        if [ -n "$existing_agents_line" ]; then
+            local existing_agents_raw
+            existing_agents_raw=$(echo "$existing_agents_line" | sed 's/.*\[//' | sed 's/\].*//')
+            local existing_agents=()
+            mapfile -t existing_agents < <(_parse_json_array "$existing_agents_raw")
+            # Merge and dedup
+            local merged_agents=("${existing_agents[@]+"${existing_agents[@]}"}" "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}")
+            _dedup_array merged_agents
+            INSTALLED_AGENTS=("${merged_agents[@]+"${merged_agents[@]}"}")
+        fi
+
+        # Parse existing skills
+        local existing_skills_line
+        existing_skills_line=$(grep '"skills":' "$manifest_dest")
+        if [ -n "$existing_skills_line" ]; then
+            local existing_skills_raw
+            existing_skills_raw=$(echo "$existing_skills_line" | sed 's/.*\[//' | sed 's/\].*//')
+            local existing_skills=()
+            mapfile -t existing_skills < <(_parse_json_array "$existing_skills_raw")
+            # Merge and dedup
+            local merged_skills=("${existing_skills[@]+"${existing_skills[@]}"}" "${INSTALLED_SKILLS[@]+"${INSTALLED_SKILLS[@]}"}")
+            _dedup_array merged_skills
+            INSTALLED_SKILLS=("${merged_skills[@]+"${merged_skills[@]}"}")
+        fi
+
+        # Parse existing commands
+        local existing_commands_line
+        existing_commands_line=$(grep '"commands":' "$manifest_dest")
+        if [ -n "$existing_commands_line" ]; then
+            local existing_commands_raw
+            existing_commands_raw=$(echo "$existing_commands_line" | sed 's/.*\[//' | sed 's/\].*//')
+            local existing_commands=()
+            mapfile -t existing_commands < <(_parse_json_array "$existing_commands_raw")
+            # Merge and dedup
+            local merged_commands=("${existing_commands[@]+"${existing_commands[@]}"}" "${INSTALLED_COMMANDS[@]+"${INSTALLED_COMMANDS[@]}"}")
+            _dedup_array merged_commands
+            INSTALLED_COMMANDS=("${merged_commands[@]+"${merged_commands[@]}"}")
+        fi
+    fi
+
+    # Build JSON arrays from (now merged) tracking arrays
+    local agents_json=""
+    for item in "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}"; do
+        agents_json="${agents_json:+${agents_json}, }\"${item}\""
+    done
+
+    local skills_json=""
+    for item in "${INSTALLED_SKILLS[@]+"${INSTALLED_SKILLS[@]}"}"; do
+        skills_json="${skills_json:+${skills_json}, }\"${item}\""
+    done
+
+    local commands_json=""
+    for item in "${INSTALLED_COMMANDS[@]+"${INSTALLED_COMMANDS[@]}"}"; do
+        commands_json="${commands_json:+${commands_json}, }\"${item}\""
+    done
+
+    printf '{\n' > "$manifest_tmp"
+    printf '  "schema_version": "1",\n' >> "$manifest_tmp"
+    printf '  "installed_at": "%s",\n' "$installed_at" >> "$manifest_tmp"
+    printf '  "mode": "%s",\n' "$install_mode" >> "$manifest_tmp"
+    printf '  "agents": [%s],\n' "$agents_json" >> "$manifest_tmp"
+    printf '  "skills": [%s],\n' "$skills_json" >> "$manifest_tmp"
+    printf '  "commands": [%s]\n' "$commands_json" >> "$manifest_tmp"
+    printf '}\n' >> "$manifest_tmp"
+
+    mv "$manifest_tmp" "$manifest_dest"
+    if [ "$manifest_existed" = true ]; then
+        echo -e "  ${GREEN}✓${NC} Manifest updated: ${manifest_dest}"
+    else
+        echo -e "  ${GREEN}✓${NC} Manifest written to: ${manifest_dest}"
+    fi
+}
+
+# Prints a human-readable installed-tools summary grouped by category.
+_print_installed_report() {
+    local agent_count="${#INSTALLED_AGENTS[@]}"
+    local skill_count="${#INSTALLED_SKILLS[@]}"
+    local command_count="${#INSTALLED_COMMANDS[@]}"
+
+    echo ""
+    echo -e "${BLUE}ℹ${NC} Installed tools:"
+
+    echo -e "  ${GREEN}Agents${NC} (${agent_count}):"
+    for item in "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}"; do
+        echo -e "    • ${item}"
+    done
+
+    echo -e "  ${GREEN}Skills${NC} (${skill_count}):"
+    for item in "${INSTALLED_SKILLS[@]+"${INSTALLED_SKILLS[@]}"}"; do
+        echo -e "    • ${item}"
+    done
+
+    echo -e "  ${GREEN}Commands${NC} (${command_count}):"
+    for item in "${INSTALLED_COMMANDS[@]+"${INSTALLED_COMMANDS[@]}"}"; do
+        echo -e "    • ${item}"
+    done
+}
+
+
+_write_manifest
+_print_installed_report
 
 
 # ─── Custom Post-Install ──────────────────────────────────────────────────────

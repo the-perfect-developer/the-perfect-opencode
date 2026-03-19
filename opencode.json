@@ -75,7 +75,7 @@
 		},
 
 		"plan": {
-			"model": "github-copilot/claude-sonnet-4.6",
+			"model": "github-copilot/gpt-5.4",
 			"temperature": 0.2,
 			"color": "#F59E0B",
 			"hidden": true
