@@ -17,12 +17,16 @@
       "description": "Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences"
     },
     {
-      "name": "ideation-expert",
+      "name": "junior-engineer",
+      "description": "Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes"
+    },
+    {
+      "name": "nitro+",
       "description": ">"
     },
     {
-      "name": "junior-engineer",
-      "description": "Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes"
+      "name": "normal",
+      "description": ">"
     },
     {
       "name": "performance-engineer",
@@ -309,5 +313,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-03-19T12:52:05Z"
+  "generated_at": "2026-03-19T13:20:28Z"
 }
