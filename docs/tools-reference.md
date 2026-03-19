@@ -72,6 +72,7 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `nuxt` | This skill should be used when the user asks to build a Nuxt app, optimize Nuxt performance, configure Nuxt rendering, follow Nuxt best practices, or needs guidance on Nuxt 4 development patterns, hybrid rendering, or Core Web Vitals optimization. |
 | `pandas` | This skill should be used when the user asks to use pandas, analyze data with pandas, work with DataFrames, clean data with pandas, or needs guidance on pandas best practices, data manipulation, performance optimization, or common pandas patterns. |
 | `pandera` | This skill should be used when the user asks to validate a DataFrame with pandera, write a pandera schema, use pandera DataFrameModel, add data validation to a pipeline, or needs guidance on pandera best practices for data quality. |
+| `perfectcode-zen-evaluation` | This skill should be used when the user asks to evaluate an implementation, run the zen evaluation workflow, check if the plan was properly implemented, review implementation against a plan, or needs to assess implementation quality and surface improvement suggestions after a zen build cycle. |
 | `perfectcode-zen-ideation` | This skill should be used when the user asks to ideate a feature together, zen ideation, let's think through this together, help me shape this idea, collaborative ideation session, or needs a structured framework for LLM-user co-creation where both parties actively contribute, challenge, and build toward the best possible idea. |
 | `perfectcode-zen-implement` | This skill should be used when the user asks to implement a zen plan, execute the zen workflow, run parallel agent implementation, build from an opencode plan, or needs to execute a written plan from .opencode/plans/ using parallel engineering agents with quality gates. |
 | `perfectcode-zen-plan` | This skill should be used when the user asks to plan a feature, run the zen planning workflow, consult all senior agents on a plan, create a structured plan with agent consultation, or needs a thorough multi-agent planning phase before building anything. |
@@ -111,6 +112,7 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 | `/create-command` | Create a new OpenCode command with interactive requirements gathering | `build` | `Default` |
 | `/create-rule` | Add a MUST FOLLOW rule to AGENTS.md | `build` | `Default` |
 | `/create-skill` | Create a new OpenCode skill with proper structure and frontmatter | `build` | `Default` |
+| `/evaluate` | Evaluate whether an implementation matches its plan | `plan` | `Default` |
 | `/git-commit` | Commit staged changes with a conventional commit message | `build` | `Default` |
 | `/git-push` | Push committed changes to remote — never stages or commits anything | `build` | `Default` |
 | `/ideate` | Start an ideation session with the Ideation Expert | `build` | `Default` |
@@ -145,6 +147,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-19 18:16:46 UTC
+**Generated on:** 2026-03-19 18:26:09 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
