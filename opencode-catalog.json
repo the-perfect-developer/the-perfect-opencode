@@ -1,24 +1,24 @@
 {
   "agents": [
     {
-      "name": "backend-engineer",
-      "description": "Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions"
-    },
-    {
       "name": "code-analyst",
       "description": "Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms."
     },
     {
-      "name": "frontend-engineer",
-      "description": "Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences"
+      "name": "database-architect",
+      "description": "Database Architect - Data modeling, schema design, query optimization, migration strategy, and polyglot persistence decisions across the stack"
     },
     {
-      "name": "junior-engineer",
-      "description": "Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes"
+      "name": "developer-fast",
+      "description": "Developer Fast - High-speed implementation agent for scoped, single-file, boilerplate, and high-volume tasks. Receives specs from SolutionArchitect and executes with minimal latency."
     },
     {
-      "name": "nitro+",
-      "description": ">"
+      "name": "developer-prime",
+      "description": "Developer Prime - Full-stack implementation agent for complex, multi-file, long-context, and frontend tasks. Receives specs from SolutionArchitect and design specs from UI/UX Designer."
+    },
+    {
+      "name": "devops-engineer",
+      "description": "DevOps Engineer - Infrastructure, CI/CD pipelines, containerization, deployment strategies, and operational tooling across Python, Go, and Node.js services"
     },
     {
       "name": "normal",
@@ -39,6 +39,18 @@
     {
       "name": "solution-architect",
       "description": "Solution Architect - Translates principal-level architectural decisions into concrete, implementable designs across Python, Go, and Node.js services"
+    },
+    {
+      "name": "test-engineer",
+      "description": "Test Engineer - Unit, integration, contract, and e2e test design and implementation across Python, Go, and Node.js services"
+    },
+    {
+      "name": "turbo",
+      "description": ">"
+    },
+    {
+      "name": "ui-ux-designer",
+      "description": "UI/UX Designer - Produces design specs, component definitions, interaction flows, and visual guidelines for implementation agents. Does not write code."
     }
   ],
   "skills": [
@@ -317,5 +329,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-03-19T14:12:25Z"
+  "generated_at": "2026-03-19T14:49:33Z"
 }
