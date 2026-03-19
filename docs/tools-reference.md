@@ -24,8 +24,9 @@ The Perfect OpenCode provides several built-in agents that cover different aspec
 | `backend-engineer` | Backend Engineer - Implements backend features, APIs, database operations, and services based on consultant/architect suggestions | `Default` |
 | `code-analyst` | Analyzes complex code to explain architecture, logic, data flow, and design patterns. Use when you need to understand unfamiliar codebases, trace execution paths, or decode intricate algorithms. | `Default` |
 | `frontend-engineer` | Frontend Engineer & UI/UX Specialist - Focus on user interfaces, React/Vue/Angular, accessibility, responsive design, and delightful user experiences | `Default` |
-| `ideation-expert` | > | `Default` |
 | `junior-engineer` | Junior Engineer - Fast, focused implementation of small features, bug fixes, and straightforward tasks under 30 minutes | `Default` |
+| `nitro+` | > | `Default` |
+| `normal` | > | `Default` |
 | `performance-engineer` | Performance Optimization & Efficiency Specialist - Focus on profiling, benchmarking, algorithm optimization, and performance analysis | `Default` |
 | `security-expert` | Security & Cryptography Specialist - Focus on security audits, threat modeling, cryptography, authentication, authorization, and secure coding practices | `Default` |
 
@@ -143,6 +144,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-03-19 11:06:05 UTC
+**Generated on:** 2026-03-19 13:20:19 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
