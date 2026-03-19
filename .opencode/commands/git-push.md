@@ -1,6 +1,6 @@
 ---
 description: Push committed changes to remote — never stages or commits anything
-agent: build
+agent: developer-fast
 ---
 
 Push the committed (but not yet pushed) changes to the remote repository.

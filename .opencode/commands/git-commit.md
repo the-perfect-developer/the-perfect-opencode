@@ -1,6 +1,6 @@
 ---
 description: Commit staged changes with a conventional commit message
-agent: build
+agent: developer-fast
 ---
 
 Commit staged changes using Conventional Commits 1.0.0.
