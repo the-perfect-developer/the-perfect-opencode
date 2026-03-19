@@ -135,7 +135,7 @@ if [ -d "$AGENTS_SOURCE_DIR" ]; then
             if [ -f "$agent" ]; then
                 agent_name=$(basename "$agent" .md)
 
-                # Check if this is a core agent (only install when INSTALL_ALL)
+                # Check if this is a core agent (always installed regardless of selection)
                 is_core=false
                 for core_agent in "${CORE_AGENTS[@]}"; do
                     if [ "$agent_name" = "$core_agent" ]; then
@@ -148,8 +148,11 @@ if [ -d "$AGENTS_SOURCE_DIR" ]; then
                 if [ "$is_core" = true ]; then
                     cp "$agent" "${AGENTS_DIR}/"
                     echo -e "  ${GREEN}✓${NC} Installed core agent: ${agent_name}"
-                # Check if this agent is in the selected list
-                elif [ "$INSTALL_ALL" = false ]; then
+                # Install all non-core agents when INSTALL_ALL, or check selected list
+                elif [ "$INSTALL_ALL" = true ]; then
+                    cp "$agent" "${AGENTS_DIR}/"
+                    echo -e "  ${GREEN}✓${NC} Installed agent: ${agent_name}"
+                else
                     for selected in "${SELECTED_AGENTS[@]}"; do
                         if [ "$agent_name" = "$selected" ]; then
                             cp "$agent" "${AGENTS_DIR}/"
@@ -175,7 +178,7 @@ if [ -d "$SOURCE_DIR" ]; then
             if [ -d "$skill" ]; then
                 skill_name=$(basename "$skill")
 
-                # Check if this is a core skill (only install when INSTALL_ALL)
+                # Check if this is a core skill (always installed regardless of selection)
                 is_core=false
                 for core_skill in "${CORE_SKILLS[@]}"; do
                     if [ "$skill_name" = "$core_skill" ]; then
@@ -189,8 +192,12 @@ if [ -d "$SOURCE_DIR" ]; then
                     rm -rf "${SKILLS_DIR}/${skill_name}"
                     cp -r "$skill" "${SKILLS_DIR}/"
                     echo -e "  ${GREEN}✓${NC} Installed core skill: ${skill_name}"
-                # Check if this skill is in the selected list
-                elif [ "$INSTALL_ALL" = false ]; then
+                # Install all non-core skills when INSTALL_ALL, or check selected list
+                elif [ "$INSTALL_ALL" = true ]; then
+                    rm -rf "${SKILLS_DIR}/${skill_name}"
+                    cp -r "$skill" "${SKILLS_DIR}/"
+                    echo -e "  ${GREEN}✓${NC} Installed skill: ${skill_name}"
+                else
                     for selected in "${SELECTED_SKILLS[@]}"; do
                         if [ "$skill_name" = "$selected" ]; then
                             rm -rf "${SKILLS_DIR}/${skill_name}"
@@ -217,7 +224,7 @@ if [ -d "$COMMANDS_SOURCE_DIR" ]; then
             if [ -f "$cmd" ]; then
                 cmd_name=$(basename "$cmd" .md)
 
-                # Check if this is a core command (only install when INSTALL_ALL)
+                # Check if this is a core command (always installed regardless of selection)
                 is_core=false
                 for core_cmd in "${CORE_COMMANDS[@]}"; do
                     if [ "$cmd_name" = "$core_cmd" ]; then
@@ -230,8 +237,11 @@ if [ -d "$COMMANDS_SOURCE_DIR" ]; then
                 if [ "$is_core" = true ]; then
                     cp "$cmd" "${COMMANDS_DIR}/"
                     echo -e "  ${GREEN}✓${NC} Installed core command: ${cmd_name}"
-                # Check if this command is in the selected list
-                elif [ "$INSTALL_ALL" = false ]; then
+                # Install all non-core commands when INSTALL_ALL, or check selected list
+                elif [ "$INSTALL_ALL" = true ]; then
+                    cp "$cmd" "${COMMANDS_DIR}/"
+                    echo -e "  ${GREEN}✓${NC} Installed command: ${cmd_name}"
+                else
                     for selected in "${SELECTED_COMMANDS[@]}"; do
                         if [ "$cmd_name" = "$selected" ]; then
                             cp "$cmd" "${COMMANDS_DIR}/"
