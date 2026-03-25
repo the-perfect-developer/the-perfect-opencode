@@ -421,7 +421,7 @@ _ensure_gitignore_entry() {
 # _sync_opencode_gitignore
 # Writes gitignore entries for all installed agents (except orchestrix),
 # all installed skills, and all installed commands (except install-perfect-tools),
-# plus static entries /plans and /evaluations.
+# plus static entries /plans, /evaluations, bun.lock, package.json, and node_modules.
 _sync_opencode_gitignore() {
     local gitignore="${REPO_ROOT}/.opencode/.gitignore"
     local item
@@ -430,6 +430,9 @@ _sync_opencode_gitignore() {
 
     _ensure_gitignore_entry "$gitignore" "/plans"
     _ensure_gitignore_entry "$gitignore" "/evaluations"
+    _ensure_gitignore_entry "$gitignore" "bun.lock"
+    _ensure_gitignore_entry "$gitignore" "package.json"
+    _ensure_gitignore_entry "$gitignore" "node_modules"
 
     for item in "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}"; do
         [ "$item" = "orchestrix" ] && continue
