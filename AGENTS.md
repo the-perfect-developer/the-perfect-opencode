@@ -54,6 +54,12 @@ ruff format --check .      # format check (CI mode, no writes)
 ./scripts/setup-hooks.sh   # sets git core.hooksPath = .githooks
 ```
 
+The pre-commit orchestrator runs 4 hooks in sequence:
+- `10-validate-bash.sh` — bash `-n` syntax check on staged `.sh` files
+- `20-validate-skills.sh` — SKILL.md frontmatter validation
+- `30-validate-python-ruff.sh` — Ruff lint + format check
+- `40-validate-eslint.sh` — ESLint on JS/TS files (activates only in consumer projects with a root `package.json`)
+
 ## Skill Validation Rules
 
 A SKILL.md is valid when:
@@ -67,8 +73,9 @@ A SKILL.md is valid when:
 
 ### Bash Scripts
 
-- Shebang: `#!/bin/bash` on every script
-- Use `set -uo pipefail` (not `set -e`; avoid silent failures)
+- Shebang: `#!/usr/bin/env bash` preferred for portability; `#!/bin/bash` also acceptable (used in hook scripts)
+- Primary install script (`scripts/install.sh`) uses `#!/usr/bin/env bash`; hook scripts use `#!/bin/bash` for historical reasons; prefer `#!/usr/bin/env bash` in new scripts
+- Use `set -uo pipefail` (not `set -e`; avoid silent failures). Note: existing hook scripts use `set -e` for historical reasons; new scripts should use `set -uo pipefail`
 - Make scripts executable: `chmod +x`
 - Validate with `bash -n` before committing
 - Name hook scripts with numeric prefix: `<NN>-<description>.sh` (increments of 10)
@@ -115,14 +122,15 @@ permission:
 
 | Role | Agents | `tools.write` | `tools.edit` | Can commit? |
 |---|---|---|---|---|
-| Consultant | architect, code-analyst, performance-engineer, security-expert | `false` | `false` | No |
-| Implementer | backend-engineer, frontend-engineer, junior-engineer | `true` | `true` | Yes |
+| Orchestrator | orchestrix | `false` | `false` | No |
+| Consultant | principal-architect, solution-architect, database-architect, code-analyst, performance-engineer, security-expert, devops-engineer, test-engineer, ui-ux-designer | `false` | `false` | No |
+| Implementer | developer-prime, developer-fast | `true` | `true` | Yes |
 
 #### Bash Permission Model
 
 All agents share a common baseline of `allow` rules, with role-specific additions:
 
-**Universal (all 7 agents — always `allow`)**
+**Universal (all agents — always `allow`)**
 - Filesystem read: `ls*`, `pwd`, `which*`, `whoami`, `cat*`, `head*`, `tail*`, `wc*`, `file*`, `stat*`, `du*`, `df*`
 - Search & text: `grep*`, `rg*`, `find*`, `tree*`, `awk*`, `sort*`, `cut*`, `uniq*`, `tr*`, `comm*`, `diff*`, `jq*`, `yq*`
 - Output: `echo*`, `printf*`
@@ -135,7 +143,7 @@ All agents share a common baseline of `allow` rules, with role-specific addition
 - Git read: `git status`, `git diff*`, `git log*`, `git show*`, `git branch*`, `git remote*`, `git ls-files*`, `git blame*`, `git describe*`, `git rev-parse*`, `git stash list`, `git tag`, `git tag -l*`, `git config --get*`
 - `/tmp` sandbox: `"* /tmp*": allow`
 
-**Always `ask` (all 7 agents)**
+**Always `ask` (all agents)**
 - Network: `curl*`, `ping*`, `dig*`, `nslookup*`, `ss*`, `netstat*`
 - Process inspection: `ps*`, `lsof*`
 - `make -n*`
@@ -243,7 +251,7 @@ Breaking changes: append `!` after type/scope or add `BREAKING CHANGE:` footer.
 |---|---|---|
 | `validate-bash.yml` | PR/push to `main` | `bash -n` all `.sh` files |
 | `validate-skills.yml` | PR/push to `main` | Validate all `SKILL.md` frontmatter |
-| `generate-catalog.yml` | Push to `main` | Auto-regenerate `opencode-catalog.json` |
-| `generate-tools-docs.yml` | Push to `main` | Auto-regenerate `docs/tools-reference.md` |
+| `generate-catalog.yml` | Push to `main` or `develop` | Auto-regenerate `opencode-catalog.json` |
+| `generate-tools-docs.yml` | Push to `main` or `develop` (path-filtered) | Auto-regenerate `docs/tools-reference.md` |
 
 Do **not** manually edit `opencode-catalog.json` or `docs/tools-reference.md` — they are auto-generated.

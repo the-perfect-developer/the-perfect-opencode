@@ -11,9 +11,9 @@ https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/ref
 ```
 
 This catalog contains:
-- **Agents**: Specialized AI assistants configured for specific development tasks (e.g., architect, frontend-engineer, security-expert)
-- **Skills**: Domain-specific instruction sets and workflows (e.g., alpinejs, python, conventional-git-commit)
-- **Commands**: Custom slash commands for common operations (e.g., git-stage-commit-push, check-file)
+- **Agents**: Specialized AI assistants configured for specific development tasks (12 agents, e.g., principal-architect, developer-prime, security-expert)
+- **Skills**: Domain-specific instruction sets and workflows (53+ skills, e.g., alpinejs, python, conventional-git-commit)
+- **Commands**: Custom slash commands for common operations (14 commands, e.g., git-commit, plan, implement)
 
 Each entry in the catalog includes metadata such as:
 - Name and description
@@ -31,8 +31,23 @@ Once you've identified the agents, skills, or commands you need from the catalog
 Use this one-liner to install any combination of agents, skills, and commands:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/opencode-base-collection/main/scripts/install.sh) agent:architect skill:alpinejs command:git-stage-commit-push
+bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/main/scripts/install.sh) agent:principal-architect skill:alpinejs command:git-commit
 ```
+
+### Installation Modes
+
+```bash
+# Install everything
+bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/main/scripts/install.sh) --all
+
+# Install core items only (default)
+bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/main/scripts/install.sh)
+
+# Install specific items
+bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/main/scripts/install.sh) agent:principal-architect skill:python command:git-commit
+```
+
+The installer automatically removes deprecated tools, writes a manifest of installed items, and syncs `.opencode/.gitignore`.
 
 ### How It Works
 
@@ -49,22 +64,22 @@ The installation script:
 
 **Install a single agent:**
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/opencode-base-collection/main/scripts/install.sh) agent:backend-engineer
+bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/main/scripts/install.sh) agent:developer-prime
 ```
 
 **Install multiple skills:**
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/opencode-base-collection/main/scripts/install.sh) skill:python skill:typescript-style skill:markdown
+bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/main/scripts/install.sh) skill:python skill:typescript-style skill:markdown
 ```
 
 **Install a command:**
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/opencode-base-collection/main/scripts/install.sh) command:git-stage-commit-push
+bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/main/scripts/install.sh) command:git-commit
 ```
 
 **Install multiple resources of different types:**
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/opencode-base-collection/main/scripts/install.sh) agent:architect agent:security-expert skill:alpinejs skill:htmx command:git-stage-commit-push
+bash <(curl -fsSL https://raw.githubusercontent.com/the-perfect-developer/the-perfect-opencode/main/scripts/install.sh) agent:principal-architect agent:security-expert skill:alpinejs skill:htmx command:git-commit
 ```
 
 ## Installation Locations
