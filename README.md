@@ -27,6 +27,33 @@ A curated collection of agents, skills, and commands for [OpenCode](https://open
 
 ---
 
+## Prerequisites
+
+The installer requires the following tools to be available in your `PATH`:
+
+| Tool | Purpose | Install |
+|---|---|---|
+| `curl` | Download the release archive | Pre-installed on most systems |
+| `tar` | Extract the archive | Pre-installed on most systems |
+| `jq` | Parse and write the installation manifest | [jqlang.github.io/jq](https://jqlang.github.io/jq/download/) |
+
+**Install `jq`:**
+```bash
+# macOS
+brew install jq
+
+# Ubuntu / Debian
+sudo apt-get install jq
+
+# Alpine
+apk add jq
+
+# Windows (Chocolatey)
+choco install jq
+```
+
+If any of these tools is missing, the installer will exit immediately with a clear error message.
+
 ## Installation
 
 Install the core collection with a single command:

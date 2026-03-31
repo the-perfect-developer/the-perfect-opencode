@@ -29,6 +29,15 @@ declare -a INSTALLED_AGENTS=()
 declare -a INSTALLED_SKILLS=()
 declare -a INSTALLED_COMMANDS=()
 
+# Manifest auto-sync state
+MANIFEST_PATH="${REPO_ROOT}/.opencode/the-perfect-opencode.json"
+MANIFEST_FOUND=false
+MANIFEST_LOADED=false
+MANIFEST_PARSE_WARNING=""
+declare -a RESTORED_AGENTS=()
+declare -a RESTORED_SKILLS=()
+declare -a RESTORED_COMMANDS=()
+
 # Core items that are always installed (bare minimum requirements)
 CORE_AGENTS=("code-analyst" "database-architect" "developer-fast" "developer-prime" "devops-engineer" "orchestrix" "performance-engineer" "principal-architect" "security-expert" "solution-architect" "test-engineer" "ui-ux-designer")
 CORE_SKILLS=("agent-configuration" "command-creation" "conventional-git-commit" "interactive-questions" "perfectcode-zen-evaluation" "perfectcode-zen-ideation" "perfectcode-zen-implement" "perfectcode-zen-plan" "skill-creation")
@@ -39,6 +48,110 @@ DEPRECATED_AGENTS=("architect" "backend-engineer" "frontend-engineer" "ideation-
 DEPRECATED_SKILLS=("planning" "implementation" "ideation")
 DEPRECATED_COMMANDS=("git-stage-commit-push" "git-commit-push" "extended-implement" "extended-plan" "quickee")
 
+# Validates a tool name against the allowed pattern.
+# Returns 0 if valid, 1 if invalid (and prints a warning).
+_validate_name() {
+    local name="$1"
+    local source="$2"  # "argument" or "manifest"
+    local pattern='^[a-z0-9]+(-[a-z0-9]+)*$'
+    if [[ ! "$name" =~ $pattern ]] || [[ ${#name} -gt 64 ]]; then
+        echo -e "${YELLOW}⚠${NC} Invalid ${source} name rejected: ${name}"
+        return 1
+    fi
+    return 0
+}
+
+# Returns 0 if needle is found in the remaining args, 1 otherwise.
+_array_has() {
+    local needle="$1"
+    shift
+    local item
+    for item in "$@"; do
+        [ "$item" = "$needle" ] && return 0
+    done
+    return 1
+}
+
+# Reads the manifest file and validates it.
+# Sets MANIFEST_FOUND=true if file exists.
+# Sets MANIFEST_PARSE_WARNING if file exists but is invalid.
+# Returns 0 if manifest is valid and usable, 1 otherwise.
+_read_manifest() {
+    [ -f "$MANIFEST_PATH" ] || return 1
+    MANIFEST_FOUND=true
+
+    if ! jq -e . "$MANIFEST_PATH" > /dev/null 2>&1; then
+        MANIFEST_PARSE_WARNING="Manifest exists but JSON is invalid — starting fresh (previous selections not restored)"
+        return 1
+    fi
+
+    local schema_ver
+    schema_ver="$(jq -r '.schema_version // empty' "$MANIFEST_PATH" 2>/dev/null)"
+    if [ "$schema_ver" != "1" ]; then
+        MANIFEST_PARSE_WARNING="Manifest has unknown schema_version '${schema_ver}' — starting fresh"
+        return 1
+    fi
+
+    return 0
+}
+
+# Reads previously-installed items from the manifest and merges non-core,
+# non-deprecated, valid items into SELECTED_* arrays.
+# Also auto-sets INSTALL_ALL=true if manifest mode was "all".
+_merge_manifest_selection() {
+    # Skip entirely when --all was explicitly passed on CLI
+    [ "$INSTALL_ALL" = true ] && return 0
+
+    _read_manifest || return 0
+
+    # If previous install was --all, preserve that behavior
+    local prev_mode
+    prev_mode="$(jq -r '.mode // empty' "$MANIFEST_PATH" 2>/dev/null)"
+    if [ "$prev_mode" = "all" ]; then
+        INSTALL_ALL=true
+        MANIFEST_LOADED=true
+        return 0
+    fi
+
+    local item
+
+    # Agents
+    while IFS= read -r item; do
+        [ -z "$item" ] && continue
+        _validate_name "$item" "manifest" || continue
+        _array_has "$item" "${CORE_AGENTS[@]}" && continue
+        _array_has "$item" "${DEPRECATED_AGENTS[@]}" && continue
+        _array_has "$item" "${SELECTED_AGENTS[@]+"${SELECTED_AGENTS[@]}"}" && continue
+        SELECTED_AGENTS+=("$item")
+        RESTORED_AGENTS+=("$item")
+        MANIFEST_LOADED=true
+    done < <(jq -r '.agents // [] | .[]?' "$MANIFEST_PATH" 2>/dev/null)
+
+    # Skills
+    while IFS= read -r item; do
+        [ -z "$item" ] && continue
+        _validate_name "$item" "manifest" || continue
+        _array_has "$item" "${CORE_SKILLS[@]}" && continue
+        _array_has "$item" "${DEPRECATED_SKILLS[@]}" && continue
+        _array_has "$item" "${SELECTED_SKILLS[@]+"${SELECTED_SKILLS[@]}"}" && continue
+        SELECTED_SKILLS+=("$item")
+        RESTORED_SKILLS+=("$item")
+        MANIFEST_LOADED=true
+    done < <(jq -r '.skills // [] | .[]?' "$MANIFEST_PATH" 2>/dev/null)
+
+    # Commands
+    while IFS= read -r item; do
+        [ -z "$item" ] && continue
+        _validate_name "$item" "manifest" || continue
+        _array_has "$item" "${CORE_COMMANDS[@]}" && continue
+        _array_has "$item" "${DEPRECATED_COMMANDS[@]}" && continue
+        _array_has "$item" "${SELECTED_COMMANDS[@]+"${SELECTED_COMMANDS[@]}"}" && continue
+        SELECTED_COMMANDS+=("$item")
+        RESTORED_COMMANDS+=("$item")
+        MANIFEST_LOADED=true
+    done < <(jq -r '.commands // [] | .[]?' "$MANIFEST_PATH" 2>/dev/null)
+}
+
 # Parse command line arguments
 # Default: core-only. Pass --all to install everything.
 INSTALL_ALL=false
@@ -48,13 +161,16 @@ for arg in "$@"; do
             INSTALL_ALL=true
             ;;
         agent:*)
-            SELECTED_AGENTS+=("${arg#agent:}")
+            name="${arg#agent:}"
+            _validate_name "$name" "argument" && SELECTED_AGENTS+=("$name")
             ;;
         skill:*)
-            SELECTED_SKILLS+=("${arg#skill:}")
+            name="${arg#skill:}"
+            _validate_name "$name" "argument" && SELECTED_SKILLS+=("$name")
             ;;
         command:*)
-            SELECTED_COMMANDS+=("${arg#command:}")
+            name="${arg#command:}"
+            _validate_name "$name" "argument" && SELECTED_COMMANDS+=("$name")
             ;;
         *)
             echo -e "${YELLOW}Warning:${NC} Unknown argument format: $arg"
@@ -62,6 +178,8 @@ for arg in "$@"; do
             ;;
     esac
 done
+
+_merge_manifest_selection
 
 print_header() {
     echo -e "${BLUE}"
@@ -78,6 +196,7 @@ print_header() {
  | |_| | |_) |  __/ | | /__| (_) | (_| |  __/
   \___/| .__/ \___|_| \____/\___/ \__,_|\___|
        |_|
+
 EOF
     echo -e "${NC}"
 }
@@ -90,8 +209,17 @@ print_header
 echo ""
 
 # Show what will be installed
+if [ -n "$MANIFEST_PARSE_WARNING" ]; then
+    echo -e "${YELLOW}⚠${NC} ${MANIFEST_PARSE_WARNING}"
+    echo ""
+fi
+
 if [ "$INSTALL_ALL" = true ]; then
-    echo -e "${BLUE}ℹ${NC} Installing all agents, skills, and commands"
+    if [ "$MANIFEST_FOUND" = true ] && [ "$MANIFEST_LOADED" = true ]; then
+        echo -e "${BLUE}ℹ${NC} Installing all agents, skills, and commands (restored from previous full install)"
+    else
+        echo -e "${BLUE}ℹ${NC} Installing all agents, skills, and commands"
+    fi
 elif [ ${#SELECTED_AGENTS[@]} -eq 0 ] && [ ${#SELECTED_SKILLS[@]} -eq 0 ] && [ ${#SELECTED_COMMANDS[@]} -eq 0 ]; then
     echo -e "${BLUE}ℹ${NC} Installing core items only (pass ${GREEN}--all${NC} to install everything)"
     echo ""
@@ -118,12 +246,30 @@ else
     if [ ${#SELECTED_COMMANDS[@]} -gt 0 ]; then
         echo -e "  Commands: ${SELECTED_COMMANDS[*]+"${SELECTED_COMMANDS[*]}"}"
     fi
+    if [ "$MANIFEST_LOADED" = true ]; then
+        echo ""
+        echo -e "  ${BLUE}↺${NC} Auto-synced from previous install:"
+        if [ ${#RESTORED_AGENTS[@]} -gt 0 ]; then
+            echo -e "    Agents:   $(printf '%s  ' "${RESTORED_AGENTS[@]}")"
+        fi
+        if [ ${#RESTORED_SKILLS[@]} -gt 0 ]; then
+            echo -e "    Skills:   $(printf '%s  ' "${RESTORED_SKILLS[@]}")"
+        fi
+        if [ ${#RESTORED_COMMANDS[@]} -gt 0 ]; then
+            echo -e "    Commands: $(printf '%s  ' "${RESTORED_COMMANDS[@]}")"
+        fi
+    fi
 fi
 echo ""
 
 # Check requirements
-if ! command -v curl &> /dev/null || ! command -v tar &> /dev/null; then
-    echo -e "${RED}✗${NC} curl and tar are required"
+if ! command -v curl &> /dev/null || ! command -v tar &> /dev/null || ! command -v jq &> /dev/null; then
+    echo -e "${RED}✗${NC} curl, tar, and jq are required"
+    echo ""
+    echo "  Install jq: https://jqlang.github.io/jq/download/"
+    echo "    macOS:  brew install jq"
+    echo "    Ubuntu: sudo apt-get install jq"
+    echo "    Alpine: apk add jq"
     exit 1
 fi
 
@@ -351,30 +497,21 @@ _write_manifest() {
         install_mode="selective"
     fi
 
-    # Build JSON arrays from tracking arrays
-    local agents_json=""
-    for item in "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}"; do
-        agents_json="${agents_json:+${agents_json}, }\"${item}\""
-    done
+    # Build JSON arrays safely via jq (no string interpolation)
+    local agents_arr skills_arr commands_arr
+    agents_arr="$(printf '%s\n' "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}" | jq -R . | jq -s .)"
+    skills_arr="$(printf '%s\n' "${INSTALLED_SKILLS[@]+"${INSTALLED_SKILLS[@]}"}" | jq -R . | jq -s .)"
+    commands_arr="$(printf '%s\n' "${INSTALLED_COMMANDS[@]+"${INSTALLED_COMMANDS[@]}"}" | jq -R . | jq -s .)"
 
-    local skills_json=""
-    for item in "${INSTALLED_SKILLS[@]+"${INSTALLED_SKILLS[@]}"}"; do
-        skills_json="${skills_json:+${skills_json}, }\"${item}\""
-    done
-
-    local commands_json=""
-    for item in "${INSTALLED_COMMANDS[@]+"${INSTALLED_COMMANDS[@]}"}"; do
-        commands_json="${commands_json:+${commands_json}, }\"${item}\""
-    done
-
-    printf '{\n' > "$manifest_tmp"
-    printf '  "schema_version": "1",\n' >> "$manifest_tmp"
-    printf '  "installed_at": "%s",\n' "$installed_at" >> "$manifest_tmp"
-    printf '  "mode": "%s",\n' "$install_mode" >> "$manifest_tmp"
-    printf '  "agents": [%s],\n' "$agents_json" >> "$manifest_tmp"
-    printf '  "skills": [%s],\n' "$skills_json" >> "$manifest_tmp"
-    printf '  "commands": [%s]\n' "$commands_json" >> "$manifest_tmp"
-    printf '}\n' >> "$manifest_tmp"
+    jq -n \
+        --arg schema "1" \
+        --arg at "$installed_at" \
+        --arg mode "$install_mode" \
+        --argjson agents "$agents_arr" \
+        --argjson skills "$skills_arr" \
+        --argjson commands "$commands_arr" \
+        '{schema_version: $schema, installed_at: $at, mode: $mode, agents: $agents, skills: $skills, commands: $commands}' \
+        > "$manifest_tmp"
 
     mv "$manifest_tmp" "$manifest_dest"
     echo -e "  ${GREEN}✓${NC} Manifest written to: ${manifest_dest}"
@@ -433,6 +570,7 @@ _sync_opencode_gitignore() {
     _ensure_gitignore_entry "$gitignore" "bun.lock"
     _ensure_gitignore_entry "$gitignore" "package.json"
     _ensure_gitignore_entry "$gitignore" "node_modules"
+    _ensure_gitignore_entry "$gitignore" "/the-perfect-opencode.json"
 
     for item in "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}"; do
         [ "$item" = "orchestrix" ] && continue
