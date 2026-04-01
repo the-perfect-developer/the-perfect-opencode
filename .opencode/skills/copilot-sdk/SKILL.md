@@ -5,53 +5,50 @@ description: This skill should be used when the user asks to "integrate GitHub C
 
 # GitHub Copilot SDK
 
-Multi-platform SDK for embedding GitHub Copilot's agentic runtime into applications and services. Available for Node.js/TypeScript, Python, Go, and .NET. Communicates with the Copilot CLI in server mode via JSON-RPC.
-
-> **Status:** Technical Preview — breaking changes possible between releases.
-
-## Architecture
-
-```
-Your Application
-      |
-  SDK Client   (manages CLI process lifecycle + JSON-RPC transport)
-      |
-  Copilot CLI  (server mode — planning, tool invocation, file edits)
-```
-
-The SDK spawns and manages the CLI automatically. Applications define agent behavior; the CLI handles orchestration.
-
-## Prerequisites
-
-1. Install the **GitHub Copilot CLI** and authenticate:
-   ```bash
-   # Follow: https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli
-   copilot --version   # verify
-   ```
-2. A **GitHub Copilot subscription** (or BYOK — see `references/authentication.md`)
+Guidance for building applications with the GitHub Copilot SDK across TypeScript, Python, Go, and .NET. Covers project setup, session management, custom tools, hooks, MCP integration, custom agents, authentication, and production deployment.
 
 ## Installation
 
-| Language | Package | Install |
-|---|---|---|
-| Node.js / TypeScript | `@github/copilot-sdk` | `npm install @github/copilot-sdk` |
-| Python | `github-copilot-sdk` | `pip install github-copilot-sdk` |
-| Go | `github.com/github/copilot-sdk/go` | `go get github.com/github/copilot-sdk/go` |
-| .NET | `GitHub.Copilot.SDK` | `dotnet add package GitHub.Copilot.SDK` |
+Install the SDK for the target language:
 
-## Core Workflow
+```bash
+# TypeScript / Node.js
+npm install @github/copilot-sdk
 
-Every SDK integration follows this pattern:
+# Python
+pip install github-copilot-sdk
 
-1. Create a `CopilotClient`
-2. Call `client.start()` (auto-starts the CLI server)
-3. Create a **session** with `client.createSession(config)`
-4. Send messages; handle events
-5. Call `client.stop()` on shutdown
+# Go
+go get github.com/github/copilot-sdk/go
 
-### Minimal Example
+# .NET
+dotnet add package GitHub.Copilot.SDK
+```
 
-**TypeScript:**
+**Prerequisite:** GitHub Copilot CLI must be installed and authenticated.
+
+```bash
+copilot --version   # verify CLI is available
+```
+
+## Core Concepts
+
+The SDK manages a **client → session** hierarchy:
+
+- `CopilotClient` — starts the CLI process (or connects to an external one) and handles authentication
+- `Session` — a stateful conversation; send prompts, define tools, subscribe to events
+- A client can hold many sessions; sessions are identified by `sessionId`
+
+```
+CopilotClient
+ └── Session (sessionId: "user-123-task-456")
+      ├── Tools (custom functions Copilot may call)
+      ├── Hooks (intercept lifecycle events)
+      └── Events (stream real-time output)
+```
+
+## Creating a Client and Session
+
 ```typescript
 import { CopilotClient } from "@github/copilot-sdk";
 
@@ -62,296 +59,319 @@ const response = await session.sendAndWait({ prompt: "What is 2 + 2?" });
 console.log(response?.data.content);
 
 await client.stop();
-process.exit(0);
 ```
 
-**Python:**
+Python equivalent:
+
 ```python
-import asyncio
 from copilot import CopilotClient
+from copilot.session import PermissionHandler
 
-async def main():
-    client = CopilotClient()
-    await client.start()
-    session = await client.create_session({"model": "gpt-4.1"})
-    response = await session.send_and_wait({"prompt": "What is 2 + 2?"})
-    print(response.data.content)
-    await client.stop()
-
-asyncio.run(main())
+client = CopilotClient()
+await client.start()
+session = await client.create_session(
+    on_permission_request=PermissionHandler.approve_all,
+    model="gpt-4.1"
+)
+response = await session.send_and_wait("What is 2 + 2?")
+print(response.data.content)
+await client.stop()
 ```
 
-## Sessions
+## Streaming Responses
 
-Sessions represent a single conversation thread. `createSession` / `create_session` accepts a `SessionConfig`:
-
-| Option | Type | Description |
-|---|---|---|
-| `model` | string | Model ID — **required with BYOK**. E.g. `"gpt-4.1"`, `"claude-sonnet-4.5"` |
-| `streaming` | bool | Emit `assistant.message_delta` chunks in real time |
-| `tools` | Tool[] | Custom tools the agent can invoke |
-| `systemMessage` | object | Inject or replace the system prompt |
-| `infiniteSessions` | object | Context compaction config (enabled by default) |
-| `provider` | object | BYOK — custom LLM provider config |
-| `hooks` | object | Lifecycle hook handlers |
-| `onUserInputRequest` | callable | Enable `ask_user` tool; handler returns user's answer |
-| `sessionId` | string | Deterministic / resumable session ID |
-
-### Sending Messages
+Enable streaming to receive tokens as they arrive instead of waiting for the full response:
 
 ```typescript
-// Fire-and-forget (returns message ID)
-await session.send({ prompt: "Generate a README" });
-
-// Send and await idle state (returns final AssistantMessageEvent)
-const result = await session.sendAndWait({ prompt: "Explain this code" });
-```
-
-```python
-# Python equivalent
-await session.send({"prompt": "Generate a README"})
-result = await session.send_and_wait({"prompt": "Explain this code"})
-```
-
-### Streaming Events
-
-Enable `streaming: true` and subscribe to incremental chunks:
-
-```typescript
-const session = await client.createSession({ model: "gpt-4.1", streaming: true });
+const session = await client.createSession({
+    model: "gpt-4.1",
+    streaming: true,
+});
 
 session.on("assistant.message_delta", (event) => {
     process.stdout.write(event.data.deltaContent);
 });
-session.on("session.idle", () => console.log("\nDone."));
+session.on("session.idle", () => console.log());
 
-await session.sendAndWait({ prompt: "Write a haiku about testing" });
+await session.sendAndWait({ prompt: "Tell me a joke" });
 ```
 
-Key session event types:
-
-| Event | Fires when |
-|---|---|
-| `user.message` | User message enqueued |
-| `assistant.message` | Final full response available |
-| `assistant.message_delta` | Streaming chunk (requires `streaming: true`) |
-| `assistant.reasoning_delta` | Chain-of-thought chunk (model-dependent) |
-| `tool.execution_start` | Agent begins a tool call |
-| `tool.execution_complete` | Tool call finished |
-| `session.idle` | Processing complete, session ready |
-| `session.compaction_start` | Infinite session compaction started |
-| `session.compaction_complete` | Compaction finished |
-
-All `session.on()` calls return an unsubscribe function.
+Use `session.on(handler)` to subscribe to all events, or `session.on(eventType, handler)` in TypeScript for type-safe subscriptions. Both return an unsubscribe function.
 
 ## Custom Tools
 
-Define functions the agent can call. The SDK handles invocation, serialization, and response automatically.
+Define tools to give Copilot the ability to call application code:
 
-**TypeScript (with Zod):**
 ```typescript
-import { defineTool, CopilotClient } from "@github/copilot-sdk";
-import { z } from "zod";
+import { CopilotClient, defineTool } from "@github/copilot-sdk";
 
-const lookupIssue = defineTool("lookup_issue", {
-    description: "Fetch issue details from the tracker",
-    parameters: z.object({
-        id: z.string().describe("Issue identifier"),
-    }),
-    handler: async ({ id }) => {
-        return await fetchIssue(id);  // any JSON-serializable value
+const getWeather = defineTool("get_weather", {
+    description: "Get the current weather for a city",
+    parameters: {
+        type: "object",
+        properties: {
+            city: { type: "string", description: "The city name" },
+        },
+        required: ["city"],
+    },
+    handler: async ({ city }: { city: string }) => {
+        // Call real weather API in production
+        return { city, temperature: "62°F", condition: "cloudy" };
     },
 });
 
 const session = await client.createSession({
     model: "gpt-4.1",
-    tools: [lookupIssue],
+    tools: [getWeather],
 });
 ```
 
-**Python (with Pydantic):**
+Python uses Pydantic for parameter definitions:
+
 ```python
+from copilot.tools import define_tool
 from pydantic import BaseModel, Field
-from copilot import define_tool
 
-class LookupIssueParams(BaseModel):
-    id: str = Field(description="Issue identifier")
+class GetWeatherParams(BaseModel):
+    city: str = Field(description="The name of the city")
 
-@define_tool(description="Fetch issue details from the tracker")
-async def lookup_issue(params: LookupIssueParams) -> str:
-    return await fetch_issue(params.id)
-
-session = await client.create_session({
-    "model": "gpt-4.1",
-    "tools": [lookup_issue],
-})
+@define_tool(description="Get the current weather for a city")
+async def get_weather(params: GetWeatherParams) -> dict:
+    return {"city": params.city, "temperature": "62°F"}
 ```
 
-Raw JSON schemas are also accepted when Zod/Pydantic is not available.
+How tool invocation works:
+1. Copilot sends a tool-call request with resolved parameters
+2. The SDK runs the handler function
+3. The result is sent back to Copilot
+4. Copilot incorporates the result into its response
 
-## System Message Customization
+## Hooks
 
-Inject additional context into the system prompt without replacing the default persona:
+Hooks intercept session lifecycle events to implement permissions, auditing, and prompt enrichment.
+
+| Hook | Fires when | Returns |
+|---|---|---|
+| `onSessionStart` | Session begins | `additionalContext` to inject |
+| `onUserPromptSubmitted` | User sends a message | `modifiedPrompt` to rewrite |
+| `onPreToolUse` | Before a tool executes | `permissionDecision`: `"allow"`, `"deny"`, or `"ask"` |
+| `onPostToolUse` | After a tool returns | `modifiedResult` to transform output |
+| `onSessionEnd` | Session ends | Cleanup, metrics |
+| `onErrorOccurred` | An error is raised | `errorHandling`: `"retry"` or notification |
+
+Register hooks in `createSession`:
 
 ```typescript
 const session = await client.createSession({
-    model: "gpt-4.1",
-    systemMessage: {
-        content: `
-<workflow_rules>
-- Always check for security vulnerabilities
-- Suggest performance improvements when applicable
-</workflow_rules>`,
+    hooks: {
+        onPreToolUse: async (input) => {
+            const ALLOWED = new Set(["read_file", "glob", "grep"]);
+            if (!ALLOWED.has(input.toolName)) {
+                return {
+                    permissionDecision: "deny",
+                    permissionDecisionReason: `Tool "${input.toolName}" is not permitted.`,
+                };
+            }
+            return { permissionDecision: "allow" };
+        },
+        onPostToolUse: async (input) => {
+            // Redact secrets from tool results before they reach the model
+            if (typeof input.toolResult === "string") {
+                const redacted = input.toolResult.replace(
+                    /api[_-]?key\s*[:=]\s*["']?[\w\-.]+["']?/gi,
+                    "[REDACTED]"
+                );
+                return redacted !== input.toolResult ? { modifiedResult: redacted } : null;
+            }
+            return null;
+        },
     },
+    onPermissionRequest: async () => ({ kind: "approved" }),
 });
 ```
 
-Use `mode: "replace"` to fully control the system prompt (removes all SDK-managed guardrails):
+**Best practices for hooks:**
+- Return `null` when no change is needed — avoids unnecessary allocations
+- Keep hooks fast; offload heavy I/O to a background queue
+- Scope per-session state by `invocation.sessionId`; clean up in `onSessionEnd`
+- Prefer `additionalContext` over `modifiedPrompt` to preserve user intent
+
+For detailed patterns (audit logging, retry on error, prompt shortcuts, metrics), see `references/hooks-patterns.md`.
+
+## Custom Agents and Sub-Agent Orchestration
+
+Define specialized agents scoped to particular tools and system prompts:
 
 ```typescript
-systemMessage: { mode: "replace", content: "You are a terse code reviewer." }
-```
-
-## Infinite Sessions
-
-Enabled by default. Manages the context window automatically through background compaction and persists state to `~/.copilot/session-state/{sessionId}/`.
-
-```typescript
-// Custom thresholds
 const session = await client.createSession({
     model: "gpt-4.1",
-    infiniteSessions: {
-        enabled: true,
-        backgroundCompactionThreshold: 0.80,  // compact at 80% usage
-        bufferExhaustionThreshold: 0.95,       // block at 95% until done
-    },
-});
-
-// Disable (fixed context window)
-const session = await client.createSession({
-    model: "gpt-4.1",
-    infiniteSessions: { enabled: false },
-});
-```
-
-Resume a persisted session by ID:
-```typescript
-const session = await client.resumeSession("my-session-id");
-```
-
-## File Attachments
-
-Attach files or images to messages:
-
-```typescript
-await session.send({
-    prompt: "Review this module",
-    attachments: [{ type: "file", path: "/src/auth.ts", displayName: "auth.ts" }],
+    customAgents: [
+        {
+            name: "researcher",
+            displayName: "Research Agent",
+            description: "Analyzes codebases using read-only tools",
+            tools: ["grep", "glob", "view"],
+            prompt: "You are a research assistant. Analyze code and answer questions. Do not modify files.",
+        },
+        {
+            name: "editor",
+            displayName: "Editor Agent",
+            description: "Makes targeted code changes",
+            tools: ["view", "edit", "bash"],
+            prompt: "You are a code editor. Make minimal, surgical changes.",
+        },
+    ],
+    agent: "researcher",   // pre-select on session start
+    onPermissionRequest: async () => ({ kind: "approved" }),
 });
 ```
 
-Supported image formats: JPG, PNG, GIF, and common image types. The agent's `view` tool also reads files directly from the filesystem.
+The runtime auto-selects agents based on user intent and agent `description`. Set `infer: false` on an agent to prevent auto-selection. Sub-agent lifecycle emits events: `subagent.selected`, `subagent.started`, `subagent.completed`, `subagent.failed`.
+
+**Agent design best practices:**
+- Write specific `description` values — vague descriptions cause poor delegation
+- Use `tools: null` only for unrestricted agents; prefer explicit allow-lists
+- Listen for `subagent.failed` and surface errors to users
 
 ## MCP Servers
 
-Connect to Model Context Protocol servers to provide pre-built tools (e.g., GitHub repositories, issues, PRs):
+Connect to Model Context Protocol servers for external tool access:
 
 ```typescript
 const session = await client.createSession({
-    model: "gpt-4.1",
     mcpServers: {
-        github: {
+        // Local process (stdio)
+        "filesystem": {
+            type: "local",
+            command: "npx",
+            args: ["-y", "@modelcontextprotocol/server-filesystem", "/tmp"],
+            tools: ["*"],   // "*" = all tools
+        },
+        // Remote HTTP server
+        "github": {
             type: "http",
             url: "https://api.githubcopilot.com/mcp/",
+            headers: { "Authorization": "Bearer ${TOKEN}" },
+            tools: ["*"],
         },
     },
 });
 ```
 
-## External CLI Server
+MCP servers can also be scoped per custom agent via the `mcpServers` property on each agent config.
 
-Run the CLI separately and connect the SDK to it — useful for debugging, resource sharing, or custom flags:
+## System Message Customization
 
-```bash
-copilot --headless --port 4321
-```
+Control the model's behavior by appending instructions:
 
 ```typescript
-const client = new CopilotClient({ cliUrl: "localhost:4321" });
+const session = await client.createSession({
+    systemMessage: {
+        content: "Always be concise. Focus on TypeScript best practices.",
+    },
+});
 ```
 
-When `cliUrl` is set, the SDK does not spawn a CLI process.
-
-## Error Handling
-
-Wrap client and session operations in try/catch. The `stop()` method returns a list of errors from cleanup:
+For fine-grained control, use `mode: "customize"` to override individual prompt sections (`tone`, `guidelines`, `code_change_rules`, etc.):
 
 ```typescript
-try {
-    const session = await client.createSession({ model: "gpt-4.1" });
-    await session.sendAndWait({ prompt: "Fix the bug" });
-} catch (error) {
-    console.error("SDK error:", error.message);
-} finally {
-    const errors = await client.stop();
-    if (errors.length) console.error("Cleanup errors:", errors);
+systemMessage: {
+    mode: "customize",
+    sections: {
+        tone: { action: "replace", content: "Respond in a professional tone." },
+        code_change_rules: { action: "remove" },
+        guidelines: { action: "append", content: "\n* Always cite data sources" },
+    },
 }
 ```
 
-Use `client.forceStop()` if graceful shutdown hangs.
+Available actions: `replace`, `remove`, `append`, `prepend`.
 
-## Session Lifecycle Methods
+## Session Persistence and Resume
 
-```typescript
-// List sessions (optionally filter by working directory)
-const sessions = await client.listSessions();
-
-// Delete a session
-await client.deleteSession("session-id");
-
-// Get all messages from a session
-const messages = await session.getMessages();
-
-// Abort current processing
-await session.abort();
-
-// Destroy session and free resources
-await session.destroy();
-```
-
-## Multiple Sessions
-
-Each session is independent. Multiple models can run simultaneously:
+Provide a `sessionId` to make sessions resumable:
 
 ```typescript
-const session1 = await client.createSession({ model: "gpt-4.1" });
-const session2 = await client.createSession({ model: "claude-sonnet-4.5" });
+// Create
+const session = await client.createSession({
+    sessionId: "user-alice-pr-review-42",
+    model: "gpt-4.1",
+});
 
-await Promise.all([
-    session1.sendAndWait({ prompt: "Draft a PR description" }),
-    session2.sendAndWait({ prompt: "Review the security implications" }),
-]);
+// Later — resume from any client instance
+const resumed = await client.resumeSession("user-alice-pr-review-42");
+await resumed.sendAndWait({ prompt: "Continue where we left off" });
 ```
+
+**Session ID naming convention:** encode ownership and purpose — `{userId}-{taskType}-{timestamp}` — to simplify auditing and cleanup.
+
+Session state (conversation history, planning state, artifacts) is persisted to `~/.copilot/session-state/{sessionId}/`. API keys are never persisted; provide BYOK `provider` config again on resume.
+
+Lifecycle management:
+- `session.disconnect()` — releases in-memory resources, session remains resumable
+- `client.deleteSession(id)` — permanently removes all state from disk
+- `client.listSessions()` — enumerate sessions for cleanup or UI
+
+For infinite sessions with automatic context compaction and production deployment patterns, see `references/scaling-deployment.md`.
+
+## Authentication
+
+| Method | When to use |
+|---|---|
+| Signed-in CLI (default) | Interactive desktop apps, local development |
+| OAuth GitHub App token | Web apps acting on behalf of users |
+| Environment variable (`COPILOT_GITHUB_TOKEN`) | CI/CD, automation, server-side services |
+| BYOK (Bring Your Own Key) | No Copilot subscription; Azure, OpenAI, Anthropic, Ollama |
+
+Priority order: explicit `githubToken` → HMAC key → direct API token → env vars → stored OAuth credentials → `gh` CLI.
+
+BYOK example (Azure AI Foundry):
+
+```typescript
+const session = await client.createSession({
+    model: "gpt-5.2-codex",
+    provider: {
+        type: "openai",
+        baseUrl: "https://your-resource.openai.azure.com/openai/v1/",
+        apiKey: process.env.FOUNDRY_API_KEY,
+        wireApi: "responses",   // for GPT-5 series; "completions" for older models
+    },
+});
+```
+
+For complete BYOK provider configs, bearer token auth, Azure native endpoint vs. AI Foundry distinction, and limitations, see `references/authentication.md`.
+
+## Telemetry
+
+Enable OpenTelemetry tracing by passing a `telemetry` config to the client:
+
+```typescript
+const client = new CopilotClient({
+    telemetry: {
+        otlpEndpoint: "http://localhost:4318",
+    },
+});
+```
+
+Trace context (`traceparent`, `tracestate`) propagates automatically between the SDK and CLI. Write to a file instead: `{ filePath: "./traces.jsonl", exporterType: "file" }`.
 
 ## Quick Reference
 
-```
-CopilotClient options:  cliPath, cliUrl, port, useStdio, logLevel,
-                        autoStart, autoRestart, githubToken, useLoggedInUser
-
-SessionConfig:          model, streaming, tools, systemMessage,
-                        infiniteSessions, provider, hooks,
-                        onUserInputRequest, sessionId
-
-session.send()          → Promise<string>  (message ID)
-session.sendAndWait()   → Promise<AssistantMessageEvent | undefined>
-session.on()            → () => void  (unsubscribe fn)
-session.abort()         → Promise<void>
-session.destroy()       → Promise<void>
-session.getMessages()   → Promise<SessionEvent[]>
-```
+| Task | API |
+|---|---|
+| Create session | `client.createSession({ model, tools, hooks, ... })` |
+| Send and wait | `session.sendAndWait({ prompt })` |
+| Stream response | `session.on("assistant.message_delta", handler)` |
+| Resume session | `client.resumeSession(sessionId)` |
+| Delete session | `client.deleteSession(sessionId)` |
+| List sessions | `client.listSessions()` |
+| Connect to external CLI | `new CopilotClient({ cliUrl: "localhost:4321" })` |
+| BYOK provider | `createSession({ provider: { type, baseUrl, apiKey } })` |
 
 ## Additional Resources
 
-- **`references/authentication.md`** — GitHub OAuth, environment variables, BYOK (Azure, OpenAI, Anthropic), and auth priority order
-- **`references/tools-and-hooks.md`** — Tool handler return types, raw JSON schema, session hooks (`onPreToolUse`, `onPostToolUse`, `onUserPromptSubmitted`, `onSessionStart`, `onSessionEnd`, `onErrorOccurred`), and user input requests
+### Reference Files
+
+- **`references/authentication.md`** — All auth methods, BYOK provider configs, Ollama/Foundry Local, limitations
+- **`references/hooks-patterns.md`** — Audit logging, permission control, prompt enrichment, error recovery, metrics
+- **`references/scaling-deployment.md`** — Multi-tenancy patterns, horizontal scaling, Kubernetes/Azure Container deployment, infinite sessions
