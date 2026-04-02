@@ -570,7 +570,6 @@ _sync_opencode_gitignore() {
     _ensure_gitignore_entry "$gitignore" "bun.lock"
     _ensure_gitignore_entry "$gitignore" "package.json"
     _ensure_gitignore_entry "$gitignore" "node_modules"
-    _ensure_gitignore_entry "$gitignore" "/the-perfect-opencode.json"
 
     for item in "${INSTALLED_AGENTS[@]+"${INSTALLED_AGENTS[@]}"}"; do
         [ "$item" = "orchestrix" ] && continue
