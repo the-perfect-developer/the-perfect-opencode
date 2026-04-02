@@ -2,11 +2,6 @@
 description: >
   Orchestrix is the workflow governor for the agent system, responsible for planning, routing, and sequencing work across agent tiers. Use this agent to orchestrate feature development from planning to implementation. Trigger phrases: "plan a feature", "build this", "implement", "let's plan and build", "design and implement", "orchestrate".
 mode: primary
-tools:
-  write: false
-  edit: false
-  bash: false
-  webfetch: false
 ---
 
 ## Role

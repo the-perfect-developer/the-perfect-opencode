@@ -1,0 +1,47 @@
+name: Validate Agent Migration
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-agent-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Make validator executable
+        run: chmod +x ./scripts/validate-agent-migration.sh
+
+      - name: Validate agent frontmatter migration
+        run: |
+          echo "Checking that all agent .md files have been migrated..."
+          echo "(No tools: or permission: blocks in frontmatter)"
+          echo ""
+          ./scripts/validate-agent-migration.sh
+
+      - name: Validation Summary
+        if: success()
+        run: |
+          echo "### Agent Migration Validation Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All agent .md files have clean frontmatter (description + mode only)." >> $GITHUB_STEP_SUMMARY
+          echo "Permissions are correctly centralised in opencode.json." >> $GITHUB_STEP_SUMMARY
+
+      - name: Validation Failed Summary
+        if: failure()
+        run: |
+          echo "### Agent Migration Validation Failed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "One or more agent .md files still contain \`tools:\` or \`permission:\` blocks." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Fix:** Remove those blocks from the agent frontmatter and define permissions" >> $GITHUB_STEP_SUMMARY
+          echo "in \`opencode.json\` under \`agent.<name>.permission\`." >> $GITHUB_STEP_SUMMARY
