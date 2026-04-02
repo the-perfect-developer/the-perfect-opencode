@@ -97,38 +97,26 @@ A SKILL.md is valid when:
 
 ### Agent Files (`.opencode/agents/*.md`)
 
-YAML frontmatter fields:
+Agent `.md` files contain **only** `description` and `mode` in their YAML frontmatter. All tool access and permissions are defined in `opencode.json` under `agent.<name>.permission` — never in the `.md` file.
+
 ```yaml
 ---
 description: "..."
 mode: subagent
-tools:
-  write: true|false
-  edit: true|false
-  bash: true
-  webfetch: true
-permission:
-  write: ask          # implementers only
-  edit: ask           # implementers only (consultants omit or set ask)
-  bash:
-    "*": ask          # REQUIRED: default deny-with-prompt for all bash
-    "ls*": allow
-    # ... per-command overrides (see below)
-  webfetch: allow
 ---
 ```
 
 #### Agent Roles
 
-| Role | Agents | `tools.write` | `tools.edit` | Can commit? |
+| Role | Agents | `permission.write` | `permission.edit` | Can commit? |
 |---|---|---|---|---|
-| Orchestrator | orchestrix | `false` | `false` | No |
-| Consultant | principal-architect, solution-architect, database-architect, code-analyst, performance-engineer, security-expert, devops-engineer, test-engineer, ui-ux-designer | `false` | `false` | No |
-| Implementer | developer-prime, developer-fast | `true` | `true` | Yes |
+| Orchestrator | orchestrix | `deny` | `deny` | No |
+| Consultant | principal-architect, solution-architect, database-architect, code-analyst, performance-engineer, security-expert, devops-engineer, test-engineer, ui-ux-designer | *(omitted — deny by default)* | *(omitted — deny by default)* | No |
+| Implementer | developer-prime, developer-fast | `allow` | `allow` | Yes |
 
-#### Bash Permission Model
+#### Bash Permission Model (defined in `opencode.json`)
 
-All agents share a common baseline of `allow` rules, with role-specific additions:
+All agents share a common baseline of `allow` rules defined in `opencode.json`, with role-specific additions:
 
 **Universal (all agents — always `allow`)**
 - Filesystem read: `ls*`, `pwd`, `which*`, `whoami`, `cat*`, `head*`, `tail*`, `wc*`, `file*`, `stat*`, `du*`, `df*`
