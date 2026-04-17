@@ -179,6 +179,10 @@
       "description": "This skill should be used when the user asks to plan a feature, run the zen planning workflow, consult all senior agents on a plan, create a structured plan with agent consultation, or needs a thorough multi-agent planning phase before building anything."
     },
     {
+      "name": "playwright-cli",
+      "description": "Automate browser interactions, test web pages and work with Playwright tests."
+    },
+    {
       "name": "pydantic",
       "description": "This skill should be used when the user asks to validate data with pydantic, create a pydantic model, use pydantic best practices, write pydantic validators, or needs guidance on pydantic v2 patterns, serialization, configuration, or performance optimization."
     },
@@ -321,5 +325,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-04-09T11:46:18Z"
+  "generated_at": "2026-04-17T03:50:04Z"
 }
