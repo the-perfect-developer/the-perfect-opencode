@@ -185,7 +185,7 @@
 		},
 
 		"explore": {
-			"model": "github-copilot/claude-haiku-4.5",
+			"model": "github-copilot/gpt-5.4-mini",
 			"temperature": 0.2,
 			"color": "#0EA5E9",
 			"permission": {
