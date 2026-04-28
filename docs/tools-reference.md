@@ -91,6 +91,7 @@ The Perfect OpenCode comes with a comprehensive collection of skills covering pr
 | `python-uv` | This skill should be used when the user asks to set up a Python project with uv, manage dependencies with uv, create a uv project, use uv for Python package management, or needs guidance on uv workflows, pyproject.toml configuration, lockfiles, and development dependency groups. |
 | `python` | Apply Python style guide conventions to code |
 | `rules-creation` | This skill should be used when the user asks to create rules, add custom instructions, set up AGENTS.md, configure project rules, add global rules, or needs guidance on customizing OpenCode behavior with custom instructions. |
+| `seo-best-practices` | This skill should be used when the user asks to optimize a website for SEO, improve search engine rankings, apply SEO best practices, do on-page SEO, or needs guidance on technical SEO, keyword research, content optimization, or link building strategies. |
 | `skill-creation` | This skill should be used when the user asks to create a skill, write a new skill, add a skill, SKILL.md format, skill frontmatter, or needs guidance on skill structure, progressive disclosure, or OpenCode skill development. |
 | `sqlmodel` | This skill should be used when the user asks to use SQLModel, define SQLModel models, connect SQLModel with FastAPI, set up a database with SQLModel, or needs guidance on SQLModel best practices, relationships, or session management. |
 | `tailwind-css` | This skill should be used when the user asks to use Tailwind CSS, install Tailwind, style with Tailwind, add Tailwind utilities, create responsive design with Tailwind, or needs guidance on Tailwind CSS utility-first styling and configuration. |
@@ -147,6 +148,6 @@ The Perfect OpenCode includes several built-in commands that streamline common d
 
 ---
 
-**Generated on:** 2026-04-17 03:50:13 UTC
+**Generated on:** 2026-04-28 09:20:02 UTC
 
 **Repository:** [The Perfect OpenCode](https://github.com/the-perfect-developer/the-perfect-opencode)
