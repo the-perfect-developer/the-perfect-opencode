@@ -243,6 +243,10 @@
       "description": "This skill should be used when the user asks to create rules, add custom instructions, set up AGENTS.md, configure project rules, add global rules, or needs guidance on customizing OpenCode behavior with custom instructions."
     },
     {
+      "name": "seo-best-practices",
+      "description": "This skill should be used when the user asks to optimize a website for SEO, improve search engine rankings, apply SEO best practices, do on-page SEO, or needs guidance on technical SEO, keyword research, content optimization, or link building strategies."
+    },
+    {
       "name": "skill-creation",
       "description": "This skill should be used when the user asks to create a skill, write a new skill, add a skill, SKILL.md format, skill frontmatter, or needs guidance on skill structure, progressive disclosure, or OpenCode skill development."
     },
@@ -325,5 +329,5 @@
       "description": "Update already-installed perfect tools to their latest versions"
     }
   ],
-  "generated_at": "2026-04-17T03:50:04Z"
+  "generated_at": "2026-04-28T09:19:52Z"
 }
